@@ -19,7 +19,7 @@ const AddPost = ({ onAddPost }) => {
         placeholder="What's on your mind"
         value={postText}
         onChange={(e) => setPostText(e.target.value)}
-        style={{ width: '100%', minHeight: '100px', resize: 'none' }}
+        style={{ width: '100%', minHeight: '100px', resize: 'none', color: 'black' }}
       />
       <Box display="flex" justifyContent="flex-end">
       <Button
