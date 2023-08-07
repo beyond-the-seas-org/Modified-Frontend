@@ -43,10 +43,6 @@ const Post = ({ post }) => {
     console.log("Delete Post clicked for post:", post);
   };
 
-  const handleAddComment = () => {
-    // Implement logic to add comment here
-    console.log("Add Comment clicked for post:", post);
-  };
 
   const handleAddUpvote = () => {
     // Implement logic to add comment here
@@ -100,9 +96,6 @@ const Post = ({ post }) => {
         <IconButton aria-label="delete post" onClick={handleDeletePost}>
           <Delete />
         </IconButton>
-        <Button variant="outlined" color="primary" onClick={handleAddComment} >
-          Add Comment
-        </Button>
       </CardActions>
     </Card>
   );
