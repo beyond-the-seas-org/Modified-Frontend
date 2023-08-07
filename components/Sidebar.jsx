@@ -17,6 +17,7 @@ import {
     ListItemText,
     Switch,
   } from "@mui/material";
+  import PersonSearchIcon from '@mui/icons-material/PersonSearch';
   import React from "react";
   
   const Sidebar = ({mode,setMode}) => {
@@ -37,7 +38,7 @@ import {
                 <ListItemIcon>
                   <Article />
                 </ListItemIcon>
-                <ListItemText primary="Pages" />
+                <ListItemText primary="Prof Shortlist" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -51,17 +52,9 @@ import {
             <ListItem disablePadding>
               <ListItemButton component="a" href="#simple-list">
                 <ListItemIcon>
-                  <Storefront />
+                  <PersonSearchIcon />
                 </ListItemIcon>
-                <ListItemText primary="Marketplace" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
-                <ListItemIcon>
-                  <Person />
-                </ListItemIcon>
-                <ListItemText primary="Friends" />
+                <ListItemText primary="Professor Search" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -69,7 +62,7 @@ import {
                 <ListItemIcon>
                   <Settings />
                 </ListItemIcon>
-                <ListItemText primary="Settings" />
+                <ListItemText primary="Analytics" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>

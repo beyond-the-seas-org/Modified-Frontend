@@ -106,7 +106,7 @@ const Navbar = () => {
           }}
         >
           <MenuItem>Profile</MenuItem>
-          <MenuItem>My account</MenuItem>
+          <MenuItem>Professors</MenuItem>
           <MenuItem>Logout</MenuItem>
         </Menu>
       </AppBar>

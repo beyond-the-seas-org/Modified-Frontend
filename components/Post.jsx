@@ -45,12 +45,14 @@ const Post = ({ post }) => {
 
 
   const handleAddUpvote = () => {
-    // Implement logic to add comment here
+    //give alert
+    alert("You have upvoted this post");
     console.log("Add Upvote clicked for post:", post);
   };
 
   const handleAddDownvote = () => {
     // Implement logic to add comment here
+    alert("You have downvoted this post");
     console.log("Add Downvote clicked for post:", post);
   };
 
