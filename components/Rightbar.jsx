@@ -18,7 +18,7 @@ import {
       <Box flex={2} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
         <Box position="fixed" width={300}>
           <Typography variant="h6" fontWeight={100}>
-            Online Friends
+            Professors recently visited
           </Typography>
           <AvatarGroup max={7}>
             <Avatar
@@ -79,7 +79,7 @@ import {
             </ImageListItem>
           </ImageList>
           <Typography variant="h6" fontWeight={100} mt={2}>
-            Latest Conversations
+            Latest Posts visited
           </Typography>
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         <ListItem alignItems="flex-start">

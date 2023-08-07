@@ -2,6 +2,8 @@
 import { Box, Stack, Skeleton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
+import AddPost from "../components/AddPost"
+import Add from "../components/Add"
 
 const Feed = () => {
     const [loading, setLoading] = useState(true);
@@ -25,6 +27,7 @@ const Feed = () => {
 
   return (
     <Box flex={4} p={{ xs: 0, md: 2 }}>
+      <AddPost/>
       {loading ? (
         <Stack spacing={1}>
           <Skeleton variant="text" height={100} />

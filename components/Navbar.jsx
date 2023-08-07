@@ -11,6 +11,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+
 import React, { useState } from "react";
 
 const StyledToolbar = styled(Toolbar)({
@@ -20,9 +21,11 @@ const StyledToolbar = styled(Toolbar)({
 
 const Search = styled("div")(({ theme }) => ({
   backgroundColor: "white",
+  color: "black", // Add font color to black
   padding: "0 10px",
   borderRadius: theme.shape.borderRadius,
   width: "40%",
+
 }));
 
 const Icons = styled(Box)(({ theme }) => ({
@@ -55,9 +58,6 @@ const Navbar = () => {
           <InputBase placeholder="search..." />
         </Search>
         <Icons>
-          <Badge badgeContent={4} color="error">
-            <Mail />
-          </Badge>
           <Badge badgeContent={2} color="error">
             <Notifications />
           </Badge>
