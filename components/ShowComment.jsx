@@ -1,19 +1,19 @@
 'use client'
 import { useState } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Card, CardContent, Typography, TextField } from '@mui/material';
-
+import AddComment from './AddComment';
 const ShowComment = ({ post, comments, onClose, open }) => {
   const [newComment, setNewComment] = useState('');
 
+  const qlink = window.location.href;
+  const tokens = qlink.split("/");
+  let user_id = tokens[tokens.length-1]
+  //convert user id to int
+  user_id = parseInt(user_id);
+  console.log("user_id", user_id);
+
   const handleClose = () => {
     onClose();
-  };
-
-  const handleAddComment = () => {
-    // Implement logic to add comment here
-    console.log("Adding new comment:", newComment);
-    // Clear the input field after adding the comment
-    setNewComment('');
   };
 
   return (
@@ -32,25 +32,15 @@ const ShowComment = ({ post, comments, onClose, open }) => {
             <Typography variant="h6">Comments:</Typography>
             {comments.map((comment) => (
               <Box key={comment.id} mt={2}>
-                <Typography variant="body1">{comment.comment}</Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Commenter: {comment.commenter_user_name}
+                  Commenter: <b>{comment.commentor}</b>
                 </Typography>
+                <Typography variant="body1">{comment.comment}</Typography>
                 <hr />
               </Box>
             ))}
-            {/* Input field for adding a new comment */}
-            <TextField
-              variant="outlined"
-              label="Add a comment"
-              fullWidth
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
             {/* Button to submit the new comment */}
-            <Button onClick={handleAddComment} color="primary">
-              Add Comment
-            </Button>
+            <AddComment user_id={user_id} post_id={post.post_id}/>
           </CardContent>
         </Card>
       </DialogContent>

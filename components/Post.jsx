@@ -3,16 +3,28 @@ import React, { useState } from 'react';
 import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import ShowComment from "../components/ShowComment"
+import EditPost from "../components/EditPost"
+import Upvote from "../components/Upvotes"
 
 const Post = ({ post }) => {
 
+
+  const qlink = window.location.href;
+  const tokens = qlink.split("/");
+  let user_id = tokens[tokens.length-1]
+  //convert user id to int
+  user_id = parseInt(user_id);
+  console.log("user_id", user_id);
+
   const [comments, setComments] = useState([]);
   const [showCommentDialog, setShowCommentDialog] = useState(false);
+  const [showEditPostDialog, setShowEditPostDialog] = useState(false);
+  const [upvoted, setUpvoted] = useState(false);
 
   const handleShowComments = async () => {
     try {
       // Fetch comments from the API
-      const response = await fetch(`https://json-server-for-project.vercel.app/comments?id=${post.id}`);
+      const response = await fetch(`http://localhost:5000/api/newsfeed/${post.post_id}/get_comments`);
       const data = await response.json();
       setComments(data);
 
@@ -36,19 +48,25 @@ const Post = ({ post }) => {
   const handleEditPost = () => {
     // Implement logic to edit post here
     console.log("Edit Post clicked for post:", post);
+    handleEditPostDialogOpen();
   };
+
+  const handleEditPostDialogOpen = () => {
+    // Open the edit post dialog
+    setShowEditPostDialog(true);
+  };
+
+  const handleEditPostDialogClose = () => {
+    // Close the edit post dialog
+    setShowEditPostDialog(false);
+  };
+
 
   const handleDeletePost = () => {
     // Implement logic to delete post here
     console.log("Delete Post clicked for post:", post);
   };
 
-
-  const handleAddUpvote = () => {
-    //give alert
-    alert("You have upvoted this post");
-    console.log("Add Upvote clicked for post:", post);
-  };
 
   const handleAddDownvote = () => {
     // Implement logic to add comment here
@@ -69,7 +87,11 @@ const Post = ({ post }) => {
             <MoreVert />
           </IconButton>
         }
-        title={post.user_name}
+        title={
+          <Typography variant="h6" component="div">
+            {post.user_name}
+          </Typography>
+        }
         subheader={post.date}
       />
       <CardContent>
@@ -79,10 +101,7 @@ const Post = ({ post }) => {
       </CardContent>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="Up vote" onClick={handleAddUpvote}>
-          <ThumbUp />
-          {post.upvotes}
-        </IconButton>
+        <Upvote upvoteCount={post.upvote} post_id={post.post_id}/>
         <IconButton aria-label="Down vote" onClick={handleAddDownvote}>
           <ThumbDown />
           {post.downvotes}
@@ -92,12 +111,23 @@ const Post = ({ post }) => {
         </IconButton>
         {/* Show the comments using the ShowComment component */}
         <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} />
-        <IconButton aria-label="edit post" onClick={handleEditPost}>
+        <IconButton
+          aria-label="edit post"
+          onClick={handleEditPost}
+          disabled={user_id != post.user_id}
+        >
           <Edit />
         </IconButton>
-        <IconButton aria-label="delete post" onClick={handleDeletePost}>
+        <EditPost post_id={post.post_id} initialPostDesc={post.post_desc} onOpen={showEditPostDialog} onClose={handleEditPostDialogClose}/>
+
+        <IconButton
+          aria-label="delete post"
+          onClick={handleDeletePost}
+          disabled={user_id != post.user_id}
+        >
           <Delete />
         </IconButton>
+
       </CardActions>
     </Card>
   );
