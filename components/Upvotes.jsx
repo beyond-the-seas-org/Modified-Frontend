@@ -60,10 +60,10 @@ const Upvote = ({ upvoteCount, post_id }) => {
   };
 
   return (
-    <IconButton aria-label="upvote" onClick={handleUpvote}>
-      {upvoted ? <ThumbUp /> : <ThumbUpOutlined />}
-      {voteCount}
-    </IconButton>
+  <IconButton aria-label="upvote" onClick={handleUpvote} style={{ color: upvoted ? 'blue' : 'inherit' }}>
+    {upvoted ? <ThumbUp /> : <ThumbUpOutlined />}
+    {voteCount}
+  </IconButton>
   );
 };
 

@@ -24,6 +24,8 @@ const Feed = () => {
     fetchPosts();
   }, []);
 
+
+
   const refreshPosts = async () => {
     try {
       const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/get_posts`);
@@ -47,7 +49,7 @@ const Feed = () => {
       ) : (
         <>
           {posts.map((post) => (
-            <Post key={post.id} post={post} />
+            <Post key={post.id} post={post} refreshPosts={refreshPosts}/>
           ))}
         </>
       )}

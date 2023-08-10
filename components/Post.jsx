@@ -5,8 +5,11 @@ import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, Thumb
 import ShowComment from "../components/ShowComment"
 import EditPost from "../components/EditPost"
 import Upvote from "../components/Upvotes"
+import Downvote from "../components/Downvotes"
+import DeletePost from "../components/DeletePost"
+import StyledButton from "../components/styled-components/StyledButton"
 
-const Post = ({ post }) => {
+const Post = ({ post, refreshPosts }) => {
 
 
   const qlink = window.location.href;
@@ -19,6 +22,7 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
   const [showCommentDialog, setShowCommentDialog] = useState(false);
   const [showEditPostDialog, setShowEditPostDialog] = useState(false);
+  const [showDeletePostDialog, setShowDeletePostDialog] = useState(false);
   const [upvoted, setUpvoted] = useState(false);
 
   const handleShowComments = async () => {
@@ -61,10 +65,20 @@ const Post = ({ post }) => {
     setShowEditPostDialog(false);
   };
 
-
   const handleDeletePost = () => {
     // Implement logic to delete post here
     console.log("Delete Post clicked for post:", post);
+    handleDeletePostDialogOpen();
+  };
+
+  const handleDeletePostDialogOpen = () => {
+    // Open the edit post dialog
+    setShowDeletePostDialog(true);
+  };
+
+  const handleDeletePostDialogClose = () => {
+    // Close the edit post dialog
+    setShowDeletePostDialog(false);
   };
 
 
@@ -100,35 +114,40 @@ const Post = ({ post }) => {
         </Typography>
       </CardContent>
 
-      <CardActions disableSpacing>
+      <CardActions sx={{ margin: '10px 0' }}>
         <Upvote upvoteCount={post.upvote} post_id={post.post_id}/>
-        <IconButton aria-label="Down vote" onClick={handleAddDownvote}>
-          <ThumbDown />
-          {post.downvotes}
-        </IconButton>
-        <IconButton aria-label="show comments" onClick={handleShowComments}>
-          <ChatBubbleOutline />
-        </IconButton>
-        {/* Show the comments using the ShowComment component */}
+        <Downvote downvoteCount={post.downvotes} post_id={post.post_id}/>
+        <StyledButton
+          label="Show Comments"
+          onClick={handleShowComments}
+          backgroundColor="ButtonShadow"
+          hoverBackgroundColor="ButtonHoverBackground"
+        />
         <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} />
-        <IconButton
-          aria-label="edit post"
+
+
+        <StyledButton
+          label="Edit Post"
           onClick={handleEditPost}
-          disabled={user_id != post.user_id}
+          backgroundColor="#66FF66"
+          hoverBackgroundColor="ButtonHoverBackground"
+          disabled={user_id !== post.user_id}
         >
-          <Edit />
-        </IconButton>
-        <EditPost post_id={post.post_id} initialPostDesc={post.post_desc} onOpen={showEditPostDialog} onClose={handleEditPostDialogClose}/>
-
-        <IconButton
-          aria-label="delete post"
+          <b>Edit Post</b>
+        </StyledButton>
+        <EditPost post_id={post.post_id} initialPostDesc={post.post_desc} onOpen={showEditPostDialog} onClose={handleEditPostDialogClose} refreshPosts={refreshPosts}/>
+        
+        
+        <StyledButton
+          label="Delete"
           onClick={handleDeletePost}
-          disabled={user_id != post.user_id}
-        >
-          <Delete />
-        </IconButton>
-
+          backgroundColor="#FF6666"
+          hoverBackgroundColor="ButtonHoverBackground"
+          disabled={user_id !== post.user_id}
+        />
+        <DeletePost user_id={user_id} post_id={post.post_id} onOpen={showDeletePostDialog} onClose={handleDeletePostDialogClose} refreshPosts={refreshPosts}/>
       </CardActions>
+
     </Card>
   );
 };

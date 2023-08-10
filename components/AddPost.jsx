@@ -1,8 +1,7 @@
 'use client'
 import React, { useState } from 'react';
-import { Box, Button, TextareaAutosize, IconButton } from '@mui/material';
-import LoupeTwoToneIcon from '@mui/icons-material/LoupeTwoTone';
-const AddPost = ({ onAddPost, refreshPosts }) => {
+import { Box, Button, TextareaAutosize} from '@mui/material';
+const AddPost = ({ refreshPosts }) => {
   const [postText, setPostText] = useState('');
   const qlink = window.location.href;
   const tokens = qlink.split("/");
@@ -28,7 +27,6 @@ const AddPost = ({ onAddPost, refreshPosts }) => {
         setPostText('');
         if (response.ok) {
           // Post added successfully
-          onAddPost(postText);
           refreshPosts();
 
         } else {
@@ -56,11 +54,11 @@ const AddPost = ({ onAddPost, refreshPosts }) => {
       <Button
           variant="outlined"
           onClick={handleAddPost}
+          style={{backgroundColor: '#33FF99', color: 'black', border: '2px solid black'}}
           sx={{
-            color: 'black', // Set text color to black
             '&:hover': {
-              backgroundColor: '#000000', // Change background color on hover
-              color: 'white', // Change text color on hover
+              backgroundColor: '#33FF99', // Change background color on hover
+              color: 'black', // Change text color on hover
             },
           }}
         >

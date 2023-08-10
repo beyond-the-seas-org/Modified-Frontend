@@ -1,9 +1,29 @@
 'use client'
 import { useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Card, CardContent, Typography, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Card, CardContent, Typography, IconButton } from '@mui/material';
+import {Edit, Delete} from '@mui/icons-material';
 import AddComment from './AddComment';
-const ShowComment = ({ post, comments, onClose, open }) => {
-  const [newComment, setNewComment] = useState('');
+import EditComment from './EditComment';
+const ShowComment = ({ post, comments, onClose, open, refreshComments }) => {
+const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
+
+  // Function to open the edit comment dialog for a specific comment
+  const showEditCommentDialog = (commentId) => {
+    setOpenEditCommentDialogs((prevState) => ({
+      ...prevState,
+      [commentId]: true,
+    }));
+  };
+
+  // Function to close the edit comment dialog for a specific comment
+  const handleEditCommentDialogClose = (commentId) => {
+    setOpenEditCommentDialogs((prevState) => ({
+      ...prevState,
+      [commentId]: false,
+    }));
+  };
+
+
 
   const qlink = window.location.href;
   const tokens = qlink.split("/");
@@ -15,6 +35,12 @@ const ShowComment = ({ post, comments, onClose, open }) => {
   const handleClose = () => {
     onClose();
   };
+
+
+  const handleDeleteComment = (commentId) => {
+    // Implement delete comment logic using commentId
+  };
+
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -31,14 +57,41 @@ const ShowComment = ({ post, comments, onClose, open }) => {
             <hr />
             <Typography variant="h6">Comments:</Typography>
             {comments.map((comment) => (
-              <Box key={comment.id} mt={2}>
-                <Typography variant="body2" color="textSecondary">
-                  Commenter: <b>{comment.commentor}</b>
-                </Typography>
-                <Typography variant="body1">{comment.comment}</Typography>
-                <hr />
-              </Box>
+            <Box key={comment.comment_id} mt={2}>
+              <Typography variant="body2" color="textSecondary">
+                Commenter: <b>{comment.commentor}</b>
+              </Typography>
+              <Typography variant="body1">{comment.comment}</Typography>
+              {true && (
+                <Box mt={1}>
+                  <IconButton
+                    onClick={() => showEditCommentDialog(comment.comment_id)}
+                    aria-label="edit comment"
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleDeleteComment(comment.comment_id)}
+                    aria-label="delete comment"
+                  >
+                    <Delete />
+                  </IconButton>
+                </Box>
+              )}
+              <hr />
+              {/* Create a separate EditComment instance for each comment */}
+              {openEditCommentDialogs[comment.comment_id] && (
+                <EditComment
+                  comment_id={comment.comment_id}
+                  initialcommentDesc={comment.comment}
+                  onOpen={() => showEditCommentDialog(comment.comment_id)}
+                  onClose={() => handleEditCommentDialogClose(comment.comment_id)}
+                  refreshComments={refreshComments}
+                />
+              )}
+            </Box>
             ))}
+
             {/* Button to submit the new comment */}
             <AddComment user_id={user_id} post_id={post.post_id}/>
           </CardContent>
