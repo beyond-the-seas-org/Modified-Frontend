@@ -4,31 +4,35 @@ import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import AddPost from "./AddPost";
 
-const Feed = () => {
-  const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
+const Feed = ({posts}) => {
+  const [loading, setLoading] = useState(false);
+  const qlink = window.location.href;
+  const tokens = qlink.split("/");
+  let user_id = tokens[tokens.length-1]
+  //convert user id to int
+  user_id = parseInt(user_id);
+  console.log("user_id", user_id);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/get_posts`);
-        const data = await response.json();
-        setPosts(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching posts from post component:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+  // useEffect(() => {
+    // useEffect(() => {
+    //   async function fetchPosts() {
+    //     try {
+    //       const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
+    //       const data = await response.json();
+    //       setPosts(data);
+    //       setLoading(false);
+    //     } catch (error) {
+    //       console.error("Error fetching posts:", error);
+    //     }
+    //   }
+    //   fetchPosts();
+    // }, []);
 
 
 
   const refreshPosts = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/get_posts`);
+      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
       const data = await response.json();
       setPosts(data);
     } catch (error) {
@@ -49,7 +53,7 @@ const Feed = () => {
       ) : (
         <>
           {posts.map((post) => (
-            <Post key={post.id} post={post} refreshPosts={refreshPosts}/>
+            <Post key={post.post_id} post={post} refreshPosts={refreshPosts}/>
           ))}
         </>
       )}

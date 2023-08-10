@@ -23,7 +23,6 @@ const Post = ({ post, refreshPosts }) => {
   const [showCommentDialog, setShowCommentDialog] = useState(false);
   const [showEditPostDialog, setShowEditPostDialog] = useState(false);
   const [showDeletePostDialog, setShowDeletePostDialog] = useState(false);
-  const [upvoted, setUpvoted] = useState(false);
 
   const handleShowComments = async () => {
     try {
@@ -81,12 +80,29 @@ const Post = ({ post, refreshPosts }) => {
     setShowDeletePostDialog(false);
   };
 
-
-  const handleAddDownvote = () => {
-    // Implement logic to add comment here
-    alert("You have downvoted this post");
-    console.log("Add Downvote clicked for post:", post);
+  const updateUpvoteStatus = (newUpvoteStatus) => {
+    // Update the upvote status of the post
+    post.upvote_status = newUpvoteStatus;
+    console.log("post.upvote_status", post.upvote_status)
   };
+
+  const updateDownvoteStatus = (newDownvoteStatus) => {
+    // Update the downvote status of the post
+    post.downvote_status = newDownvoteStatus;
+    console.log("post.downvote_status", post.downvote_status)
+  };
+
+  const getUpvoteStatus = () => {
+    // Get the upvote status of the post
+    return post.upvote_status;
+  };
+
+  const getDownvoteStatus = () => {
+    // Get the downvote status of the post
+    return post.downvote_status;
+  };
+
+
 
   return (
     <Card sx={{ margin: 5 }}>
@@ -115,8 +131,8 @@ const Post = ({ post, refreshPosts }) => {
       </CardContent>
 
       <CardActions sx={{ margin: '10px 0' }}>
-        <Upvote upvoteCount={post.upvote} post_id={post.post_id}/>
-        <Downvote downvoteCount={post.downvotes} post_id={post.post_id}/>
+        <Upvote upvoteCount={post.upvotes} post_id={post.post_id} upvote_status={post.upvote_status} downvote_status={post.downvote_status} updateUpvoteStatus={updateUpvoteStatus} getDownvoteStatus={getDownvoteStatus}/>
+        <Downvote downvoteCount={post.downvotes} post_id={post.post_id} downvote_status={post.downvote_status} upvote_status={post.upvote_status} updateDownvoteStatus={updateDownvoteStatus} getUpvoteStatus={getUpvoteStatus}/>
         <StyledButton
           label="Show Comments"
           onClick={handleShowComments}

@@ -3,32 +3,25 @@ import React, { useState, useEffect } from 'react';
 import { IconButton } from '@mui/material';
 import { Thumbdown, ThumbdownOutlined } from '@mui/icons-material';
 
-const Downvote = ({ downvoteCount, post_id }) => {
-  const [downvoted, setdownvoted] = useState(false);
+const Downvote = ({ downvoteCount, post_id, downvote_status, upvote_status, updateDownvoteStatus, getUpvoteStatus }) => {
   const [voteCount, setdownvoteCount] = useState(downvoteCount);
+  const [downvoteStatus, setdownvoteStatus] = useState(downvote_status);
+  const [upvoteStatus, setupvoteStatus] = useState(upvote_status);
+  const qlink = window.location.href;
+  const tokens = qlink.split("/");
+  let user_id = tokens[tokens.length-1]
+  user_id = parseInt(user_id);
+  console.log("user_id", user_id);
+  console.log("downvote_status", downvote_status)
+  console.log("upvote_status from Downvotes component", upvote_status)
+
   let op = '';
 
-  useEffect(() => {
-    const storeddownvoted = localStorage.getItem(`downvoted-${post_id}`);
-    if (storeddownvoted) {
-      setdownvoted(storeddownvoted === 'true');
-    }
-  }, [post_id]);
-
-  const handledownvote = async () => {
-    if (!downvoted) {
-      setdownvoted(true);
-      setdownvoteCount(voteCount + 1);
-      op = 'increment';
-    } else {
-      setdownvoted(false);
-      setdownvoteCount(voteCount - 1);
-      op = 'decrement';
-    }
-
+  const updateDownvote = async () => {
     const data = {
       downvote: voteCount,
       post_id: post_id,
+      user_id: user_id
     };
 
     try {
@@ -43,25 +36,47 @@ const Downvote = ({ downvoteCount, post_id }) => {
       if (response.ok) {
         // downvote added successfully.
         if(op === 'increment'){
-            setdownvoted(true)
+            setdownvoteStatus(true);
+            updateDownvoteStatus(true);
+            alert("Downvoted successfully");
         }else{
-            op = 'decrement'
-            setdownvoted(false)
+            setdownvoteStatus(false);
+            updateDownvoteStatus(false);
+            alert("Downvote removed successfully");
         }
-        localStorage.setItem(`downvoted-${post_id}`, downvoted.toString());
-        alert('downvote added successfully');
+        
       } else {
         // Handle error
-        alert('Failed to add downvote');
       }
     } catch (error) {
       console.error('Error:', error);
     }
+  }
+
+  const handledownvote = async () => {
+    setupvoteStatus(getUpvoteStatus());
+    if (!downvoteStatus && !upvoteStatus) {
+      setdownvoteStatus(true);
+      console.log("downvote_status", downvote_status)
+      setdownvoteCount(voteCount + 1);
+      op = 'increment';
+      updateDownvoteStatus(true);
+      updateDownvote();
+    } else if (downvoteStatus && !upvoteStatus){
+      setdownvoteStatus(false);
+      setdownvoteCount(voteCount - 1);
+      op = 'decrement';
+      updateDownvoteStatus(false);
+      updateDownvote();
+      
+    } else {
+      alert("You have already upvoted this post. You cannot downvote it.")
+    }
   };
 
   return (
-  <IconButton aria-label="downvote" onClick={handledownvote} style={{ color: downvoted ? 'red' : 'inherit' }}>
-    {downvoted ? <Thumbdown /> : <ThumbdownOutlined />}
+  <IconButton aria-label="downvote" onClick={handledownvote} style={{ color: downvoteStatus ? 'red' : 'inherit' }} disabled={getUpvoteStatus()==true}>
+    {downvoteStatus ? <Thumbdown /> : <ThumbdownOutlined />}
     {voteCount}
   </IconButton>
   );
