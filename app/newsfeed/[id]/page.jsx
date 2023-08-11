@@ -40,6 +40,17 @@ function App() {
     fetchPosts();
   }, []);
 
+  const refreshPosts = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
+      const data = await response.json();
+      setPosts(data);
+      setFilteredPosts(data);
+    } catch (error) {
+      console.error('Error refreshing posts:', error);
+    }
+  };
+
   // Handle search
   const handleSearch = (searchTerm) => {
     const filtered = posts.filter((post) =>
@@ -54,7 +65,7 @@ function App() {
         <Navbar onSearch={handleSearch} />
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar setMode={setMode} mode={mode} />
-          <Feed mode={mode} posts={filteredPosts} />
+          <Feed mode={mode} posts={filteredPosts} refreshPosts={refreshPosts} />
           <Rightbar />
         </Stack>
       </Box>

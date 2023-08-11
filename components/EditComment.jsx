@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import Notification, { showNotification } from './notification/Notification'; // Import showNotification
+import { on } from 'events';
 
 const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshcomments}) => {
   const [commentDesc, setcommentDesc] = useState(initialcommentDesc);
@@ -24,16 +25,12 @@ const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshc
         });
 
         if (response.ok) {
-          // comment edited successfully
-          console.log('comment edited successfully')
+          
           setcommentDesc('');
-          refreshcomments();
-          onClose(); // Close the dialog
-          //notify
-          showNotification('comment edited successfully', 'success');
-          console.log('called showNotification')
+          onClose();
+          alert('comment edited successfully');
+          
         } else {
-          // Handle error
           console.error('Failed to edit comment');
         }
       } catch (error) {
@@ -42,12 +39,8 @@ const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshc
     }
   };
 
-  const handleClose = () => {
-    onClose();
-  };
-
   return (
-    <Dialog open={onOpen} onClose={handleClose}>
+    <Dialog open={onOpen} onClose={onClose}>
       <DialogTitle>Edit comment</DialogTitle>
       <DialogContent>
         <TextField
@@ -65,7 +58,6 @@ const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshc
         <Button variant="contained" onClick={handleEditcomment}>
           Save Changes
         </Button>
-        <Notification />
       </DialogActions>
     </Dialog>
   );

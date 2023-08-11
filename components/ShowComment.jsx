@@ -4,8 +4,12 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Card, C
 import {Edit, Delete} from '@mui/icons-material';
 import AddComment from './AddComment';
 import EditComment from './EditComment';
+import DeleteComment from './DeleteComment';
 const ShowComment = ({ post, comments, onClose, open, refreshComments }) => {
 const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
+const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
+
+
 
   // Function to open the edit comment dialog for a specific comment
   const showEditCommentDialog = (commentId) => {
@@ -21,6 +25,9 @@ const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
       ...prevState,
       [commentId]: false,
     }));
+
+    // Refresh the comments
+    refreshComments();
   };
 
 
@@ -37,8 +44,20 @@ const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
   };
 
 
-  const handleDeleteComment = (commentId) => {
-    // Implement delete comment logic using commentId
+  const handleDeleteComment = () => {
+    // Implement logic to delete post here
+    console.log("Delete Post clicked for post:", post);
+    handleDeleteCommentDialogOpen();
+  };
+
+  const handleDeleteCommentDialogOpen = () => {
+    // Open the edit post dialog
+    setShowDeleteCommentDialog(true);
+  };
+
+  const handleDeleteCommentDialogClose = () => {
+    // Close the edit post dialog
+    setShowDeleteCommentDialog(false);
   };
 
 
@@ -56,7 +75,12 @@ const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
             </Typography>
             <hr />
             <Typography variant="h6">Comments:</Typography>
-            {comments.map((comment) => (
+            {comments.length === 0 ? (
+              <Box mt={2}>
+                <Typography variant="body1">No comments yet.</Typography>
+              </Box>
+            ) : (
+            comments.map((comment) => (
             <Box key={comment.comment_id} mt={2}>
               <Typography variant="body2" color="textSecondary">
                 Commenter: <b>{comment.commentor}</b>
@@ -89,11 +113,12 @@ const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
                   refreshComments={refreshComments}
                 />
               )}
+              <DeleteComment comment_id={comment.comment_id} user_id={user_id} onOpen={showDeleteCommentDialog} onClose={handleDeleteCommentDialogClose} refreshComments={refreshComments} />
             </Box>
-            ))}
+            )))}
 
             {/* Button to submit the new comment */}
-            <AddComment user_id={user_id} post_id={post.post_id}/>
+            <AddComment user_id={user_id} post_id={post.post_id} refreshComments={refreshComments}/>
           </CardContent>
         </Card>
       </DialogContent>

@@ -28,7 +28,7 @@ const DeletePost = ({ post_id, user_id , onOpen, onClose, refreshPosts}) => {
       if (response.ok) {
         // Post deleted successfully
         console.log('Post deleted successfully');
-        showNotification('Post deleted successfully', 'success');
+        alert('Post deleted successfully');
       } else {
         // Handle error
         console.error('Failed to delete post');

@@ -26,7 +26,21 @@ const Post = ({ post, refreshPosts, mode }) => {
   const handleShowComments = async () => {
     try {
       // Fetch comments from the API
-      const response = await fetch(`http://localhost:5000/api/newsfeed/${post.post_id}/get_comments`);
+      const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`);
+      const data = await response.json();
+      setComments(data);
+
+      // Open the comment dialog
+      handleOpenCommentDialog();
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  const refreshComments = async () => {
+    try {
+      // Fetch comments from the API
+      const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`);
       const data = await response.json();
       setComments(data);
 
@@ -115,7 +129,7 @@ const Post = ({ post, refreshPosts, mode }) => {
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
         />
-        <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} />
+        <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} refreshComments={refreshComments} />
 
 
         <StyledButton

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 
-const AddComment = ({ post_id, user_id, onCommentAdded }) => {
+const AddComment = ({ post_id, user_id, refreshComments}) => {
   const [commentText, setCommentText] = useState('');
 
   const handleAddComment = async () => {
@@ -24,8 +24,9 @@ const AddComment = ({ post_id, user_id, onCommentAdded }) => {
 
         if (response.ok) {
           // Comment added successfully
-          onCommentAdded(commentText);
           setCommentText('');
+          refreshComments();
+          alert('Comment added successfully');
         } else {
           // Handle error
           console.error('Failed to add comment');
