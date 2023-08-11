@@ -54,7 +54,7 @@ function App() {
         <Navbar onSearch={handleSearch} />
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar setMode={setMode} mode={mode} />
-          <Feed posts={filteredPosts} />
+          <Feed mode={mode} posts={filteredPosts} />
           <Rightbar />
         </Stack>
       </Box>

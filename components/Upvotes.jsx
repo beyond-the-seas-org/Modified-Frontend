@@ -45,7 +45,6 @@ const Upvote = ({ upvoteCount, post_id, upvote_status, downvote_status, updateUp
             updateUpvoteStatus(false);
             alert("Upvote removed successfully");
         }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         
       } else {
         // Handle error

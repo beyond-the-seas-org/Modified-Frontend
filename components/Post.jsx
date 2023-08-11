@@ -4,12 +4,11 @@ import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Typography
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import ShowComment from "../components/ShowComment"
 import EditPost from "../components/EditPost"
-import Upvote from "../components/Upvotes"
-import Downvote from "../components/Downvotes"
 import DeletePost from "../components/DeletePost"
+import Votes from "../components/Votes"
 import StyledButton from "../components/styled-components/StyledButton"
 
-const Post = ({ post, refreshPosts }) => {
+const Post = ({ post, refreshPosts, mode }) => {
 
 
   const qlink = window.location.href;
@@ -80,29 +79,6 @@ const Post = ({ post, refreshPosts }) => {
     setShowDeletePostDialog(false);
   };
 
-  const updateUpvoteStatus = (newUpvoteStatus) => {
-    // Update the upvote status of the post
-    post.upvote_status = newUpvoteStatus;
-    console.log("post.upvote_status", post.upvote_status)
-  };
-
-  const updateDownvoteStatus = (newDownvoteStatus) => {
-    // Update the downvote status of the post
-    post.downvote_status = newDownvoteStatus;
-    console.log("post.downvote_status", post.downvote_status)
-  };
-
-  const getUpvoteStatus = () => {
-    // Get the upvote status of the post
-    return post.upvote_status;
-  };
-
-  const getDownvoteStatus = () => {
-    // Get the downvote status of the post
-    return post.downvote_status;
-  };
-
-
 
   return (
     <Card sx={{ margin: 5 }}>
@@ -131,8 +107,8 @@ const Post = ({ post, refreshPosts }) => {
       </CardContent>
 
       <CardActions sx={{ margin: '10px 0' }}>
-        <Upvote upvoteCount={post.upvotes} post_id={post.post_id} upvote_status={post.upvote_status} downvote_status={post.downvote_status} updateUpvoteStatus={updateUpvoteStatus} getDownvoteStatus={getDownvoteStatus}/>
-        <Downvote downvoteCount={post.downvotes} post_id={post.post_id} downvote_status={post.downvote_status} upvote_status={post.upvote_status} updateDownvoteStatus={updateDownvoteStatus} getUpvoteStatus={getUpvoteStatus}/>
+
+        <Votes mode={mode} upvoteCount={post.upvotes} downvoteCount={post.downvotes} post_id={post.post_id} upvote_status={post.upvote_status} downvote_status={post.downvote_status}/>
         <StyledButton
           label="Show Comments"
           onClick={handleShowComments}

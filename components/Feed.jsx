@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import AddPost from "./AddPost";
 
-const Feed = ({posts}) => {
+const Feed = ({posts , mode}) => {
   const [loading, setLoading] = useState(false);
   const qlink = window.location.href;
   const tokens = qlink.split("/");
@@ -53,7 +53,7 @@ const Feed = ({posts}) => {
       ) : (
         <>
           {posts.map((post) => (
-            <Post key={post.post_id} post={post} refreshPosts={refreshPosts}/>
+            <Post key={post.post_id} post={post} refreshPosts={refreshPosts} mode={mode}/>
           ))}
         </>
       )}

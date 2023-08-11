@@ -22,7 +22,7 @@ const bgcolor = "#0A85ED"
 const Sidebar = ({ mode, setMode }) => {
   return (
     <Box
-      flex={1}
+      flex={2}
       p={2}
       sx={{
         display: { xs: "none", sm: "block" },
@@ -37,6 +37,7 @@ const Sidebar = ({ mode, setMode }) => {
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               },
               marginBottom: 4, // Add margin-bottom to create padding between list items
+              width: "100%", // Make ListItemButton width 100% of the ListItem
             }}
 >
             <ListItemButton component="a" href="#home" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
