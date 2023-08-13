@@ -7,7 +7,8 @@ import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
 const ShowComment = ({ post, comments, onClose, open, refreshComments }) => {
 const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
-const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
+// const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
+const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
 
 
 
@@ -30,6 +31,23 @@ const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
     refreshComments();
   };
 
+  // Function to open the delete comment dialog for a specific comment
+  const showDeleteCommentDialog = (commentId) => {
+    setOpenDeleteCommentDialogs((prevState) => ({
+      ...prevState,
+      [commentId]: true,
+    }));
+  };
+
+  // Function to close the delete comment dialog for a specific comment
+  const handleDeleteCommentDialogClose = (commentId) => {
+    setOpenDeleteCommentDialogs((prevState) => ({
+      ...prevState,
+      [commentId]: false,
+    }));
+    refreshComments();
+  };
+
 
 
   const qlink = window.location.href;
@@ -44,21 +62,23 @@ const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
   };
 
 
-  const handleDeleteComment = () => {
-    // Implement logic to delete post here
-    console.log("Delete Post clicked for post:", post);
-    handleDeleteCommentDialogOpen();
-  };
+  // const handleDeleteComment = () => {
+  //   // Implement logic to delete post here
+  //   console.log("Delete Post clicked for post:", post);
+  //   handleDeleteCommentDialogOpen();
+  // };
 
-  const handleDeleteCommentDialogOpen = () => {
-    // Open the edit post dialog
-    setShowDeleteCommentDialog(true);
-  };
+  // const handleDeleteCommentDialogOpen = () => {
+  //   // Open the edit post dialog
+  //   setShowDeleteCommentDialog(true);
+  // };
 
-  const handleDeleteCommentDialogClose = () => {
-    // Close the edit post dialog
-    setShowDeleteCommentDialog(false);
-  };
+  // const handleDeleteCommentDialogClose = () => {
+  //   // Close the edit post dialog
+  //   setShowDeleteCommentDialog(false);
+  // };
+
+  
 
 
   return (
@@ -95,7 +115,7 @@ const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
                     <Edit />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDeleteComment(comment.comment_id)}
+                    onClick={() => showDeleteCommentDialog(comment.comment_id)}
                     aria-label="delete comment"
                   >
                     <Delete />
@@ -113,7 +133,19 @@ const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
                   refreshComments={refreshComments}
                 />
               )}
-              <DeleteComment comment_id={comment.comment_id} user_id={user_id} onOpen={showDeleteCommentDialog} onClose={handleDeleteCommentDialogClose} refreshComments={refreshComments} />
+
+              {/* Create a separate DeleteComment instance for each comment */}
+              {openDeleteCommentDialogs[comment.comment_id] && (
+                <DeleteComment
+                  comment_id={comment.comment_id}
+                  user_id={user_id}
+                  onOpen={()=>showDeleteCommentDialog(comment.comment_id)}
+                  onClose={()=>handleDeleteCommentDialogClose(comment.comment_id)}
+                  refreshComments={refreshComments}
+                  />
+              )}
+
+              {/* <DeleteComment comment_id={comment.comment_id} user_id={user_id} onOpen={showDeleteCommentDialog} onClose={handleDeleteCommentDialogClose} refreshComments={refreshComments} /> */}
             </Box>
             )))}
 
