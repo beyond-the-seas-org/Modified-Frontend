@@ -12,6 +12,7 @@ const DeletePost = ({ post_id, user_id , onOpen, onClose, refreshPosts}) => {
   //convert user id to int
   const current_user_id = parseInt(id);
   console.log("user_id", user_id);
+  console.log("post_id", post_id);
 
 
   const handleConfirmDelete = async () => {
