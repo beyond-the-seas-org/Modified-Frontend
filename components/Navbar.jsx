@@ -58,8 +58,20 @@ const UserBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = ({onSearch}) => {
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
+
+  const handleSearch = () => {
+    onSearch(searchTerm); // Pass the search term to the parent component
+  };
+
+  // Implement live search with event listener
+  const handleLiveSearch = (e) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    onSearch(newSearchTerm); // Pass the updated search term to the parent component
+  };
 
   return (
     // Wrap the Navbar component with ThemeProvider and pass the darkTheme
@@ -71,7 +83,16 @@ const Navbar = () => {
           </Typography>
           <Pets sx={{ display: { xs: "block", sm: "none" } }} />
           <Search>
-            <InputBase placeholder="search..." />
+          <InputBase
+            placeholder="search..."
+            value={searchTerm}
+            onChange={handleLiveSearch} // Use handleLiveSearch for live search
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch(); // Trigger search on Enter key
+              }
+            }}
+          />
           </Search>
           <Icons>
             <Badge badgeContent={2} color="error">

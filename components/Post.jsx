@@ -3,16 +3,44 @@ import React, { useState } from 'react';
 import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import ShowComment from "../components/ShowComment"
+import EditPost from "../components/EditPost"
+import DeletePost from "../components/DeletePost"
+import Votes from "../components/Votes"
+import StyledButton from "../components/styled-components/StyledButton"
 
-const Post = ({ post }) => {
+const Post = ({ post, refreshPosts, mode }) => {
+
+
+  const qlink = window.location.href;
+  const tokens = qlink.split("/");
+  let user_id = tokens[tokens.length-1]
+  //convert user id to int
+  user_id = parseInt(user_id);
+  console.log("user_id", user_id);
 
   const [comments, setComments] = useState([]);
   const [showCommentDialog, setShowCommentDialog] = useState(false);
+  const [showEditPostDialog, setShowEditPostDialog] = useState(false);
+  const [showDeletePostDialog, setShowDeletePostDialog] = useState(false);
 
   const handleShowComments = async () => {
     try {
       // Fetch comments from the API
-      const response = await fetch(`https://json-server-for-project.vercel.app/comments?id=${post.id}`);
+      const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`);
+      const data = await response.json();
+      setComments(data);
+
+      // Open the comment dialog
+      handleOpenCommentDialog();
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  const refreshComments = async () => {
+    try {
+      // Fetch comments from the API
+      const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`);
       const data = await response.json();
       setComments(data);
 
@@ -36,25 +64,35 @@ const Post = ({ post }) => {
   const handleEditPost = () => {
     // Implement logic to edit post here
     console.log("Edit Post clicked for post:", post);
+    handleEditPostDialogOpen();
+  };
+
+  const handleEditPostDialogOpen = () => {
+    // Open the edit post dialog
+    setShowEditPostDialog(true);
+  };
+
+  const handleEditPostDialogClose = () => {
+    // Close the edit post dialog
+    setShowEditPostDialog(false);
   };
 
   const handleDeletePost = () => {
     // Implement logic to delete post here
     console.log("Delete Post clicked for post:", post);
+    handleDeletePostDialogOpen();
   };
 
-
-  const handleAddUpvote = () => {
-    //give alert
-    alert("You have upvoted this post");
-    console.log("Add Upvote clicked for post:", post);
+  const handleDeletePostDialogOpen = () => {
+    // Open the edit post dialog
+    setShowDeletePostDialog(true);
   };
 
-  const handleAddDownvote = () => {
-    // Implement logic to add comment here
-    alert("You have downvoted this post");
-    console.log("Add Downvote clicked for post:", post);
+  const handleDeletePostDialogClose = () => {
+    // Close the edit post dialog
+    setShowDeletePostDialog(false);
   };
+
 
   return (
     <Card sx={{ margin: 5 }}>
@@ -69,7 +107,11 @@ const Post = ({ post }) => {
             <MoreVert />
           </IconButton>
         }
-        title={post.user_name}
+        title={
+          <Typography variant="h6" component="div">
+            {post.user_name}
+          </Typography>
+        }
         subheader={post.date}
       />
       <CardContent>
@@ -78,27 +120,40 @@ const Post = ({ post }) => {
         </Typography>
       </CardContent>
 
-      <CardActions disableSpacing>
-        <IconButton aria-label="Up vote" onClick={handleAddUpvote}>
-          <ThumbUp />
-          {post.upvotes}
-        </IconButton>
-        <IconButton aria-label="Down vote" onClick={handleAddDownvote}>
-          <ThumbDown />
-          {post.downvotes}
-        </IconButton>
-        <IconButton aria-label="show comments" onClick={handleShowComments}>
-          <ChatBubbleOutline />
-        </IconButton>
-        {/* Show the comments using the ShowComment component */}
-        <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} />
-        <IconButton aria-label="edit post" onClick={handleEditPost}>
-          <Edit />
-        </IconButton>
-        <IconButton aria-label="delete post" onClick={handleDeletePost}>
-          <Delete />
-        </IconButton>
+      <CardActions sx={{ margin: '10px 0' }}>
+
+        <Votes mode={mode} upvoteCount={post.upvotes} downvoteCount={post.downvotes} post_id={post.post_id} upvote_status={post.upvote_status} downvote_status={post.downvote_status}/>
+        <StyledButton
+          label="Show Comments"
+          onClick={handleShowComments}
+          backgroundColor="ButtonShadow"
+          hoverBackgroundColor="ButtonHoverBackground"
+        />
+        <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} refreshComments={refreshComments} />
+
+
+        <StyledButton
+          label="Edit Post"
+          onClick={handleEditPost}
+          backgroundColor="#66FF66"
+          hoverBackgroundColor="ButtonHoverBackground"
+          disabled={user_id !== post.user_id}
+        >
+          <b>Edit Post</b>
+        </StyledButton>
+        <EditPost post_id={post.post_id} initialPostDesc={post.post_desc} onOpen={showEditPostDialog} onClose={handleEditPostDialogClose} refreshPosts={refreshPosts}/>
+        
+        
+        <StyledButton
+          label="Delete"
+          onClick={handleDeletePost}
+          backgroundColor="#FF6666"
+          hoverBackgroundColor="ButtonHoverBackground"
+          disabled={user_id !== post.user_id}
+        />
+        <DeletePost user_id={user_id} post_id={post.post_id} onOpen={showDeletePostDialog} onClose={handleDeletePostDialogClose} refreshPosts={refreshPosts}/>
       </CardActions>
+
     </Card>
   );
 };

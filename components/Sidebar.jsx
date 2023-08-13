@@ -1,80 +1,160 @@
 import {
-    AccountBox,
-    Article,
-    Group,
-    Home,
-    ModeNight,
-    Person,
-    Settings,
-    Storefront,
-  } from "@mui/icons-material";
-  import {
-    Box,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Switch,
-  } from "@mui/material";
-  import PersonSearchIcon from '@mui/icons-material/PersonSearch';
-  import React from "react";
-  
-  const Sidebar = ({mode,setMode}) => {
-    return (
-      <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
-        <Box position="fixed">
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#home">
-                <ListItemIcon>
-                  <Home />
-                </ListItemIcon>
-                <ListItemText primary="Homepage" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+  AccountBox,
+  Article,
+  Group,
+  Home,
+  ModeNight,
+  Settings,
+} from "@mui/icons-material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+  Typography,
+} from "@mui/material";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import React from "react";
+const bgcolor = "#0A85ED"
+const Sidebar = ({ mode, setMode }) => {
+  return (
+    <Box
+      flex={2}
+      p={2}
+      sx={{
+        display: { xs: "none", sm: "block" },
+        backgroundColor: "#E0E0E0", // Set background color of the sidebar
+      }}
+    >
+      <Box position="fixed" width={250} height="100vh" >
+        <List>
+        <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+              width: "100%", // Make ListItemButton width 100% of the ListItem
+            }}
+>
+            <ListItemButton component="a" href="#home" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ListItemText primary={
+                  <Typography variant="body1" fontWeight="bold">
+                    Homepage
+                  </Typography>
+                } />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+            }}
+>
+              <ListItemButton component="a" href="#simple-list" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
                 <ListItemIcon>
                   <Article />
                 </ListItemIcon>
-                <ListItemText primary="Prof Shortlist" />
+                <ListItemText primary={
+                  <Typography variant="body1" fontWeight="bold">
+                    Prof Shortlist
+                  </Typography>
+                } />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+            <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+            }}
+>
+              <ListItemButton component="a" href="#simple-list" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
                 <ListItemIcon>
                   <Group />
                 </ListItemIcon>
-                <ListItemText primary="Groups" />
+                <ListItemText primary={
+                  <Typography variant="body1" fontWeight="bold">
+                    Groups
+                  </Typography>
+                } />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+            <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+            }}
+>
+              <ListItemButton component="a" href="#simple-list" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
                 <ListItemIcon>
                   <PersonSearchIcon />
                 </ListItemIcon>
-                <ListItemText primary="Professor Search" />
+                <ListItemText primary={
+                  <Typography variant="body1" fontWeight="bold">
+                    Explore Professors
+                  </Typography>
+                } />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+            <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+            }}
+>
+              <ListItemButton component="a" href="#simple-list" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
                 <ListItemIcon>
                   <Settings />
                 </ListItemIcon>
-                <ListItemText primary="Analytics" />
+                <ListItemText primary={
+                  <Typography variant="body1" fontWeight="bold">
+                    Analytics
+                  </Typography>
+                } />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+            <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+            }}
+>
+              <ListItemButton component="a" href="#simple-list" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
                 <ListItemIcon>
                   <AccountBox />
                 </ListItemIcon>
-                <ListItemText primary="Profile" />
+                <ListItemText primary={
+                  <Typography variant="body1" fontWeight="bold">
+                    Profile
+                  </Typography>
+                } />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+            <ListItem disablePadding sx={{
+              "&:hover": {
+                background: "gray",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              },
+              marginBottom: 4, // Add margin-bottom to create padding between list items
+            }}
+>
+              <ListItemButton component="a" href="#simple-list" style={{ backgroundColor: bgcolor, color: 'black', border: '4px solid black' }}>
                 <ListItemIcon>
                   <ModeNight />
                 </ListItemIcon>
