@@ -33,7 +33,7 @@ const Feed = ({posts , mode, refreshPosts}) => {
 
 
   return (
-    <Box flex={4} p={{ xs: 0, md: 2 }}>
+    <Box flex={3.5} p={{ xs: 0, md: 2 }}>
       <AddPost refreshPosts={refreshPosts} />
       {loading ? (
         <Stack spacing={1}>

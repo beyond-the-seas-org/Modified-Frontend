@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import ShowComment from "../components/ShowComment"
 import EditPost from "../components/EditPost"
@@ -99,7 +99,7 @@ const Post = ({ post, refreshPosts, mode }) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-            R
+            {post.user_name}
           </Avatar>
         }
         action={
@@ -114,11 +114,19 @@ const Post = ({ post, refreshPosts, mode }) => {
         }
         subheader={post.date}
       />
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {post.post_desc}
+          <b>{post.post_desc}</b>
         </Typography>
       </CardContent>
+
+      <CardMedia
+        component="img"
+        height="20%"
+        image={post.post_image || "https://illinois.edu/assets/img/about/landmarks/aces-library.jpg"}
+        alt="Paella dish"
+      />
 
       <CardActions sx={{ margin: '10px 0' }}>
 
