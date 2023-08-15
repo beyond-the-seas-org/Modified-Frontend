@@ -6,14 +6,6 @@ import {
 } from '@mui/material';
 
 const DeletePost = ({ post_id, user_id , onOpen, onClose, refreshPosts}) => {
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let id = tokens[tokens.length-1]
-  //convert user id to int
-  const current_user_id = parseInt(id);
-  console.log("user_id", user_id);
-  console.log("post_id", post_id);
-
 
   const handleConfirmDelete = async () => {
     // Send the delete request

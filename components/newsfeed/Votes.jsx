@@ -20,6 +20,12 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
     setAnchorEl(null);
   };
 
+  /*
+  This function is used to update upvote or downvote count.
+  reaction_type: upvote or downvote
+  op: increment or decrement
+  */
+
   const updateVote = async ({reaction_type, op, vote_count}) => {
 
     let data = {
@@ -37,7 +43,7 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
       });
 
       if (response.ok) {
-        // Upvote added successfully.
+        // update done successfully.
         if(reaction_type === 'upvote'){
             setUpvoteCount(vote_count);
         }else if(reaction_type === 'downvote'){
@@ -52,6 +58,21 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
     }
   };
 
+  /*
+  This function is used to handle the reaction of the user. 
+  Consider the following cases:
+  1. If the user has already upvoted the post and clicks on upvote again, then the upvote count will be decremented by 1 and the upvote will be removed.
+  2. If the user has already downvoted the post and clicks on upvote, then the downvote count will be decremented by 1 and the upvote count will be incremented by 1.
+  These two cases are handled in the first if block.
+  In the else block, previous stored reaction state, and the current reaction state is checked and the following cases are handled:
+  1. If the current given reaction is upvote, then upvote will be incremented by 1. Now if the prev reaction was None, then we are done. But if the previous reaction was downvote, then we need to decrement the count of downvote by 1.
+  This is done in the first part of the else block.
+  2. If the current given reaction is downvote, then downvote will be incremented by 1. Now if the prev reaction was None, then we are done. But if the previous reaction was upvote, then we need to decrement the count of upvote by 1.
+  This is done in the second part of the else block.
+  3. If the previous reaction is upvote and the current reaction is None, then the upvote count will be decremented by 1.
+  4. If the previous reaction is downvote and the current reaction is None, then the downvote count will be decremented by 1.
+  Cases 3 and 4 are handled in the third part of the else block.
+  */
   const handleReaction = (reactionType) => {
     let op
     if (reaction === reactionType) {
@@ -87,7 +108,14 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
 
   return (
     <div>
+      {/*if the reaction variable is set to upvote, then the icon color will be filled with blue.
+         else if the reaction variable is set to downvote, then the icon color will be filled with red.
+         else it will be filled with white which is inherit color
+      */}
         <IconButton aria-label="vote" onClick={handleClick} style={{ color: reaction === 'upvote' ? 'blue' : reaction === 'downvote' ? 'red' : 'inherit' }}>
+          {/*If the reaction is set to upvote then ThumbUp icon is chosen to show, else ThumbUpOutlined icon.
+          You can get a visualizations of the icons in material ui's website. 
+          */}
             {reaction === 'upvote' ? <ThumbUp /> : <ThumbUpOutlined style={{ color: mode === 'dark' ? 'white' : 'ActiveBorder'  }} />}
             <Typography variant="body1" style={{ color: mode === 'dark' ? 'white' : 'black' }}> <b>{upCount}</b></Typography>
             {reaction === 'downvote' ? <ThumbDown style={{ marginLeft: '5px' }} /> : <ThumbdownOutlined style={{ color: mode === 'dark' ? 'white' : 'ActiveBorder' , marginLeft: '5px' }} />}
@@ -95,7 +123,7 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
         </IconButton>
 
 
-
+      {/* When the reaction button is clicked, this popover shows and provides 3 options: Upvote, Downvote, None */}
       <Popover
         open={open}
         anchorEl={anchorEl}

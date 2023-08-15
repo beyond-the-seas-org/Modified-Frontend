@@ -10,9 +10,14 @@ const [openEditCommentDialogs, setOpenEditCommentDialogs] = useState({});
 // const [showDeleteCommentDialog, setShowDeleteCommentDialog] = useState(false);
 const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
 
-
-
-  // Function to open the edit comment dialog for a specific comment
+  
+  /*
+    This function is used to show the edit comment dialog for a specific comment. 
+    It takes a commentId as a parameter, which represents the unique identifier of the comment that the user wants to edit. 
+    Inside this function, the state openEditCommentDialogs is updated using the previous state (prevState)
+    by setting the value corresponding to the commentId to true. 
+    This will open the edit comment dialog for that specific comment.
+  */
   const showEditCommentDialog = (commentId) => {
     setOpenEditCommentDialogs((prevState) => ({
       ...prevState,
@@ -20,7 +25,15 @@ const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
     }));
   };
 
-  // Function to close the edit comment dialog for a specific comment
+
+
+  /*
+    This function is used to close the edit comment dialog for a specific comment. 
+    It takes a commentId as a parameter, similar to the showEditCommentDialog function. 
+    Inside this function, the state openEditCommentDialogs is updated by setting the value 
+    corresponding to the commentId to false. This will close the edit comment dialog for that specific comment. 
+    Additionally, this function calls refreshComments() to refresh the comments after the edit dialog is closed.
+  */
   const handleEditCommentDialogClose = (commentId) => {
     setOpenEditCommentDialogs((prevState) => ({
       ...prevState,
@@ -31,7 +44,9 @@ const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
     refreshComments();
   };
 
-  // Function to open the delete comment dialog for a specific comment
+  /*
+    Similar logic to that of showEditCommentDialog
+  */
   const showDeleteCommentDialog = (commentId) => {
     setOpenDeleteCommentDialogs((prevState) => ({
       ...prevState,
@@ -39,7 +54,9 @@ const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
     }));
   };
 
-  // Function to close the delete comment dialog for a specific comment
+  /*
+    Similar logic to that of handleEditCommentDialogClose
+  */
   const handleDeleteCommentDialogClose = (commentId) => {
     setOpenDeleteCommentDialogs((prevState) => ({
       ...prevState,
@@ -49,37 +66,14 @@ const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
   };
 
 
-
   const qlink = window.location.href;
   const tokens = qlink.split("/");
   let user_id = tokens[tokens.length-1]
-  //convert user id to int
   user_id = parseInt(user_id);
-  console.log("user_id", user_id);
 
   const handleClose = () => {
     onClose();
   };
-
-
-  // const handleDeleteComment = () => {
-  //   // Implement logic to delete post here
-  //   console.log("Delete Post clicked for post:", post);
-  //   handleDeleteCommentDialogOpen();
-  // };
-
-  // const handleDeleteCommentDialogOpen = () => {
-  //   // Open the edit post dialog
-  //   setShowDeleteCommentDialog(true);
-  // };
-
-  // const handleDeleteCommentDialogClose = () => {
-  //   // Close the edit post dialog
-  //   setShowDeleteCommentDialog(false);
-  // };
-
-  
-
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -106,7 +100,7 @@ const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
                 Commenter: <b>{comment.commentor}</b>
               </Typography>
               <Typography variant="body1">{comment.comment}</Typography>
-              {true && (
+              {user_id == comment.user_id && (
                 <Box mt={1}>
                   <IconButton
                     onClick={() => showEditCommentDialog(comment.comment_id)}
