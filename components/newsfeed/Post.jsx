@@ -1,12 +1,12 @@
 'use client'
 import React, { useState } from 'react';
-import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
-import ShowComment from "../components/ShowComment"
-import EditPost from "../components/EditPost"
-import DeletePost from "../components/DeletePost"
-import Votes from "../components/Votes"
-import StyledButton from "../components/styled-components/StyledButton"
+import ShowComment from "./ShowComment"
+import EditPost from "./EditPost"
+import DeletePost from "./DeletePost"
+import Votes from "./Votes"
+import StyledButton from "../styled-components/StyledButton"
 
 const Post = ({ post, refreshPosts, mode }) => {
 
@@ -18,10 +18,23 @@ const Post = ({ post, refreshPosts, mode }) => {
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
+  /*Constant variables can be declared once and cannot alter the values directly.
+  To change the value of a const variable, we need a set method.
+  Therefore all the const variables are created with a set method.
+  For example, comments and setComments.
+  useState initially assigns value to the const variable.*/
+
   const [comments, setComments] = useState([]);
   const [showCommentDialog, setShowCommentDialog] = useState(false);
   const [showEditPostDialog, setShowEditPostDialog] = useState(false);
   const [showDeletePostDialog, setShowDeletePostDialog] = useState(false);
+
+  /*When Show Comments button is clicked, this function gets triggered.
+  It fetches the comments under a post from the newsfeed service and pass the comments to ShowComment component.
+  It also calls the handleOpenCommentDialog() function which is used to open a dialogue box to display the comments.
+  In every async method, await is used.
+  This means that, the next instruction will not be executed until the await function returns its result
+  */
 
   const handleShowComments = async () => {
     try {
@@ -37,6 +50,11 @@ const Post = ({ post, refreshPosts, mode }) => {
     }
   };
 
+  /*When some update is done on comments, like adding a comment, edit, delete, refreshComments() is called from the
+  respective components so that the live update of comments is shown in frontend. If this function was not called,
+  then we needed to manually do a refresh from the browser.
+  */
+
   const refreshComments = async () => {
     try {
       // Fetch comments from the API
@@ -44,7 +62,7 @@ const Post = ({ post, refreshPosts, mode }) => {
       const data = await response.json();
       setComments(data);
 
-      // Open the comment dialog
+      // Reopen the comment dialog so the change can be seen.
       handleOpenCommentDialog();
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -57,13 +75,18 @@ const Post = ({ post, refreshPosts, mode }) => {
   };
 
   const handleOpenCommentDialog = () => {
-    // Open the comment dialog
+    /*This is setting a boolean variable to be true. 
+    In the ShowComment component, this boolean variable is checked 
+    and if it is true, then the comment box is shown.
+    */
     setShowCommentDialog(true);
   };
 
   const handleEditPost = () => {
-    // Implement logic to edit post here
-    console.log("Edit Post clicked for post:", post);
+    /*This function is triggered when Edit Post button is clicked.
+    It basically calls the handleEditPostDialogOpen() function which sets a boolean value to true.
+    In the EditPost component, this boolean value is checked and a box is opened to edit the post.
+    */
     handleEditPostDialogOpen();
   };
 
@@ -78,8 +101,10 @@ const Post = ({ post, refreshPosts, mode }) => {
   };
 
   const handleDeletePost = () => {
-    // Implement logic to delete post here
-    console.log("Delete Post clicked for post:", post);
+    /*This function is triggered when Delete button is clicked.
+    It basically calls the handleDeletePostDialogOpen() function which sets a boolean value to true.
+    In the DeletePost component, this boolean value is checked and a box is opened to delete the post.
+    */
     handleDeletePostDialogOpen();
   };
 
@@ -98,30 +123,40 @@ const Post = ({ post, refreshPosts, mode }) => {
     <Card sx={{ margin: 5 }}>
       <CardHeader
         avatar={
+          /*This part basically creates a red circle, and shows username in that red circle.
+          When we add the profile picture feature in user service, we can show user's picture here
+          instead of showing the username. This is currently used for design purpose.
+          */
           <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-            R
+            {post.user_name}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVert />
-          </IconButton>
-        }
+
         title={
+          /*Shows the Username in the post*/
           <Typography variant="h6" component="div">
             {post.user_name}
           </Typography>
         }
+        //Shows the date when the post was created
         subheader={post.date}
       />
+      
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {post.post_desc}
+          <b>{post.post_desc}</b>
         </Typography>
       </CardContent>
 
-      <CardActions sx={{ margin: '10px 0' }}>
+      <CardMedia
+        component="img"
+        height="20%"
+        image={post.post_image || "https://illinois.edu/assets/img/about/landmarks/aces-library.jpg"}
+        alt="Paella dish"
+      />
 
+      <CardActions sx={{ margin: '10px 0' }}>
+        {/*This component is used for upvotes and downvotes */}
         <Votes mode={mode} upvoteCount={post.upvotes} downvoteCount={post.downvotes} post_id={post.post_id} upvote_status={post.upvote_status} downvote_status={post.downvote_status}/>
         <StyledButton
           label="Show Comments"
@@ -131,7 +166,10 @@ const Post = ({ post, refreshPosts, mode }) => {
         />
         <ShowComment post={post} comments={comments} onClose={handleCloseCommentDialog} open={showCommentDialog} refreshComments={refreshComments} />
 
-
+        {/*We need to show Edit Post button to those posts, which the currently logged in user has created.
+        Therefore if this condition is true, only then Edit Post button is shown. 
+        */}
+        {post.user_id === user_id && (
         <StyledButton
           label="Edit Post"
           onClick={handleEditPost}
@@ -140,10 +178,15 @@ const Post = ({ post, refreshPosts, mode }) => {
           disabled={user_id !== post.user_id}
         >
           <b>Edit Post</b>
-        </StyledButton>
+        </StyledButton> )}
+        {/*EditPost Component is used to handle the tasks of showing box for editing post and 
+        sending the update request to newsfeed server and finally show the edited post by calling refreshPosts() 
+        The necessary parameters are passed here as usual.
+        */}
         <EditPost post_id={post.post_id} initialPostDesc={post.post_desc} onOpen={showEditPostDialog} onClose={handleEditPostDialogClose} refreshPosts={refreshPosts}/>
         
-        
+        {/*Same logic as Edit Post*/}
+        {post.user_id === user_id && (
         <StyledButton
           label="Delete"
           onClick={handleDeletePost}
@@ -151,6 +194,7 @@ const Post = ({ post, refreshPosts, mode }) => {
           hoverBackgroundColor="ButtonHoverBackground"
           disabled={user_id !== post.user_id}
         />
+        )}
         <DeletePost user_id={user_id} post_id={post.post_id} onOpen={showDeletePostDialog} onClose={handleDeletePostDialogClose} refreshPosts={refreshPosts}/>
       </CardActions>
 

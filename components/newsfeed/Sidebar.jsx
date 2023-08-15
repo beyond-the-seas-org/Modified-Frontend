@@ -22,7 +22,7 @@ const bgcolor = "#0A85ED"
 const Sidebar = ({ mode, setMode }) => {
   return (
     <Box
-      flex={2}
+      flex={1.5}
       p={2}
       sx={{
         display: { xs: "none", sm: "block" },

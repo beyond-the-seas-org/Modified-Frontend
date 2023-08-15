@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import Notification, { showNotification } from './notification/Notification'; // Import showNotification
+import Notification, { showNotification } from '../notification/Notification'; // Import showNotification
 import { on } from 'events';
 
 const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshcomments}) => {

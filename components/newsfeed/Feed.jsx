@@ -4,36 +4,25 @@ import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import AddPost from "./AddPost";
 
+/* Here, posts, mode and refreshPosts is received from parent component page.jsx */
 const Feed = ({posts , mode, refreshPosts}) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  // Set loading to false initially
+
+  /*Used to take the user id from the url */
   const qlink = window.location.href;
   const tokens = qlink.split("/");
   let user_id = tokens[tokens.length-1]
-  //convert user id to int
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
-  // useEffect(() => {
-    // useEffect(() => {
-    //   async function fetchPosts() {
-    //     try {
-    //       const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
-    //       const data = await response.json();
-    //       setPosts(data);
-    //       setLoading(false);
-    //     } catch (error) {
-    //       console.error("Error fetching posts:", error);
-    //     }
-    //   }
-    //   fetchPosts();
-    // }, []);
 
-
-
-
-
+  /* AddPost Component is added at the very beginning. Then all the posts will be displayed
+  Map is used to loop through the posts.
+  Each post is rendered using Post component.
+  When we are using map, we need to pass key as a value which is unique. In this case, post.post_id is unique
+  All other necessary variables and functions are passed to the Post Component */
   return (
-    <Box flex={4} p={{ xs: 0, md: 2 }}>
+    <Box flex={3.5} p={{ xs: 0, md: 2 }}>
       <AddPost refreshPosts={refreshPosts} />
       {loading ? (
         <Stack spacing={1}>
