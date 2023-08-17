@@ -26,6 +26,7 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
   op: increment or decrement
   */
 
+  //"vote_count" is not needed here
   const updateVote = async ({reaction_type, op, vote_count}) => {
 
     let data = {

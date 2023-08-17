@@ -120,7 +120,7 @@ const Post = ({ post, refreshPosts, mode }) => {
 
 
   return (
-    <Card sx={{ margin: 5 }}>
+    <Card sx={{ margin: 5}}>
       <CardHeader
         avatar={
           /*This part basically creates a red circle, and shows username in that red circle.

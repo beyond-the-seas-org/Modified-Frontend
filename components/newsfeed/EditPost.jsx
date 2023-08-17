@@ -53,7 +53,7 @@ const EditPost = ({ post_id, initialPostDesc, onOpen, onClose, refreshPosts}) =>
 
   return (
     /*This dialog box is shown when the open variable has value True and it is closed when onClose() function is called.*/
-    <Dialog open={onOpen} onClose={handleClose}>
+    <Dialog open={onOpen} onClose={handleClose}>  
       <DialogTitle>Edit Post</DialogTitle>
       <DialogContent>
       <Box /*sx is used to provide custom style to a material ui component */
