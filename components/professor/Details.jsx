@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-// import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 // import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 // import ShowComment from "./ShowComment"
 // import EditPost from "./EditPost"
@@ -26,7 +26,7 @@ const ProfessorDetails = ({ }) => {
                 const data = await response.json();
                 setDetails(data);
 
-                console.log (data)
+                console.log (data.name)
 
                 // Open the comment dialog
                 handleOpenCommentDialog();
@@ -42,6 +42,34 @@ const ProfessorDetails = ({ }) => {
     //     // name, email, university_name
     //     none
     // );
+
+    return (
+        <Card>
+            <CardHeader
+                // avatar={
+                //     <Avatar>
+                //         {/* You can use the first letter of the professor's name for the avatar */}
+                //         {details.name.charAt(0)}
+                //     </Avatar>
+                // }
+                title={details.name}
+                subheader={details.university_name}
+            />
+            <CardContent>
+                <Typography variant="body1" component="p">
+                    Email: {details.email}
+                </Typography>
+                {/* Add other fields/details here as required */}
+            </CardContent>
+            <CardActions>
+                {/* 
+                You can add more card actions here like edit or delete 
+                if you have those functionalities 
+                */}
+            </CardActions>
+        </Card>
+    );
+    
 };
 
 export default ProfessorDetails;
