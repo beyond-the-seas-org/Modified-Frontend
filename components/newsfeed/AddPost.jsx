@@ -1,6 +1,7 @@
 'use client'
 import React, { useState , useEffect} from 'react';
 import { Box, Button, TextareaAutosize} from '@mui/material';
+import axios from 'axios';
 
 const AddPost = ({ refreshPosts }) => {
   const [postText, setPostText] = useState('');
@@ -8,11 +9,28 @@ const AddPost = ({ refreshPosts }) => {
   const tokens = qlink.split("/");
   const id = tokens[tokens.length-1]
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [image, setImage] = useState(null);
+ 
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setImage(event.target.files[0]);
   };
+
+  const handleImageUpload = async (postid) => {
+    const formData = new FormData();
+    formData.append('image_file', image);
+
+    try {
+        const response = await axios.post(`http://localhost:5000/api/newsfeed/${postid}/add_image`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        console.log('Image URL:', response.data.url);
+    } catch (error) {
+        console.error("Error uploading image:", error);
+    }
+};
 
   /*When the Add Post button is clicked, this function is called and does necessary tasks to send the post to 
   the server and refreshing the posts to show the update */
@@ -25,11 +43,11 @@ const AddPost = ({ refreshPosts }) => {
         post_desc: postText,
         user_id: id,
         type: 'newsfeed',
-        image: selectedFile,
       };
     
   
       try {
+        let postid;
         const response = await fetch('http://localhost:5000/api/newsfeed/add_post', {
           method: 'POST',
           headers: {
@@ -37,9 +55,13 @@ const AddPost = ({ refreshPosts }) => {
           },
           body: JSON.stringify(postData),
         });
+        
         setPostText('');
         if (response.ok) {
           // Post added successfully
+          const data = await response.json();
+          if (image != null)
+            handleImageUpload(data.post_id);
           alert('Post added successfully');
           refreshPosts();
 
