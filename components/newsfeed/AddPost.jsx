@@ -15,12 +15,12 @@ const AddPost = ({ refreshPosts }) => {
     setImage(e.target.files[0]);
   };
 
-  const handleImageUpload = async () => {
+  const handleImageUpload = async (postid) => {
     const formData = new FormData();
     formData.append('file', image);
 
     try {
-        const response = await axios.post('http://localhost:5000/api/newsfeed/add_image', formData, {
+        const response = await axios.post(`http://localhost:5000/api/newsfeed/${postid}/add_image`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -46,6 +46,7 @@ const AddPost = ({ refreshPosts }) => {
     
   
       try {
+        let postid;
         const response = await fetch('http://localhost:5000/api/newsfeed/add_post', {
           method: 'POST',
           headers: {
@@ -53,11 +54,13 @@ const AddPost = ({ refreshPosts }) => {
           },
           body: JSON.stringify(postData),
         });
+        
         setPostText('');
         if (response.ok) {
           // Post added successfully
+          postid = await response.json();
           if (image != null)
-            handleImageUpload();
+            handleImageUpload(postid);
           alert('Post added successfully');
           refreshPosts();
 
