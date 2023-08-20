@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton, Popover, Typography } from '@mui/material';
-import { ThumbUp, ThumbDown, ThumbUpOutlined, ThumbdownOutlined } from '@mui/icons-material';
+import { ThumbUp, ThumbDown, ThumbUpOutlined, ThumbDownOutlined } from '@mui/icons-material';
 
 const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downvote_status }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -119,7 +119,7 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
           */}
             {reaction === 'upvote' ? <ThumbUp /> : <ThumbUpOutlined style={{ color: mode === 'dark' ? 'white' : 'ActiveBorder'  }} />}
             <Typography variant="body1" style={{ color: mode === 'dark' ? 'white' : 'black' }}> <b>{upCount}</b></Typography>
-            {reaction === 'downvote' ? <ThumbDown style={{ marginLeft: '5px' }} /> : <ThumbdownOutlined style={{ color: mode === 'dark' ? 'white' : 'ActiveBorder' , marginLeft: '5px' }} />}
+            {reaction === 'downvote' ? <ThumbDown style={{ marginLeft: '5px' }} /> : <ThumbDownOutlined style={{ color: mode === 'dark' ? 'white' : 'ActiveBorder' , marginLeft: '5px' }} />}
             <Typography variant="body1" style={{ color: mode === 'dark' ? 'white' : 'black', marginLeft: '5px' }}> <b> {downCount} </b></Typography>
         </IconButton>
 
