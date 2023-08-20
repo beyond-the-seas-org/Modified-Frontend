@@ -1,12 +1,11 @@
 'use client'
 import React from 'react'
-import About from '../../../../components/professor/About'
 // import Header from '../../../../components/professor/Header'
-import Details from '../../../../components/professor/Details'
 
 import { useState, useEffect } from "react";
 import { Box, Stack, Skeleton, Typography, Button, LinearProgress } from "@mui/material";
-import Header from '../../../../components/professor/Header'
+import ProfessorHeader from '../../../../components/professor/Header'
+import ResearchProfile from '../../../../components/professor/Research'
 
 // const page = () => {
 //   return (
@@ -25,7 +24,7 @@ function ProfessorDetails() {
   // You can expand on these state values as required
   const [professor, setProfessor] = useState({});
   const [publications, setPublications] = useState([]);
-  const [ongoingProjects, setOngoingProjects] = useState([]);
+  const [researchProfile, setResearchProfile] = useState({});
   const [fundingOpportunities, setFundingOpportunities] = useState([]);
   const [matchScore, setMatchScore] = useState(5); // Example value
 
@@ -42,9 +41,28 @@ function ProfessorDetails() {
             // Fetch comments from the API
             const response = await fetch(`http://127.0.0.1:5002/api/professors/${prof_id}/get_a_professor_details`);
             const data = await response.json();
+            // const intro = {
+            //   name: data.name,
+            //   email: data.email,
+            //   university_name: data.university_name,
+            //   website_link: data.website_link
+            // }
             setProfessor(data);
+            // console.log (intro)
 
+            // const research = {
+            //   field_names: data.field_names,
+            //   publications: data.publications,
+            //   on_going_researches: data.on_going_researches
+            // }
+            // setResearchProfile(research);
             console.log (data)
+
+            // set publicaitons
+            const pubs = data.publications;
+            setPublications(pubs);
+            console.log (pubs)
+            
 
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -52,7 +70,19 @@ function ProfessorDetails() {
     } showProfDetails();
 }, [])
 
-  return (
+
+return (
+  <div>
+    <ProfessorHeader professor={professor} />
+    <ResearchProfile publications={publications} />
+  </div>
+);
+
+}
+
+export default ProfessorDetails;
+
+
     // <Box p={3}>
     //   <Box mb={3}>
     //     <Typography variant="h4">{professor.name}</Typography>
@@ -117,10 +147,3 @@ function ProfessorDetails() {
     //     </Box>
     //   </Box>
     // </Box>
-
-    <Header professor = {professor} />
-
-  );
-}
-
-export default ProfessorDetails;

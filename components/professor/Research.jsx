@@ -2,7 +2,8 @@
 import React from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
 
-const ProfessorHeader = ({ professor }) => {
+const ResearchProfile = ({ publications }) => {
+console.log(publications)
   return (
     <Box 
       sx={{ 
@@ -29,21 +30,23 @@ const ProfessorHeader = ({ professor }) => {
         />
         
         <Box sx={{ ml: 2 }}>
-          <Typography variant="h4">{professor.name}</Typography>
-          <Typography variant="h6" color="textSecondary">Associate Professor</Typography>
-          <Typography variant="body1">Department of Computer Science</Typography>
-          <Typography variant="body1">{professor.university_name}</Typography>
+        {/* <ul>
+        {professor.publications && professor.publications.map((publication, index) => (
+          <li key={index}>{publication[0]}</li>
+        ))}
+      </ul> */}
+            <Typography variant="h4">{professor.name}</Typography>
         </Box>
       </Box>
 
       {/* Contact Info and Address */}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-        <Typography variant="body1">Email: {professor.email}</Typography>
+        {/* <Typography variant="body1">Email: {professor.email}</Typography> */}
         <Typography variant="body1">123 Main St, Pittsburg, USA</Typography>
-        <Typography variant="body1">Website: {professor.website_link?.website_link}</Typography>
+        {/* <Typography variant="body1">Website: {professor.website_link?.website_link}</Typography> */}
       </Box>
     </Box>
   );
 };
 
-export default ProfessorHeader;
+export default ResearchProfile;
