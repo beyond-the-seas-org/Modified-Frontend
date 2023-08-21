@@ -34,10 +34,10 @@ const Sidebar = ({ mode, setMode }) => {
     <Box position="fixed" width={250} height="100vh" sx={{ overflowY: 'auto' }}>
       <List>
         {[
-          { label: "Homepage", icon: <Home />, href: "#home" },
+          { label: "Homepage", icon: <Home />, href: "http://localhost:3000/newsfeed/1" },
           { label: "Prof Shortlist", icon: <Article />, href: "#simple-list" },
           { label: "Groups", icon: <Group />, href: "#groups" },
-          { label: "Explore Professors", icon: <PersonSearchIcon />, href: "#explore" },
+          { label: "Explore Professors", icon: <PersonSearchIcon />, href: "http://localhost:3000/explore_professors/1" },
           { label: "Analytics", icon: <Settings />, href: "#analytics" },
           { label: "Profile", icon: <AccountBox />, href: "#profile" }
         ].map((item, idx) => (
