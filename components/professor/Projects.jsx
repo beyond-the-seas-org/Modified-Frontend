@@ -87,7 +87,7 @@ const OngoingProjectsCard = ({ projects }) => {
               sx={{ marginRight: 1 }}
             />
             <Chip
-              label={`Maximum Students: ${ongoingProject.num_of_students}`}
+              label={`Current Student Members: ${ongoingProject.num_of_students}`}
               variant="outlined"
               color="info"
               sx={{ marginRight: 1 }}
@@ -109,17 +109,6 @@ const OngoingProjectsCard = ({ projects }) => {
                   Read More
                 </Button>
               </MUILink>
-
-              <Button
-                variant="contained"
-                onClick={() => fetchMatchingProfiles(ongoingProject.student_id, ongoingProject.funding_id)}
-                sx={{
-                  background: 'linear-gradient(45deg, #3498db 30%, #2c3e50 90%)',
-                  boxShadow: '0 3px 5px 2px rgba(52, 152, 219, .3)',
-                }}
-              >
-                Match My Profile
-              </Button>
             </Box>
           </CardContent>
         </Card>
