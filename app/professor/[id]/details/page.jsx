@@ -24,6 +24,7 @@ function ProfessorDetails() {
   // You can expand on these state values as required
   const [professor, setProfessor] = useState({});
   const [publications, setPublications] = useState([]);
+  const [fieldOfInterest, setFieldOfInterest] = useState([]);
   const [researchProfile, setResearchProfile] = useState({});
   const [fundingOpportunities, setFundingOpportunities] = useState([]);
   const [matchScore, setMatchScore] = useState(5); // Example value
@@ -62,6 +63,10 @@ function ProfessorDetails() {
             const pubs = data.publications;
             setPublications(pubs);
             console.log (pubs)
+
+            const fields = data.field_names;
+            setFieldOfInterest(fields);
+            console.log (fields)
             
 
         } catch (error) {
@@ -74,7 +79,7 @@ function ProfessorDetails() {
 return (
   <div>
     <ProfessorHeader professor={professor} />
-    <ResearchProfile publications={publications} />
+    <ResearchProfile publications={publications} fields={fieldOfInterest} />
   </div>
 );
 

@@ -1,50 +1,67 @@
 'use client';
 import React from 'react';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography, Card, CardContent, List, ListItem } from '@mui/material';
 
-const ResearchProfile = ({ publications }) => {
-console.log(publications)
+const ResearchProfile = ({ publications, fields }) => {
   return (
     <Box 
       sx={{ 
-        position: 'relative', 
-        overflow: 'hidden', 
         display: 'flex', 
         flexDirection: 'row', 
         justifyContent: 'space-between', 
-        alignItems: 'center', 
-        padding: 2 
+        padding: 2,
+        gap: 3  // Spacing between cards
       }}
     >
       
-      {/* Avatar and Professor Info */}
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar
-          src="https://example-image-url.com/professor.jpg"
-          sx={{ 
-            width: 120, 
-            height: 120, 
-            border: '3px solid #555', 
-            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)' 
-          }}
-        />
-        
-        <Box sx={{ ml: 2 }}>
-        {/* <ul>
-        {professor.publications && professor.publications.map((publication, index) => (
-          <li key={index}>{publication[0]}</li>
-        ))}
-      </ul> */}
-            <Typography variant="h4">{professor.name}</Typography>
-        </Box>
-      </Box>
+      {/* Field of Interests */}
+      <Card 
+        variant="outlined"
+        sx={{ 
+          flex: 1,
+          backgroundColor: '#f5f6fa',  // Light gray
+          borderRadius: '10px',
+          '&:hover': {
+            boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.1)'
+          }
+        }}
+      >
+        <CardContent>
+          <Typography variant="h6" gutterBottom sx={{ color: '#3498db' }}>Field of Interests:</Typography>
+          <List>
+            {fields.map((field, index) => (
+              <ListItem key={index} sx={{ '&:hover': { backgroundColor: '#eef2f7' } }}>
+                <Typography variant="body1">{field}</Typography>
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
+      </Card>
 
-      {/* Contact Info and Address */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-        {/* <Typography variant="body1">Email: {professor.email}</Typography> */}
-        <Typography variant="body1">123 Main St, Pittsburg, USA</Typography>
-        {/* <Typography variant="body1">Website: {professor.website_link?.website_link}</Typography> */}
-      </Box>
+      {/* Publications */}
+      <Card 
+        variant="outlined" 
+        sx={{ 
+          flex: 2,
+          backgroundColor: '#f5f6fa',  // Light gray
+          borderRadius: '10px',
+          '&:hover': {
+            boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.1)'
+          }
+        }}
+      >
+        <CardContent>
+          <Typography variant="h6" gutterBottom sx={{ color: '#e74c3c' }}>Publications:</Typography>
+          <List>
+            {publications.map((publication, index) => (
+              <ListItem key={index} sx={{ '&:hover': { backgroundColor: '#eef2f7' } }}>
+                <Typography variant="body1">{publication.title}</Typography>
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
+      </Card>
+      
     </Box>
   );
 };
