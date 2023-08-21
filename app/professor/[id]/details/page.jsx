@@ -7,6 +7,7 @@ import { Box, Stack, Skeleton, Typography, Button, LinearProgress } from "@mui/m
 import ProfessorHeader from '../../../../components/professor/Header'
 import ResearchProfile from '../../../../components/professor/Research'
 import OngoingProjectsCard from '../../../../components/professor/Projects'
+import FeedbacksComponent from '../../../../components/professor/Feedback'
 
 // const page = () => {
 //   return (
@@ -27,7 +28,7 @@ function ProfessorDetails() {
   const [publications, setPublications] = useState([]);
   const [fieldOfInterest, setFieldOfInterest] = useState([]);
   const [ongoingProjects, setOngoingProjects] = useState([]);
-  const [researchProfile, setResearchProfile] = useState({});
+  const [feedbacks, setFeedbacks] = useState([]);
   const [fundingOpportunities, setFundingOpportunities] = useState([]);
   const [matchScore, setMatchScore] = useState(5); // Example value
 
@@ -59,7 +60,10 @@ function ProfessorDetails() {
             const projects = data.on_going_research_details;
             setOngoingProjects(projects);
             console.log(projects)
-            
+
+            const values = data.professor_feedback_details;
+            setFeedbacks(values);
+            console.log(values)
 
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -73,6 +77,7 @@ return (
     <ProfessorHeader professor={professor} />
     <ResearchProfile publications={publications} fields={fieldOfInterest} />
     <OngoingProjectsCard projects = {ongoingProjects} />
+    <FeedbacksComponent feedbacks = {feedbacks} />
   </div>
 );
 
