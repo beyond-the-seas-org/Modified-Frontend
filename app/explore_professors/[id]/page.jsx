@@ -121,7 +121,7 @@ function App() {
       <Box bgcolor={"background.default"} color={"text.primary"}>
         <Navbar onSearch={handleSearch} />
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar setMode={setMode} mode={mode} />
+          <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
           <Feed mode={mode} professors={filteredProfessors} refreshProfessorlist={refreshProfessorlist} />
         </Stack>
       </Box>

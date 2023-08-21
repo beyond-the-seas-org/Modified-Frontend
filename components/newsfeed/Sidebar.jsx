@@ -19,7 +19,7 @@ import {
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import React from "react";
 const bgcolor = "#0A85ED"
-const Sidebar = ({ mode, setMode }) => {
+const Sidebar = ({ mode, setMode,user_id }) => {
   return (
     <Box
     flex={1.5}
@@ -34,12 +34,12 @@ const Sidebar = ({ mode, setMode }) => {
     <Box position="fixed" width={250} height="100vh" sx={{ overflowY: 'auto' }}>
       <List>
         {[
-          { label: "Homepage", icon: <Home />, href: "http://localhost:3000/newsfeed/1" },
+          { label: "Homepage", icon: <Home />, href: `http://localhost:3000/newsfeed/${user_id}`},
           { label: "Prof Shortlist", icon: <Article />, href: "#simple-list" },
           { label: "Groups", icon: <Group />, href: "#groups" },
-          { label: "Explore Professors", icon: <PersonSearchIcon />, href: "http://localhost:3000/explore_professors/1" },
+          { label: "Explore Professors", icon: <PersonSearchIcon />, href: `http://localhost:3000/explore_professors/${user_id}` },
           { label: "Analytics", icon: <Settings />, href: "#analytics" },
-          { label: "Profile", icon: <AccountBox />, href: "#profile" }
+          { label: "Profile", icon: <AccountBox />, href: `http://localhost:3000/profile/${user_id}` }
         ].map((item, idx) => (
           <ListItem
             key={idx}

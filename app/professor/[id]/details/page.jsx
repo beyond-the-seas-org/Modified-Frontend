@@ -36,8 +36,10 @@ function ProfessorDetails() {
   const tokens = qlink.split("/");
   let prof_id = tokens[tokens.length - 2]
   //convert user id to int
-  prof_id = parseInt(prof_id);
   console.log("prof_id", prof_id);
+
+  prof_id = parseInt(prof_id);
+  //console.log("prof_id", prof_id);
 
   useEffect(() => {
     async function showProfDetails() {
