@@ -25,15 +25,9 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
   return (
     <Card sx={{ margin: 5 }}>
       <CardHeader
-        // avatar={
-        //   /*This part basically creates a red circle, and shows username in that red circle.
-        //   When we add the profile picture feature in user service, we can show user's picture here
-        //   instead of showing the username. This is currently used for design purpose.
-        //   */
-        //   <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-        //     {post.user_name}
-        //   </Avatar>
-        // }
+        avatar={ 
+          <Avatar alt="Profile Picture" src={professor.image_link} sx={{ width: 60, height: 60 }}/>
+        }
 
         title={
           /*Shows the professor's name */
@@ -59,9 +53,9 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
       />
       
       <CardContent>
-        {/* <Typography variant="body2" color="black">
-          <b>Website link :</b> {professor.website_link}
-        </Typography> */}
+        <Typography variant="body2" color="black">
+          <b>Website link :</b> {professor.website_links[0]}
+        </Typography>
 
         <Typography variant="body2" color="black">
           <b>Email :</b> {professor.email}
