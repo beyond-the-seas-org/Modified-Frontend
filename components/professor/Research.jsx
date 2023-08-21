@@ -50,16 +50,27 @@ const ResearchProfile = ({ publications, fields }) => {
           }
         }}
       >
-        <CardContent>
-          <Typography variant="h6" gutterBottom sx={{ color: '#e74c3c' }}>Publications:</Typography>
-          <List>
-            {publications.map((publication, index) => (
-              <ListItem key={index} sx={{ '&:hover': { backgroundColor: '#eef2f7' } }}>
-                <Typography variant="body1">{publication.title}</Typography>
-              </ListItem>
-            ))}
-          </List>
-        </CardContent>
+<CardContent>
+  <Typography variant="h6" gutterBottom sx={{ color: '#e74c3c' }}>Publications:</Typography>
+  <List>
+    {publications.map((publication, index) => (
+      <ListItem key={index} sx={{ '&:hover': { backgroundColor: '#eef2f7' } }}>
+        <Typography variant="body1">
+          {publication.title} - 
+          <a 
+            href={publication.link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            style={{ color: '#3498db', textDecoration: 'none' }}
+          >
+            View Publication
+          </a>
+        </Typography>
+      </ListItem>
+    ))}
+  </List>
+</CardContent>
+
       </Card>
       
     </Box>

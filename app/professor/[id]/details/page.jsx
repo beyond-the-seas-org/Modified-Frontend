@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { Box, Stack, Skeleton, Typography, Button, LinearProgress } from "@mui/material";
 import ProfessorHeader from '../../../../components/professor/Header'
 import ResearchProfile from '../../../../components/professor/Research'
+import OngoingProjectsCard from '../../../../components/professor/Projects'
+import FeedbacksComponent from '../../../../components/professor/Feedback'
 
 // const page = () => {
 //   return (
@@ -25,7 +27,8 @@ function ProfessorDetails() {
   const [professor, setProfessor] = useState({});
   const [publications, setPublications] = useState([]);
   const [fieldOfInterest, setFieldOfInterest] = useState([]);
-  const [researchProfile, setResearchProfile] = useState({});
+  const [ongoingProjects, setOngoingProjects] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [fundingOpportunities, setFundingOpportunities] = useState([]);
   const [matchScore, setMatchScore] = useState(5); // Example value
 
@@ -42,32 +45,25 @@ function ProfessorDetails() {
             // Fetch comments from the API
             const response = await fetch(`http://127.0.0.1:5002/api/professors/${prof_id}/get_a_professor_details`);
             const data = await response.json();
-            // const intro = {
-            //   name: data.name,
-            //   email: data.email,
-            //   university_name: data.university_name,
-            //   website_link: data.website_link
-            // }
             setProfessor(data);
-            // console.log (intro)
-
-            // const research = {
-            //   field_names: data.field_names,
-            //   publications: data.publications,
-            //   on_going_researches: data.on_going_researches
-            // }
-            // setResearchProfile(research);
             console.log (data)
 
             // set publicaitons
-            const pubs = data.publications;
+            const pubs = data.publication_details;
             setPublications(pubs);
-            console.log (pubs)
+            // console.log (pubs)
 
             const fields = data.field_names;
             setFieldOfInterest(fields);
-            console.log (fields)
-            
+            // console.log (fields)
+
+            const projects = data.on_going_research_details;
+            setOngoingProjects(projects);
+            console.log(projects)
+
+            const values = data.professor_feedback_details;
+            setFeedbacks(values);
+            console.log(values)
 
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -80,6 +76,8 @@ return (
   <div>
     <ProfessorHeader professor={professor} />
     <ResearchProfile publications={publications} fields={fieldOfInterest} />
+    <OngoingProjectsCard projects = {ongoingProjects} />
+    <FeedbacksComponent feedbacks = {feedbacks} />
   </div>
 );
 
