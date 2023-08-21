@@ -41,31 +41,39 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
             {professor.name}
           </Typography>
         }
+
+        //subheader={professor.university_name}
+        subheader ={
+          <div>
+            <Typography variant="body2" color="textSecondary">
+            {professor.university_name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+            University rank: {professor.university_rank}
+            </Typography>
+            {/* You can continue to add more subheaders in the same fashion */}
+          </div>
+        }
+
+  
       />
       
       <CardContent>
-        <Typography variant="body2" color="black">
+        {/* <Typography variant="body2" color="black">
           <b>Website link :</b> {professor.website_link}
-        </Typography>
+        </Typography> */}
 
         <Typography variant="body2" color="black">
           <b>Email :</b> {professor.email}
         </Typography>
 
         
-        <Typography variant="body2" color="black">
-          <b>h-index :</b> {professor.h_index}
-        </Typography>
-
-        <Typography variant="body2" color="black">
-          <b>citation :</b> {professor.citations}
-        </Typography>
         <br/>
 
         <Typography variant="h8" color="black">
-          <b>fields of research:</b>
+          <b>Research Area:</b>
         
-          {professor.Fields_of_researchs.map((field, index) => (
+          {professor.field_names.map((field, index) => (
             <li key={index}>
               <Typography component="span" variant="body1">
                 {field}

@@ -32,54 +32,54 @@ function App() {
     async function fetchProfessors() {
       try {
 
-        // const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/get_posts`);
-        // const data = await response.json();
-        // console.log(data) // Print posts to console of the browser
-        // setPosts(data); 
-        // setFilteredPosts(data); // Initialize filteredPosts with all posts
+        const response = await fetch(`http://localhost:5002/api/professors/get_all_professor_short_details`);
+        const data = await response.json();
+        console.log(data) // Print posts to console of the browser
+        setProfessors(data); 
+        setfilteredProfessors(data); // Initialize filteredPosts with all posts
 
-        //creating dummy professors
-        const professor_1 = {
-            professor_id: 1,
-            name: "Md. Shamsuzzoha Bayezid",
-            website_link: "http://cse.edu.ac.bd/bayezid/details",
-            email: "bayezid2023@gmail.com",
-            university : "Bangladesh University of Engineering and Technology",
-            citations : 4068,
-            h_index : 16,
-            Fields_of_researchs : ["Computational Biology","Phylogenetic Trees"]
-          };
+        // //creating dummy professors
+        // const professor_1 = {
+        //     professor_id: 1,
+        //     name: "Md. Shamsuzzoha Bayezid",
+        //     website_link: "http://cse.edu.ac.bd/bayezid/details",
+        //     email: "bayezid2023@gmail.com",
+        //     university_name : "Bangladesh University of Engineering and Technology",
+        //     citations : 4068,
+        //     h_index : 16,
+        //     field_names : ["Computational Biology","Phylogenetic Trees"]
+        //   };
 
-        const professor_2 = {
-            professor_id: 2,
-            name: "Md. Shamsuzzoha Bayezid",
-            website_link: "http://cse.edu.ac.bd/bayezid/details",
-            email: "bayezid2023@gmail.com",
-            university : "Bangladesh University of Engineering and Technology",
-            citations : 4068,
-            h_index : 16,
-            Fields_of_researchs : ["Computational Biology","Phylogenetic Trees"]
-          };
+        // const professor_2 = {
+        //     professor_id: 2,
+        //     name: "Md. Shamsuzzoha Bayezid",
+        //     website_link: "http://cse.edu.ac.bd/bayezid/details",
+        //     email: "bayezid2023@gmail.com",
+        //     university_name : "Bangladesh University of Engineering and Technology",
+        //     citations : 4068,
+        //     h_index : 16,
+        //     field_names : ["Computational Biology","Phylogenetic Trees"]
+        //   };
         
-        const professor_3 = {
-        professor_id: 3,
-        name: "Saifur Rahman",
-        website_link: "http://cse.edu.ac.bd/bayezid/details",
-        email: "bayezid2023@gmail.com",
-        university : "Bangladesh University of Engineering and Technology",
-        citations : 4068,
-        h_index : 16,
-        Fields_of_researchs : ["Computational Biology","Phylogenetic Trees"]
-        };
+        // const professor_3 = {
+        // professor_id: 3,
+        // name: "Saifur Rahman",
+        // website_link: "http://cse.edu.ac.bd/bayezid/details",
+        // email: "bayezid2023@gmail.com",
+        // university_name : "Bangladesh University of Engineering and Technology",
+        // citations : 4068,
+        // h_index : 16,
+        // field_names : ["Computational Biology","Phylogenetic Trees"]
+        // };
 
 
-        let professors =[]
-        professors.push(professor_1)
-        professors.push(professor_2)
-        professors.push(professor_3)
+        // let professors =[]
+        // professors.push(professor_1)
+        // professors.push(professor_2)
+        // professors.push(professor_3)
 
-        setProfessors(professors)
-        setfilteredProfessors(professors)
+        // setProfessors(professors)
+        // setfilteredProfessors(professors)
                 
 
 
@@ -93,14 +93,14 @@ function App() {
   
 
   const refreshProfessorlist = async () => {
-    // try {
-    //   const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
-    //   const data = await response.json();
-    //   setPosts(data);
-    //   setFilteredPosts(data);
-    // } catch (error) {
-    //   console.error('Error refreshing posts:', error);
-    // }
+    try {
+      const response = await fetch(`http://localhost:5002/api/professors/get_all_professor_short_details`);
+      const data = await response.json();
+      setProfessors(data); 
+      setfilteredProfessors(data); // Initialize filteredPosts with all posts
+    } catch (error) {
+      console.error('Error refreshing posts:', error);
+    }
   };
 
   /*This will continuously render the filtered posts. Should we continue this or send request to backend?
