@@ -23,7 +23,7 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
   
 
   return (
-    <Card sx={{ margin: 5 }}>
+    <Card sx={{ margin: 5 , borderColor:mode === 'dark' ? 'white' : 'black' ,borderWidth: '2px', borderStyle: 'solid',borderRadius: 4,boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)'}} >
       <CardHeader
         avatar={ 
           <Avatar alt="Profile Picture" src={professor.image_link} sx={{ width: 60, height: 60 }}/>
@@ -53,23 +53,23 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
       />
       
       <CardContent>
-        <Typography variant="body2" color="black">
-          <b>Website link :</b> {professor.website_links[0]}
+        <Typography variant="body2" color={ mode === 'dark' ? 'white' : 'black'  }>
+          <b>Website link :</b> {professor.website_link}
         </Typography>
 
-        <Typography variant="body2" color="black">
+        <Typography variant="body2" color={ mode === 'dark' ? 'white' : 'black'  }>
           <b>Email :</b> {professor.email}
         </Typography>
 
         
         <br/>
 
-        <Typography variant="h8" color="black">
+        <Typography variant="h8" color={ mode === 'dark' ? 'white' : 'black'  }>
           <b>Research Area:</b>
         
           {professor.field_names.map((field, index) => (
             <li key={index}>
-              <Typography component="span" variant="body1">
+              <Typography component="span" variant="body1" color={ mode === 'dark' ? 'white' : 'black' }>
                 {field}
               </Typography>
             </li>

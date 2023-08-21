@@ -21,7 +21,7 @@ const Feed = ({professors , mode, refreshProfessorlist}) => {
   When we are using map, we need to pass key as a value which is unique. In this case, post.post_id is unique
   All other necessary variables and functions are passed to the Post Component */
   return (
-    <Box flex={3.5} p={{ xs: 0, md: 2 }}>
+    <Box flex={5} p={{ xs: 0, md: 2 }}>
       {loading ? (
         <Stack spacing={1}>
           <Skeleton variant="text" height={100} />
