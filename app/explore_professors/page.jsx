@@ -1,8 +1,8 @@
 'use client'
-import Sidebar from "../../../components/explore_professors/Sidebar";
-import Feed from "../../../components/explore_professors/Feed";
+import Sidebar from "../../components/explore_professors/Sidebar";
+import Feed from "../../components/explore_professors/Feed";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../../components/explore_professors/Navbar";
+import Navbar from "../../components/explore_professors/Navbar";
 import { useState, useEffect } from "react";
 
 
@@ -107,11 +107,28 @@ function App() {
   Our supervisor was a little bit disappointed with this approach but anyways, he said to continue this for now
   */
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (searchTerm, searchMode) => {
+    if(searchMode === "name"){
     const filtered_professors = professors.filter((professor) =>
     professor.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setfilteredProfessors(filtered_professors);
+    }else if(searchMode === "university"){
+      const filtered_professors = professors.filter((professor) =>
+      professor.university_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setfilteredProfessors(filtered_professors);
+    }else if(searchMode === "location"){
+      const filtered_professors = professors.filter((professor) =>
+      professor.location.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setfilteredProfessors(filtered_professors);
+    }else if(searchMode === "field"){
+      const filtered_professors = professors.filter((professor) =>
+      professor.field_names.some((field) =>
+      field.toLowerCase().includes(searchTerm.toLowerCase())));
+      setfilteredProfessors(filtered_professors);
+    }
   };
 
 
