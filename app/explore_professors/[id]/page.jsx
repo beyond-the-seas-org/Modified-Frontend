@@ -1,8 +1,8 @@
 'use client'
-import Sidebar from "../../components/explore_professors/Sidebar";
-import Feed from "../../components/explore_professors/Feed";
+import Sidebar from "../../../components/explore_professors/Sidebar";
+import Feed from "../../../components/explore_professors/Feed";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../components/explore_professors/Navbar";
+import Navbar from "../../../components/explore_professors/Navbar";
 import { useState, useEffect } from "react";
 
 
