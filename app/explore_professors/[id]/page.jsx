@@ -4,6 +4,7 @@ import Feed from "../../../components/explore_professors/Feed";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
 import Navbar from "../../../components/explore_professors/Navbar";
 import { useState, useEffect } from "react";
+import ChatUI from "../../../components/chatbot/Chatbot";
 
 
 function App() {
@@ -36,52 +37,7 @@ function App() {
         const data = await response.json();
         console.log(data) // Print posts to console of the browser
         setProfessors(data); 
-        setfilteredProfessors(data); // Initialize filteredPosts with all posts
-
-        // //creating dummy professors
-        // const professor_1 = {
-        //     professor_id: 1,
-        //     name: "Md. Shamsuzzoha Bayezid",
-        //     website_link: "http://cse.edu.ac.bd/bayezid/details",
-        //     email: "bayezid2023@gmail.com",
-        //     university_name : "Bangladesh University of Engineering and Technology",
-        //     citations : 4068,
-        //     h_index : 16,
-        //     field_names : ["Computational Biology","Phylogenetic Trees"]
-        //   };
-
-        // const professor_2 = {
-        //     professor_id: 2,
-        //     name: "Md. Shamsuzzoha Bayezid",
-        //     website_link: "http://cse.edu.ac.bd/bayezid/details",
-        //     email: "bayezid2023@gmail.com",
-        //     university_name : "Bangladesh University of Engineering and Technology",
-        //     citations : 4068,
-        //     h_index : 16,
-        //     field_names : ["Computational Biology","Phylogenetic Trees"]
-        //   };
-        
-        // const professor_3 = {
-        // professor_id: 3,
-        // name: "Saifur Rahman",
-        // website_link: "http://cse.edu.ac.bd/bayezid/details",
-        // email: "bayezid2023@gmail.com",
-        // university_name : "Bangladesh University of Engineering and Technology",
-        // citations : 4068,
-        // h_index : 16,
-        // field_names : ["Computational Biology","Phylogenetic Trees"]
-        // };
-
-
-        // let professors =[]
-        // professors.push(professor_1)
-        // professors.push(professor_2)
-        // professors.push(professor_3)
-
-        // setProfessors(professors)
-        // setfilteredProfessors(professors)
-                
-
+        setfilteredProfessors(data); // Initialize filteredPosts with all Professors
 
       } catch (error) {
         console.error("Error fetching professors:", error);
@@ -140,7 +96,12 @@ function App() {
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
           <Feed mode={mode} professors={filteredProfessors} refreshProfessorlist={refreshProfessorlist} />
+          {/* Create a container for the ChatUI */}
+          <div style={{ position: "fixed", bottom: 10, right: 10 }}>
+            <ChatUI />
+          </div>
         </Stack>
+
       </Box>
     </ThemeProvider>
   );

@@ -9,7 +9,7 @@ import {
   styled,
   Toolbar,
   Typography,
-  FormControlLabel,
+  FormControlLabel
 } from "@mui/material";
 import { Mail, Notifications, Pets } from "@mui/icons-material";
 import { Radio, RadioGroup } from "@mui/material";
@@ -174,6 +174,7 @@ const Navbar = ({onSearch}) => {
         </Menu>
       </AppBar>
     </ThemeProvider>
+
   );
 };
 
