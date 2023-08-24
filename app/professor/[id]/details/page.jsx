@@ -8,6 +8,7 @@ import ProfessorHeader from '../../../../components/professor/Header'
 import ResearchProfile from '../../../../components/professor/Research'
 import OngoingProjectsCard from '../../../../components/professor/Projects'
 import FeedbacksComponent from '../../../../components/professor/Feedback'
+import FundingDetailsCard from '../../../../components/professor/Funding'
 
 // const page = () => {
 //   return (
@@ -36,9 +37,10 @@ function ProfessorDetails() {
   const tokens = qlink.split("/");
   let prof_id = tokens[tokens.length - 2]
   //convert user id to int
-  prof_id = parseInt(prof_id);
   console.log("prof_id", prof_id);
 
+  prof_id = parseInt(prof_id);
+  //console.log("prof_id", prof_id);
   useEffect(() => {
     async function showProfDetails() {
         try {
@@ -65,6 +67,9 @@ function ProfessorDetails() {
             setFeedbacks(values);
             console.log(values)
 
+            const fund = data.funding_details
+            setFundingOpportunities(fund);
+            console.log(fund)
         } catch (error) {
             console.error('Error fetching comments:', error);
         }
@@ -78,6 +83,7 @@ return (
     <ResearchProfile publications={publications} fields={fieldOfInterest} />
     <OngoingProjectsCard projects = {ongoingProjects} />
     <FeedbacksComponent feedbacks = {feedbacks} />
+    <FundingDetailsCard fundingDetails = {fundingOpportunities} />
   </div>
 );
 

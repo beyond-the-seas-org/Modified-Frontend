@@ -107,11 +107,28 @@ function App() {
   Our supervisor was a little bit disappointed with this approach but anyways, he said to continue this for now
   */
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (searchTerm, searchMode) => {
+    if(searchMode === "name"){
     const filtered_professors = professors.filter((professor) =>
     professor.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setfilteredProfessors(filtered_professors);
+    }else if(searchMode === "university"){
+      const filtered_professors = professors.filter((professor) =>
+      professor.university_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setfilteredProfessors(filtered_professors);
+    }else if(searchMode === "location"){
+      const filtered_professors = professors.filter((professor) =>
+      professor.location.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setfilteredProfessors(filtered_professors);
+    }else if(searchMode === "field"){
+      const filtered_professors = professors.filter((professor) =>
+      professor.field_names.some((field) =>
+      field.toLowerCase().includes(searchTerm.toLowerCase())));
+      setfilteredProfessors(filtered_professors);
+    }
   };
 
 
@@ -121,7 +138,7 @@ function App() {
       <Box bgcolor={"background.default"} color={"text.primary"}>
         <Navbar onSearch={handleSearch} />
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar setMode={setMode} mode={mode} />
+          <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
           <Feed mode={mode} professors={filteredProfessors} refreshProfessorlist={refreshProfessorlist} />
         </Stack>
       </Box>
