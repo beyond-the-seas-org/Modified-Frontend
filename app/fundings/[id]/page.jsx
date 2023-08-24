@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import Navbar from "../../../components/fundings/Navbar";
 import Sidebar from "../../../components/fundings/Sidebar";
 import Feed from "../../../components/fundings/Feed";
+import ChatUI from "../../../components/chatbot/Chatbot";
+
 
 function App() {
   const [mode, setMode] = useState("light"); /*The initial theme of the UI: light. It can be dark or light depending on the initial value in useState */
@@ -81,6 +83,10 @@ function App() {
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
           <Feed mode={mode} fundings={filteredFundings} refreshFundinglist={refreshFundinglist} />
+          {/* Create a container for the ChatUI */}
+          <div style={{ position: "fixed", bottom: 10, right: 10 }}>
+            <ChatUI />
+          </div>
         </Stack>
       </Box>
     </ThemeProvider>

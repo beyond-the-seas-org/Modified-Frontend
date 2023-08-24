@@ -4,6 +4,8 @@ import Feed from "../../../components/newsfeed/Feed";
 import Rightbar from "../../../components/newsfeed/Rightbar";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
 import Navbar from "../../../components/newsfeed/Navbar";
+import ChatUI from "../../../components/chatbot/Chatbot";
+
 import { useState, useEffect } from "react";
 
 function App() {
@@ -86,6 +88,10 @@ function App() {
           <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
           <Feed mode={mode} posts={filteredPosts} refreshPosts={refreshPosts} />
           <Rightbar />
+          {/* Create a container for the ChatUI */}
+          <div style={{ position: "fixed", bottom: 10, right: 10 }}>
+            <ChatUI />
+          </div>
         </Stack>
       </Box>
     </ThemeProvider>
