@@ -41,7 +41,6 @@ function ProfessorDetails() {
 
   prof_id = parseInt(prof_id);
   //console.log("prof_id", prof_id);
-
   useEffect(() => {
     async function showProfDetails() {
         try {
@@ -71,7 +70,6 @@ function ProfessorDetails() {
             const fund = data.funding_details
             setFundingOpportunities(fund);
             console.log(fund)
-
         } catch (error) {
             console.error('Error fetching comments:', error);
         }
