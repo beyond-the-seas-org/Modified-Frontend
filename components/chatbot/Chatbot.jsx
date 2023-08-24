@@ -10,24 +10,38 @@ import {
   Button,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
+import OfflineBoltIcon from "@mui/icons-material/OfflineBolt";
 
-const messages = [
-    { id: 1, text: "Hi there!", sender: "bot" },
-    { id: 2, text: "Hello!", sender: "user" },
-    { id: 3, text: "How can I assist you today?", sender: "bot" },
-    { id: 4, text: "I have a question about your services.", sender: "user" },
-    { id: 5, text: "Sure, feel free to ask!", sender: "bot" },
-    // ... more messages ...
-  ];
 const ChatUI = () => {
   const [input, setInput] = React.useState("");
+  const [messages, setMessages] = React.useState([]); // Initialize messages with an empty array
   const [isMinimized, setIsMinimized] = React.useState(true);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim() !== "") {
-      console.log(input);
+      const userMessage = input.trim();
       setInput("");
+
+      // Send the user message to the server and get bot response
+      const response = await fetch("http://localhost:5004/api/chatbot/get_response", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_message: userMessage }),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        const botResponse = responseData.bot_response;
+
+        // Update the messages state with user and bot responses
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { id: prevMessages.length + 1, text: userMessage, sender: "user" },
+          { id: prevMessages.length + 2, text: botResponse, sender: "bot" },
+        ]);
+      }
     }
   };
 
@@ -60,13 +74,18 @@ const ChatUI = () => {
           </Box>
           <Box sx={{ p: 2, backgroundColor: "background.default", display: "flex" }}>
             <TextField
-              fullWidth
-              placeholder="Type a message"
-              value={input}
-              onChange={handleInputChange}
+                fullWidth
+                placeholder="Type a message"
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                    handleSend();
+                }
+                }}
             />
             <Grid sx={{ alignSelf: "center" }}>
-              <SendIcon sx={{ ml: 2, cursor: "pointer", color: "purple" }} onClick={handleSend} />
+                <SendIcon sx={{ ml: 2, cursor: "pointer", color: "purple" }} onClick={handleSend} />
             </Grid>
           </Box>
         </>
@@ -99,6 +118,6 @@ const Message = ({ message }) => {
       </Paper>
     </Box>
   );
-};
-
+}
 export default ChatUI;
+
