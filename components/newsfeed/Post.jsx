@@ -143,9 +143,11 @@ const Post = ({ post, refreshPosts, mode }) => {
       />
       
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <b>{post.post_desc}</b>
+      {post.post_desc.split('\n').map((part, index) => (
+        <Typography key={index} variant="body2" color="text.secondary">
+          {part ? <b>{part}</b> : <br />}       
         </Typography>
+      ))}
       </CardContent>
       {post.post_image && (
         <  CardMedia
