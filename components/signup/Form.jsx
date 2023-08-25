@@ -61,34 +61,36 @@ export default function Form() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        // Endpoint URL (replace with your actual endpoint)
+    
+        // Endpoint URL
         const apiEndpoint = 'http://127.0.0.1:5001/api/auth/signup';
-
+    
         try {
             const response = await fetch(apiEndpoint, {
-                method: 'POST',  // Assuming you're sending data via POST request
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
             });
-
+    
             // Check if the request was successful
-            if (!response.ok) {
+            if (response.status === 201) {  // If the server returns a 201 Created HTTP response
+                const data = await response.json();
+                console.log("Response from server:", data);
+    
+                // Redirect to the login page
+                window.location.href = '/login'; // Replace '/login' with the actual path of your login page if it's different
+    
+            } else {
+                // If the server doesn't return a 201 response, throw an error
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
-            // If you expect a JSON response, you can parse it
-            const data = await response.json();
-
-            // Handle the response or redirect or show a success message, etc.
-            console.log("Response from server:", data);
-
         } catch (error) {
             console.error("There was an error with the fetch operation:", error.message);
         }
     };
+    
 
     return (
         <ThemeProvider theme={theme}>

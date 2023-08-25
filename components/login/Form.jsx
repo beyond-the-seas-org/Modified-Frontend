@@ -1,4 +1,6 @@
+'use client'
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     Button,
     Container,
@@ -7,11 +9,7 @@ import {
     Box,
     Paper,
     createTheme,
-    ThemeProvider,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
+    ThemeProvider
 } from '@mui/material';
 
 const theme = createTheme({
@@ -40,50 +38,48 @@ const theme = createTheme({
     }
 });
 
-export default function Form() {
-    const [formData, setFormData] = useState({
+export default function LoginForm() {
+    const [loginData, setLoginData] = useState({
         username: '',
-        first_name: '',
-        last_name: '',
-        password_hash: '',
-        primary_email: '',
-        gender: '',
-        age: ''
+        password_hash: ''
     });
+
+    const navigation = useRouter();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData((prevData) => ({
+        setLoginData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
 
-    const handleSubmit = async (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
 
-        // Endpoint URL (replace with your actual endpoint)
-        const apiEndpoint = 'http://127.0.0.1:5001/api/auth/signup';
+        const apiEndpoint = 'http://127.0.0.1:5001/api/auth/login';
 
         try {
             const response = await fetch(apiEndpoint, {
-                method: 'POST',  // Assuming you're sending data via POST request
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(loginData)
             });
 
-            // Check if the request was successful
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // If you expect a JSON response, you can parse it
             const data = await response.json();
 
-            // Handle the response or redirect or show a success message, etc.
-            console.log("Response from server:", data);
+            if (data.access_token) {
+                localStorage.setItem(data.id, data.access_token);
+                navigation.push(`/newsfeed/${data.id}`);
+            } else {
+                console.error("Failed login attempt.");
+            }
 
         } catch (error) {
             console.error("There was an error with the fetch operation:", error.message);
@@ -105,9 +101,9 @@ export default function Form() {
                     <Paper elevation={5} style={{ padding: '40px', borderRadius: '15px' }}>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <Typography component="h1" variant="h5" gutterBottom>
-                                Create Account
+                                Login
                             </Typography>
-                            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%', mt: 2 }}>
+                            <Box component="form" noValidate onSubmit={handleLogin} sx={{ width: '100%', mt: 2 }}>
                                 <TextField
                                     variant="outlined"
                                     margin="normal"
@@ -117,31 +113,7 @@ export default function Form() {
                                     label="Username"
                                     name="username"
                                     autoComplete="username"
-                                    value={formData.username}
-                                    onChange={handleChange}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="first_name"
-                                    label="First Name"
-                                    name="first_name"
-                                    autoComplete="given-name"
-                                    value={formData.first_name}
-                                    onChange={handleChange}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="last_name"
-                                    label="Last Name"
-                                    name="last_name"
-                                    autoComplete="family-name"
-                                    value={formData.last_name}
+                                    value={loginData.username}
                                     onChange={handleChange}
                                 />
                                 <TextField
@@ -151,49 +123,10 @@ export default function Form() {
                                     fullWidth
                                     name="password_hash"
                                     label="Password"
-                                    type="password_hash"
+                                    type="password"
                                     id="password_hash"
-                                    autoComplete="current-password_hash"
-                                    value={formData.password_hash}
-                                    onChange={handleChange}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="primary_email"
-                                    label="Primary Email"
-                                    name="primary_email"
-                                    autoComplete="email"
-                                    value={formData.primary_email}
-                                    onChange={handleChange}
-                                />
-                                <FormControl fullWidth variant="outlined" margin="normal">
-                                    <InputLabel id="gender-label">Gender</InputLabel>
-                                    <Select
-                                        labelId="gender-label"
-                                        id="gender"
-                                        name="gender"
-                                        value={formData.gender}
-                                        onChange={handleChange}
-                                        label="Gender"
-                                    >
-                                        <MenuItem value={"male"}>Male</MenuItem>
-                                        <MenuItem value={"female"}>Female</MenuItem>
-                                        <MenuItem value={"other"}>Other</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="age"
-                                    label="Age"
-                                    name="age"
-                                    type="number"
-                                    value={formData.age}
+                                    autoComplete="current-password"
+                                    value={loginData.password_hash}
                                     onChange={handleChange}
                                 />
                                 <Button
@@ -212,7 +145,7 @@ export default function Form() {
                                         }
                                     }}
                                 >
-                                    Join Now
+                                    Login
                                 </Button>
                             </Box>
                         </Box>
