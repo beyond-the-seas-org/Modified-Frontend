@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import StyledButton from "../styled-components/StyledButton"
-import { useRouter } from 'next/navigation'
+//import { useRouter } from 'next/navigation'
 
 
 const Professor = ({ professor, refreshProfessorlist, mode }) => {
@@ -16,13 +16,13 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleShowDetails = () => {
-    //redirect to "Professor details UI"
-    router.push(`http://localhost:3000/professor/${professor.id}/details`);
+  // const handleShowDetails = () => {
+  //   //redirect to "Professor details UI"
+  //   router.push(`http://localhost:3000/professor/${professor.id}/details`);
 
-  };
+  // };
 
   
 

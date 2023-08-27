@@ -26,7 +26,7 @@ function App() {
     },
   });
 
-  /*When this page.jsx is rendered, the useEffect function will trigger automatically and fetch the posts from
+  /*When this page.jsx is rendered, the useEffect function will trigger automatically and fetch the professors from
   the server. This is client side rendering as we are using react Hooks(useState, useEffect).
   Therefore we need to mention use client at the top of this file as we are using next-js */
   useEffect(() => {
@@ -35,9 +35,8 @@ function App() {
 
         const response = await fetch(`http://localhost:5002/api/professors/get_all_professor_short_details`);
         const data = await response.json();
-        console.log(data) // Print posts to console of the browser
         setProfessors(data); 
-        setfilteredProfessors(data); // Initialize filteredPosts with all Professors
+        setfilteredProfessors(data); // Initialize filteredProfessors with all Professors
 
       } catch (error) {
         console.error("Error fetching professors:", error);
@@ -59,7 +58,7 @@ function App() {
     }
   };
 
-  /*This will continuously render the filtered posts. Should we continue this or send request to backend?
+  /*This will continuously render the filtered professors. Should we continue this or send request to backend?
   Our supervisor was a little bit disappointed with this approach but anyways, he said to continue this for now
   */
 
