@@ -61,10 +61,9 @@ export default function Form() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
-        // Endpoint URL
+
         const apiEndpoint = 'http://127.0.0.1:5001/api/auth/signup';
-    
+
         try {
             const response = await fetch(apiEndpoint, {
                 method: 'POST',
@@ -73,24 +72,25 @@ export default function Form() {
                 },
                 body: JSON.stringify(formData)
             });
-    
-            // Check if the request was successful
-            if (response.status === 201) {  // If the server returns a 201 Created HTTP response
-                const data = await response.json();
+
+            const data = await response.json();
+
+            if (response.status === 201) {
                 console.log("Response from server:", data);
-    
-                // Redirect to the login page
-                window.location.href = '/login'; // Replace '/login' with the actual path of your login page if it's different
-    
+                alert(data.message);
+                window.location.href = '/login';
+            } else if (response.status === 500) {
+                // Alert if there's any issue with the server itself.
+                alert(data.message);
             } else {
-                // If the server doesn't return a 201 response, throw an error
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                alert(data.message);
             }
         } catch (error) {
-            console.error("There was an error with the fetch operation:", error.message);
+            // Alert if there's any issue with the fetch operation itself.
+            alert("There was an error with the fetch operation: " + error.message);
         }
     };
-    
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -100,7 +100,10 @@ export default function Form() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundImage: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
+                    backgroundImage: `url('https://images.unsplash.com/photo-1512273222628-4daea6e55abb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bW91bnRhaW4lMjBzbm93fGVufDB8fDB8fHww&w=1000&q=80')`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
                 }}
             >
                 <Container component="main" maxWidth="xs">
@@ -153,9 +156,9 @@ export default function Form() {
                                     fullWidth
                                     name="password_hash"
                                     label="Password"
-                                    type="password_hash"
+                                    type="password"
                                     id="password_hash"
-                                    autoComplete="current-password_hash"
+                                    autoComplete="current-password"
                                     value={formData.password_hash}
                                     onChange={handleChange}
                                 />
@@ -194,25 +197,16 @@ export default function Form() {
                                     id="age"
                                     label="Age"
                                     name="age"
-                                    type="number"
+                                    autoComplete="age"
                                     value={formData.age}
                                     onChange={handleChange}
                                 />
                                 <Button
                                     type="submit"
                                     fullWidth
-                                    variant="contained"
-                                    sx={{
-                                        mt: 3,
-                                        mb: 2,
-                                        backgroundColor: '#0d47a1',
-                                        color: 'white',
-                                        fontWeight: 'bold',
-                                        '&:hover': {
-                                            backgroundColor: '#0d47a1',
-                                            boxShadow: 'none',
-                                        }
-                                    }}
+                                    variant="outlined"
+                                    color="primary"
+                                    sx={{ mt: 3, mb: 2 }}
                                 >
                                     Join Now
                                 </Button>
@@ -220,6 +214,27 @@ export default function Form() {
                         </Box>
                     </Paper>
                 </Container>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '2%',
+                        right: '2%',
+                    }}
+                >
+                    <Paper elevation={5} style={{ padding: '20px', borderRadius: '15px', width: '250px' }}>
+                        <Typography variant="body2" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                            Already have an account?
+                        </Typography>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            color="secondary"
+                            onClick={() => window.location.href = '/login'}
+                        >
+                            Go to Login Page
+                        </Button>
+                    </Paper>
+                </Box>
             </Box>
         </ThemeProvider>
     );
