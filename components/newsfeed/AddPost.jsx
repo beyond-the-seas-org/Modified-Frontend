@@ -10,7 +10,8 @@ const AddPost = ({ refreshPosts }) => {
   const id = tokens[tokens.length-1]
 
   const [image, setImage] = useState(null);
- 
+  const [imageURL, setImageURL] = useState(null);
+
 
   const handleFileChange = (event) => {
     setImage(event.target.files[0]);
@@ -26,6 +27,7 @@ const AddPost = ({ refreshPosts }) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
+        setImageURL(response.data.url);
         console.log('Image URL:', response.data.url);
     } catch (error) {
         console.error("Error uploading image:", error);
@@ -63,6 +65,7 @@ const AddPost = ({ refreshPosts }) => {
           if (image != null)
             handleImageUpload(data.post_id);
           alert('Post added successfully');
+          console.log("imageURL: ",imageURL);
           refreshPosts();
 
         } else {

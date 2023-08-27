@@ -2,6 +2,7 @@
 import { Box, Stack, Skeleton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Professor from "./Professor";
+import EmptyProfessor from "../explore_professors/EmptyProfessor";
 
 /* Here, professors, mode and refreshProfessorlist is received from parent component page.jsx */
 const Feed = ({professors , mode, refreshProfessorlist}) => {
@@ -24,13 +25,15 @@ const Feed = ({professors , mode, refreshProfessorlist}) => {
           <Skeleton variant="text" height={20} />
           <Skeleton variant="rectangular" height={300} />
         </Stack>
-      ) : (
+      ) : professors && professors.length > 0 ? (
         <>
-          {professors.map((professor) => (
-            <Professor key={professor.professor_id} professor={professor} refreshProfessorlist={refreshProfessorlist} mode={mode}/>
-          ))}
+            {professors.map((professor) => (
+                <Professor key={professor.id} professor={professor} refreshProfessorlist={refreshProfessorlist} mode={mode}/>
+            ))}
         </>
-      )}
+    ) : (
+        <EmptyProfessor mode={mode}  />
+    )}
     </Box>
   );
 };

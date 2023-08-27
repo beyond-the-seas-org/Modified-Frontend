@@ -16,14 +16,6 @@ const Location = ({ location, refreshLocationlist, mode }) => {
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
-  // const router = useRouter();
-
-  // const handleShowDetails = () => {
-  //   //redirect to "Professor details UI"
-  //   router.push(`http://localhost:3000/professor/${professor.id}/details`);
-
-  // };
-
   
 
   return (
@@ -115,7 +107,6 @@ const Location = ({ location, refreshLocationlist, mode }) => {
       <CardActions sx={{ margin: '10px 0' }}>
         <StyledButton
           label="SHOW PROFESSORS"
-         // onClick={handleShowDetails}
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
           //href= {`http://localhost:3000/professor/${professor.id}/details`}
