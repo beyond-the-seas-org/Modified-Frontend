@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Sidebar from "../../../components/newsfeed/Sidebar";
 import Feed from "../../../components/newsfeed/Feed";
 import Rightbar from "../../../components/newsfeed/Rightbar";
