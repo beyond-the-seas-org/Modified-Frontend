@@ -3,6 +3,7 @@ import { Box, Stack, Skeleton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import AddPost from "./AddPost";
+import EmptyPost from "../newsfeed/EmptyPost";
 
 /* Here, posts, mode and refreshPosts is received from parent component page.jsx */
 const Feed = ({posts , mode, refreshPosts}) => {
@@ -31,13 +32,15 @@ const Feed = ({posts , mode, refreshPosts}) => {
           <Skeleton variant="text" height={20} />
           <Skeleton variant="rectangular" height={300} />
         </Stack>
-      ) : (
+      ) : posts && posts.length > 0 ? (
         <>
-          {posts.map((post) => (
-            <Post key={post.post_id} post={post} refreshPosts={refreshPosts} mode={mode}/>
-          ))}
+            {posts.map((post) => (
+                <Post key={post.id} post={post} refreshPosts={refreshPosts} mode={mode}/>
+            ))}
         </>
-      )}
+    ) : (
+        <EmptyPost mode={mode}  />
+    )}
     </Box>
   );
 };

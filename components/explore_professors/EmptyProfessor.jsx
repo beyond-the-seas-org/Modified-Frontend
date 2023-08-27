@@ -5,7 +5,7 @@ import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, Thumb
 //import StyledButton from "../styled-components/StyledButton"
 
 
-const EmptyLocation = ({ mode }) => {
+const EmptyProfessor = ({ mode }) => {
 
 
   const qlink = window.location.href;
@@ -15,7 +15,7 @@ const EmptyLocation = ({ mode }) => {
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
-  
+
   return (
     <Card sx={{ 
       margin: 5 , 
@@ -46,4 +46,4 @@ const EmptyLocation = ({ mode }) => {
   );
 };
 
-export default EmptyLocation;
+export default EmptyProfessor;

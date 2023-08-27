@@ -16,15 +16,6 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
-  // const router = useRouter();
-
-  // const handleShowDetails = () => {
-  //   //redirect to "Professor details UI"
-  //   router.push(`http://localhost:3000/professor/${professor.id}/details`);
-
-  // };
-
-  
 
   return (
     <Card sx={{ margin: 5 , borderColor:mode === 'dark' ? 'white' : 'black' ,borderWidth: '2px', borderStyle: 'solid',borderRadius: 4,boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)'}} >
@@ -98,7 +89,6 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
       <CardActions sx={{ margin: '10px 0' }}>
         <StyledButton
           label="SHOW DETAILS"
-          onClick={handleShowDetails}
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
           href= {`http://localhost:3000/professor/${professor.id}/details`}
