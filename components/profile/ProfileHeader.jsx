@@ -2,9 +2,12 @@
 import React from 'react';
 import { Avatar, Box, Typography, Button, IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
+import { redirect } from 'next/navigation'
 
 const handleEditProfileClick = () => {
   // Handle edit profile click
+  redirect ('/update');
+
 };
 
 const ProfileHeader = (userData) => {

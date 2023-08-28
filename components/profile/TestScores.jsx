@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Card, CardContent, Typography, AppBar, Toolbar,
-  List, ListItem, ListItemText, Divider, ListItemAvatar, Avatar
+  List, ListItem, ListItemText, Divider, ListItemAvatar, Avatar, Badge
 } from '@mui/material';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import CreateIcon from '@mui/icons-material/Create';
@@ -60,7 +60,7 @@ const TestScores = ({ testScores }) => {
                   primaryTypographyProps={{ fontWeight: 'medium' }}
                   secondaryTypographyProps={{ fontWeight: 'bold', color: 'secondary.main' }}
                   primary={item.title}
-                  secondary={item.score}
+                  secondary={item.score || <Typography variant="body2" color="error">Score Not Found</Typography>}
                 />
               </ListItem>
               {index !== scoreItems.length - 1 && <Divider />}
