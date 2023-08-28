@@ -199,6 +199,7 @@ export default function LoginForm() {
                 if (data.access_token) {
                     localStorage.setItem(data.id, data.access_token);
                     navigation.push(`/newsfeed/${data.id}`);
+                    alert("Login successful! Redirecting...")
                 } else {
                     alert("Login failed. Please try again.");
                 }
