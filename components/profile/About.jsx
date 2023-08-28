@@ -1,22 +1,59 @@
-'use client'
+'use client';
 import React from 'react';
-import { Box, Card, CardContent, Typography, AppBar, Toolbar } from '@mui/material';
+import { Box, Card, CardContent, Typography, AppBar, Toolbar, Divider, Paper, Avatar, Icon } from '@mui/material';
+import SchoolIcon from '@mui/icons-material/School';
 
-const About = () => {
+const EducationSegment = ({ title, university, year, cgpa, icon }) => {
+  return (
+    <Paper elevation={3} sx={{ p: 2, borderRadius: 2, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <Avatar sx={{ mr: 2, bgcolor: 'primary.main' }}>
+        <Icon>{icon}</Icon>
+      </Avatar>
+      <Box>
+        <Typography variant="h6" fontWeight="medium">{title}</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>University: {university}</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>Year of Passing: {year}</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>CGPA: {cgpa}</Typography>
+      </Box>
+    </Paper>
+  );
+};
+
+const About = ({ aboutInfo }) => {
   return (
     <Box flex={1} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
-      <Card>
+      <Card elevation={5}>
         <AppBar position="static" color="primary" elevation={0}>
           <Toolbar>
             <Typography variant="h5" fontWeight="bold">
-              About
+              Educational Profile
             </Typography>
           </Toolbar>
         </AppBar>
-        <CardContent>
-          <Typography variant="body1">Bio: Student</Typography>
-          <Typography variant="body1">Education: BSc in Computer Science and Engineering in Buet</Typography>
-          <Typography variant="body1">Work Experience: Web Development</Typography>
+        <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          {/* Bsc Section */}
+          <Box flex={1} mr={2}>
+            <EducationSegment
+              title="UnderGraduate"
+              university={aboutInfo.bsc_university}
+              year={aboutInfo.bsc_year_of_passing}
+              cgpa={aboutInfo.bsc_cgpa}
+              icon={<SchoolIcon />}
+            />
+          </Box>
+
+          <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+
+          {/* Msc Section */}
+          <Box flex={1} ml={2}>
+            <EducationSegment
+              title="PostGraduate"
+              university={aboutInfo.ms_university}
+              year={aboutInfo.ms_year_of_passing}
+              cgpa={aboutInfo.ms_cgpa}
+              icon={<SchoolIcon />}
+            />
+          </Box>
         </CardContent>
       </Card>
     </Box>
@@ -24,5 +61,3 @@ const About = () => {
 };
 
 export default About;
-
-

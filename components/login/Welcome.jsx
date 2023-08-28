@@ -17,9 +17,9 @@ export default function Welcome() {
                 backgroundPosition: 'center',
             }}
         >
-            <Typography 
-                variant="h2" 
-                sx={{ 
+            <Typography
+                variant="h2"
+                sx={{
                     position: 'absolute',
                     top: '10%',
                     color: 'white',
@@ -31,41 +31,41 @@ export default function Welcome() {
             </Typography>
 
             {/* Added subtitle */}
-            <Typography 
-                variant="h5" 
-                sx={{ 
+            <Typography
+                variant="h5"
+                sx={{
                     position: 'absolute',
                     top: '18%',  // Adjust this as needed to position the subtitle
                     color: 'white',
                     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
                 }}
             >
-                Your Go-To Portal For Higher Studies Abroad
+                Your Go-To Portal for Higher Studies in Abroad
             </Typography>
-            
+
             <Paper elevation={5} sx={{
                 width: '50%',
                 maxHeight: '40vh',
                 padding: '20px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
             }}>
-                <Box 
-                    sx={{ 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        alignItems: 'center' 
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}
                 >
-                
+
                     <Typography variant="subtitle1" gutterBottom style={{ color: 'white' }}>
                         Not a member yet? Please sign up to join!
                     </Typography>
                     <Link href="/signup">
-                        <Button 
-                            variant="outlined" 
-                            color="primary" 
-                            sx={{marginTop: '20px', borderColor: 'white', color: 'white'}}
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            sx={{ marginTop: '20px', borderColor: 'white', color: 'white' }}
                         >
                             Sign Up
                         </Button>
