@@ -10,6 +10,7 @@ import TestScores from '../../../components/profile/TestScores';
 
 const UserProfilePage = () => {
     const [userData, setUserData] = useState();
+    const [ownPosts, setOwnPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -30,6 +31,19 @@ const UserProfilePage = () => {
 
                 const data = await response.json();
                 setUserData(data);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+
+            try{
+                const own_posts = await fetch(`http://127.0.0.1:5001/api/profile/${user_id}/own_posts`);
+                if (!own_posts.ok) {
+                    throw new Error('Failed to fetch own post data.');
+                }
+                const posts = await own_posts.json();
+                setOwnPosts(posts);
                 setLoading(false);
             } catch (err) {
                 setError(err.message);
@@ -59,7 +73,7 @@ const UserProfilePage = () => {
                 </Box>
             </Box>
 
-            <ActivityFeed user={userData} />
+            <ActivityFeed posts={ownPosts} />
         </div>
     );
 }

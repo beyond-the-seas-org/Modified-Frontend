@@ -156,9 +156,7 @@ const Post = ({ post, refreshPosts, mode }) => {
         image={post.post_image}
         alt="Paella dish"
       />
-      ) }
-
-      
+      ) }      
 
       <CardActions sx={{ margin: '10px 0' }}>
         {/*This component is used for upvotes and downvotes */}
