@@ -109,7 +109,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
           label="SHOW PROFESSORS"
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
-          //href= {`http://localhost:3000/professor/${professor.id}/details`}
+          href= {`http://localhost:3000/analytics/${user_id}/explore_professors/${location.id}`}
         />
       </CardActions>
 
