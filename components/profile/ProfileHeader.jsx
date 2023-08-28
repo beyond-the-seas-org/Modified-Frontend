@@ -2,15 +2,15 @@
 import React from 'react';
 import { Avatar, Box, Typography, Button, IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
-import { redirect } from 'next/navigation'
-
-const handleEditProfileClick = () => {
-  // Handle edit profile click
-  redirect ('/update');
-
-};
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 const ProfileHeader = (userData) => {
+  const qlink = window.location.href;
+  const tokens = qlink.split("/");
+  let user_id = tokens[tokens.length - 1];
+
+  user_id = parseInt(user_id);
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', backgroundColor: '#f2f4f7' }}>
       {/* Cover Photo */}
@@ -35,11 +35,11 @@ const ProfileHeader = (userData) => {
       <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', zIndex: 1, marginTop: '-50px' }}>
         <Avatar
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3udlwo_p6SA6CUz3IhnFaH73FoismGVxeVurGt-oh&s"
-          sx={{ 
-            width: 100, 
-            height: 100, 
-            border: '3px solid #fff', 
-            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)', 
+          sx={{
+            width: 100,
+            height: 100,
+            border: '3px solid #fff',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
             '&:hover': {
               transform: 'scale(1.1)',
               transition: 'transform 0.3s'
@@ -49,20 +49,22 @@ const ProfileHeader = (userData) => {
         <Box sx={{ mt: 2, mb: 3 }}>
           <Typography variant="h4" sx={{ color: '#003366' }}>{userData.userData.username}</Typography>
         </Box>
-        <Button
-          variant="outlined"
-          onClick={handleEditProfileClick}
-          sx={{
-            color: '#003366',
-            borderColor: '#003366',
-            '&:hover': {
-              backgroundColor: '#003366',
-              color: 'white',
-            },
-          }}
-        >
-          Edit Profile
-        </Button>
+        <Link href={`/profile/${user_id}/update`}>
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{
+              color: '#003366',
+              borderColor: '#003366',
+              '&:hover': {
+                backgroundColor: '#003366',
+                color: 'white',
+              },
+            }}
+          >
+            Edit Profile
+          </Button>
+        </Link>
       </Box>
     </Box>
   );
