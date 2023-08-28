@@ -10,16 +10,16 @@ const EducationSegment = ({ title, university, year, cgpa, icon }) => {
         <Icon>{icon}</Icon>
       </Avatar>
       <Box>
-        <Typography variant="h6" fontWeight="medium">{title}</Typography>
-        <Typography variant="body1" sx={{ mt: 1 }}>University: {university}</Typography>
-        <Typography variant="body1" sx={{ mt: 1 }}>Year of Passing: {year}</Typography>
-        <Typography variant="body1" sx={{ mt: 1 }}>CGPA: {cgpa}</Typography>
+        <Typography variant="h6" fontWeight="medium">{title || "Information Not Found"}</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>University: {university || "Information Not Found"}</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>Year of Passing: {year || "Information Not Found"}</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>CGPA: {cgpa || "Information Not Found"}</Typography>
       </Box>
     </Paper>
   );
 };
 
-const About = ({ aboutInfo }) => {
+const About = ({ aboutInfo = {} }) => { // default to an empty object if aboutInfo is undefined
   return (
     <Box flex={1} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
       <Card elevation={5}>
