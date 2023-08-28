@@ -26,7 +26,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
       borderStyle: 'solid',
       borderRadius: 4,
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//img.bestplaces.net/images/states/new_york.jpg')`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${location.image_link})`,
       backgroundSize: 'cover', 
       backgroundPosition: 'center',
       color: mode === 'dark' ? 'white' : 'black'
