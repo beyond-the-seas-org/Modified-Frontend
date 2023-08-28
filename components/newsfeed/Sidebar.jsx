@@ -19,7 +19,7 @@ import {
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import React from "react";
 const bgcolor = "#0A85ED"
-const Sidebar = ({ mode, setMode,user_id }) => {
+const Sidebar = ({ mode, setMode, user_id }) => {
   return (
     <Box
     flex={1.5}
