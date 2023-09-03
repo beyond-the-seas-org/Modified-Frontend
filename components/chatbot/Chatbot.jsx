@@ -43,6 +43,12 @@ const ChatUI = () => {
       const userMessage = input.trim();
       setInput("");
 
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: userMessage, msg_from: "user", creation_time: new Date() },
+        // { message: botResponse, msg_from: "bot", creation_time: new Date() },
+      ]);
+
       const response = await fetch(
         "http://localhost:5004/api/chatbot/get_response",
         {
@@ -60,7 +66,7 @@ const ChatUI = () => {
 
         setChats((prevChats) => [
           ...prevChats,
-          { message: userMessage, msg_from: "user", creation_time: new Date() },
+          // { message: userMessage, msg_from: "user", creation_time: new Date() },
           { message: botResponse, msg_from: "bot", creation_time: new Date() },
         ]);
       }
