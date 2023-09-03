@@ -29,6 +29,12 @@ const AddPost = ({ refreshPosts }) => {
         });
         setImageURL(response.data.url);
         console.log('Image URL:', response.data.url);
+        if(response.ok)
+        {
+          alert('Post added successfully');
+          console.log("imageURL: ",imageURL);
+          refreshPosts();
+        }
     } catch (error) {
         console.error("Error uploading image:", error);
     }
@@ -64,9 +70,12 @@ const AddPost = ({ refreshPosts }) => {
           const data = await response.json();
           if (image != null)
             handleImageUpload(data.post_id);
-          alert('Post added successfully');
-          console.log("imageURL: ",imageURL);
-          refreshPosts();
+          else {
+            alert('Post added successfully');
+            console.log("imageURL: ",imageURL);
+            refreshPosts();
+          }
+          
 
         } else {
           // Handle error

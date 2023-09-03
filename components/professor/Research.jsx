@@ -29,11 +29,11 @@ const ResearchProfile = ({ publications, fields }) => {
         <CardContent>
           <Typography variant="h6" gutterBottom sx={{ color: '#3498db' }}>Field of Interests:</Typography>
           <List>
-            {fields.map((field, index) => (
+            {fields ? fields.map((field, index) => (
               <ListItem key={index} sx={{ '&:hover': { backgroundColor: '#eef2f7' } }}>
                 <Typography variant="body1">{field}</Typography>
               </ListItem>
-            ))}
+            )): ("No fields of interest.")}
           </List>
         </CardContent>
       </Card>
