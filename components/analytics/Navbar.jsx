@@ -31,6 +31,7 @@ const StyledToolbar = styled(Toolbar)({
   justifyContent: "space-between",
 });
 
+// Create a custom styled component for the search bar
 const Search = styled("div")(({ theme }) => ({
   backgroundColor: "white",
   color: "black", // Set font color to black
@@ -48,6 +49,8 @@ const Search = styled("div")(({ theme }) => ({
     marginBottom: "10px",
   },
 }));
+
+// Create a custom styled component for the icons
 
 const Icons = styled(Box)(({ theme }) => ({
   display: "none",
@@ -67,6 +70,8 @@ const UserBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+
+//Main component
 const Navbar = ({onSearch}) => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
@@ -75,6 +80,8 @@ const Navbar = ({onSearch}) => {
 
   const handleSearch = () => {
     onSearch(searchTerm, searchMode); // Pass the search term to the parent component
+    //the onSearch function is from parent component
+    //we are calling this function here and passing the search term and search mode to the parent component
   };
 
   // Implement live search with event listener..."e" means eventlistener
@@ -125,14 +132,14 @@ const Navbar = ({onSearch}) => {
                 value={searchMode}
                 onChange={(e) => setSearchMode(e.target.value)}
                 row
-              >
+            >
                 <FormControlLabel value="location" control={<Radio />} label="Location" />
                 <FormControlLabel value="state" control={<Radio />} label="State" />
                 <FormControlLabel value="country" control={<Radio />} label="Country" />
-              </RadioGroup>
-            </div>
+            </RadioGroup>
+          </div>
 
-
+          {/* Add icons for dummy design*/}
           <Icons>
             <Badge badgeContent={2} color="error">
               <Notifications />

@@ -64,6 +64,7 @@ function App() {
       }
   };
 
+  //this function is called from RightBar of analytics component
   const show_preferable_locations = (data) => {
     try {
 

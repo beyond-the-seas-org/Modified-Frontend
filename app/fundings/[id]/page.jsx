@@ -61,7 +61,10 @@ function App() {
 
 
   const handleSearch = (searchTerm, searchMode) => {
-    if(searchMode === "professor"){
+    if (searchTerm.trim() === '') {
+      setfilteredFundings(fundings);
+    }
+    else if(searchMode === "professor"){
     const filtered_Fundings = fundings.filter((funding) =>
     funding.professor_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -69,8 +72,8 @@ function App() {
     }else if(searchMode === "field"){
       const filtered_Fundings = fundings.filter((funding) =>
       funding.field_names.some((field) =>
-      field.toLowerCase().includes(searchTerm.toLowerCase())));
-      setfilteredProfessors(filtered_Fundings);
+     field.toLowerCase().includes(searchTerm.toLowerCase())));
+      setfilteredFundings(filtered_Fundings);
     }
   };
 

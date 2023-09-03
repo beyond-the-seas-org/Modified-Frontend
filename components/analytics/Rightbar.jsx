@@ -87,7 +87,7 @@ import {
 
 
     return (
-      <Box flex={1.5} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box flex={1.5} p={2} sx={{ display: { xs: "none", sm: "block" } }}> {/* xs: "none", sm: "block" means this will be hidden in mobile view */}
       <Box 
         position="fixed"
         width={300}
