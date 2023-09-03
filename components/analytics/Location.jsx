@@ -19,6 +19,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
   
 
   return (
+    //This card is used to show location details. The card is styled using sx property.
     <Card  sx={{ 
       margin: 5, 
       borderColor: mode === 'dark' ? 'white' : 'black',
@@ -32,6 +33,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
       color: mode === 'dark' ? 'white' : 'black'
     }}
   >
+    {/* CardHeader is used to show the location name, state name and country name. The card header is styled using sx property. */}
     <CardHeader sx={{
       textAlign: 'center'
       }}
@@ -48,8 +50,8 @@ const Location = ({ location, refreshLocationlist, mode }) => {
         </div>
       }
     />
-  
-      
+
+      {/* CardContent is used to show the location details. The card content is styled using sx property. */}
       <CardContent sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -75,7 +77,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
 
         <Typography variant="body2" color='white'>
           {/*tofixed() is used to express the float value upto 2 decimal point*/}
-          <b>Overall weather comfort index :</b> {location.weather_comfort_index.toFixed(2)}/10 
+          <b>Overall weather comfort index :</b> {location.weather_comfort_index.toFixed(2)}/10   {/* /10 is used to show out of 10 */}
         </Typography>
 
         <Typography variant="body2" color='white'>
