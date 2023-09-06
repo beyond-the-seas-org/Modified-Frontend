@@ -36,9 +36,9 @@ const Sidebar = ({ mode, setMode, user_id }) => {
         {[
           { label: "Homepage", icon: <Home />, href: `http://localhost:3000/newsfeed/${user_id}`},
           { label: "Prof Shortlist", icon: <Article />, href: `http://localhost:3000/shortlisted_professors/${user_id}` },
-          { label: "Groups", icon: <Group />, href: "#groups" },
+          { label: "Fundings", icon: <Group />, href: `http://localhost:3000/fundings/${user_id}` },
           { label: "Explore Professors", icon: <PersonSearchIcon />, href: `http://localhost:3000/explore_professors/${user_id}` },
-          { label: "Analytics", icon: <Settings />, href: "#analytics" },
+          { label: "Analytics", icon: <Settings />, href: `http://localhost:3000/analytics/${user_id}` },
           { label: "Profile", icon: <AccountBox />, href: `http://localhost:3000/profile/${user_id}` }
         ].map((item, idx) => (
           <ListItem
