@@ -1,8 +1,8 @@
 'use client'
-import Sidebar from "../../../components/explore_professors/Sidebar";
-import Feed from "../../../components/explore_professors/Feed";
+import Sidebar from "../../../components/shortlisted_professors/Sidebar";
+import Feed from "../../../components/shortlisted_professors/Feed";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../../components/explore_professors/Navbar";
+import Navbar from "../../../components/shortlisted_professors/Navbar";
 import { useState, useEffect } from "react";
 import ChatUI from "../../../components/chatbot/Chatbot";
 
@@ -33,7 +33,7 @@ function App() {
     async function fetchProfessors() {
       try {
 
-        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_all_professor_short_details`);
+        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`);
         const data = await response.json();
         setProfessors(data); 
         setfilteredProfessors(data); // Initialize filteredProfessors with all Professors
@@ -49,7 +49,7 @@ function App() {
 
   const refreshProfessorlist = async () => {
     try {
-      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_all_professor_short_details`);
+      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`);
       const data = await response.json();
       setProfessors(data); 
       setfilteredProfessors(data); // Initialize filteredPosts with all posts

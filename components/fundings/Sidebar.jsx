@@ -35,7 +35,7 @@ import {
         <List>
           {[
             { label: "Homepage", icon: <Home />, href: `http://localhost:3000/newsfeed/${user_id}` },
-            { label: "Prof Shortlist", icon: <Article />, href: "#simple-list" },
+            { label: "Prof Shortlist", icon: <Article />, href: `http://localhost:3000/shortlisted_professors/${user_id}` },
             { label: "Fundings", icon: <Group />, href: `http://localhost:3000/fundings/${user_id}` },
             { label: "Explore Professors", icon: <PersonSearchIcon />, href: `http://localhost:3000/explore_professors/${user_id}` },
             { label: "Analytics", icon: <Settings />, href: "#analytics" },

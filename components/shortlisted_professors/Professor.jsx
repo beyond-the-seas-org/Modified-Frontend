@@ -16,57 +16,6 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
   user_id = parseInt(user_id);
   console.log("user_id", user_id);
 
-  const handleAddToShortlist = async () => {
-  
-    const postData = {
-      student_id: user_id,
-      professor_id: professor.id,
-    };
-
-    try {
-        const response = await fetch('http://localhost:5001/api/profile/add_to_shortlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      });
-        if(response.ok)
-        {
-          alert('added to shortlist successfully');
-          refreshProfessorlist();
-        }
-    } catch (error) {
-        console.error("Error adding to shortlist:", error);
-    }
-};
-
-
-const handleRemoveFromShortlist = async () => {
-  
-  const postData = {
-    student_id: user_id,
-    professor_id: professor.id,
-  };
-
-  try {
-      const response = await fetch('http://localhost:5001/api/profile/remove_from_shortlist', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    });
-      if(response.ok)
-      {
-        alert('removed from shortlist successfully');
-        refreshProfessorlist();
-      }
-  } catch (error) {
-      console.error("Error removing from shortlist:", error);
-  }
-};
-
 
   return (
     <Card sx={{ margin: 5 , borderColor:mode === 'dark' ? 'white' : 'black' ,borderWidth: '2px', borderStyle: 'solid',borderRadius: 4,boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)'}} >
@@ -144,27 +93,7 @@ const handleRemoveFromShortlist = async () => {
           hoverBackgroundColor="ButtonHoverBackground"
           href= {`http://localhost:3000/professor/${professor.id}/details`}
         />
-
-         { professor.shortlist_status === false ? (
-              <StyledButton
-              label="ADD TO SHORTLIST"
-              backgroundColor="ButtonShadow"
-              hoverBackgroundColor="ButtonHoverBackground"
-              onClick= {handleAddToShortlist}
-            />
-      ) : ( 
-            <StyledButton
-              label="REMOVE FROM SHORTLIST"
-              backgroundColor="ButtonShadow"
-              hoverBackgroundColor="ButtonHoverBackground"
-              onClick = {handleRemoveFromShortlist}
-            />
-            
-            )
-        }
-        </CardActions>
-
-      
+      </CardActions>
 
     </Card>
   );
