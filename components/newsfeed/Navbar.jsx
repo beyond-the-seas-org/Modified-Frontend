@@ -80,6 +80,7 @@ const Navbar = ({ onSearch }) => {
     // retrieve the access and refresh tokens from local storage
     const access_token = localStorage.getItem("access_token");
     const refresh_token = localStorage.getItem("refresh_token");
+    const user_id = localStorage.getItem("id");
 
     // make a POST request to the logout endpoint
     const apiEndpoint = "http://127.0.0.1:5001/api/auth/logout";
@@ -117,7 +118,7 @@ const Navbar = ({ onSearch }) => {
       <AppBar position="sticky">
         <StyledToolbar>
           <Typography variant="h6" sx={{ display: { xs: "none", sm: "block" } }}>
-            NEWSFEED
+            BEYOND THE SEAS
           </Typography>
           <Pets sx={{ display: { xs: "block", sm: "none" } }} />
           <Search>
