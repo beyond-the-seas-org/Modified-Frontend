@@ -72,6 +72,7 @@ export default function Form() {
                 },
                 body: JSON.stringify(formData)
             });
+            console.log("Response from server:", response);
 
             const data = await response.json();
 
