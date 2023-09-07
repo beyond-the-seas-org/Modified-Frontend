@@ -1,10 +1,10 @@
 'use client';
-import Sidebar from "../../../components/newsfeed/Sidebar";
-import Feed from "../../../components/newsfeed/Feed";
-import Rightbar from "../../../components/newsfeed/Rightbar";
+import Sidebar from "../../components/newsfeed/Sidebar";
+import Feed from "../../components/newsfeed/Feed";
+import Rightbar from "../../components/newsfeed/Rightbar";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../../components/newsfeed/Navbar";
-import ChatUI from "../../../components/chatbot/Chatbot";
+import Navbar from "../../components/newsfeed/Navbar";
+import ChatUI from "../../components/chatbot/Chatbot";
 
 import { useState, useEffect } from "react";
 
@@ -16,9 +16,22 @@ function App() {
   /*Get the user id from the url. For example: http://localhost:3000/newsfeed/2. This qlink will take this link*/
   const qlink = window.location.href;
   const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  // let user_id = tokens[tokens.length - 1]
+  // user_id = parseInt(user_id);
+  // console.log("user_id", user_id);
+
+  // first check if the user is logged in and the id is in local storage
+  const access_token = localStorage.getItem("access_token");
+  const refresh_token = localStorage.getItem("refresh_token");
+  const id = localStorage.getItem("id");
+  console.log("id", id);
+  // console.log("user_id", user_id);
+
+  // if id not in local storage, redirect to the login page
+  if (!id) {
+    window.location.href = "/login";
+    return;
+  }
 
   /*Create a Theme instance to enable dark theme or light theme depending on the value of mode */
   const darkTheme = createTheme({
@@ -33,10 +46,21 @@ function App() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/get_posts`);
+
+        // add the authorization header to the request as the bearer token
+        const response = await fetch(`http://localhost:5000/api/newsfeed/${id}/get_posts`
+          , { headers: { Authorization: `Bearer ${access_token}` } }
+        );
+        // check for 401 status code
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = "/login";
+          return;
+        }
+
         const data = await response.json();
         console.log(data) // Print posts to console of the browser
-        setPosts(data); 
+        setPosts(data);
         setFilteredPosts(data); // Initialize filteredPosts with all posts
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -51,6 +75,12 @@ function App() {
   const refreshPosts = async () => {
     try {
       const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
+      // check for 401 status code
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = "/login";
+        return;
+      }
       const data = await response.json();
       setPosts(data);
       setFilteredPosts(data);
@@ -85,7 +115,7 @@ function App() {
       <Box bgcolor={"background.default"} color={"text.primary"}>
         <Navbar onSearch={handleSearch} />
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
+          <Sidebar setMode={setMode} mode={mode} user_id={id} />
           <Feed mode={mode} posts={filteredPosts} refreshPosts={refreshPosts} />
           <Rightbar />
           {/* Create a container for the ChatUI */}

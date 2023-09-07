@@ -44,7 +44,7 @@ export default function LoginForm() {
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
                     localStorage.setItem('id', data.id);
-                    navigation.push(`/newsfeed/${data.id}`);
+                    navigation.push(`/newsfeed`);
                     alert("Login successful! Redirecting...");
                     console.log(localStorage);
                 } else {
