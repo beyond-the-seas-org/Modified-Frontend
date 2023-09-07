@@ -3,6 +3,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   InputBase,
   Menu,
   MenuItem,
@@ -58,7 +59,7 @@ const UserBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Navbar = ({onSearch}) => {
+const Navbar = ({ onSearch }) => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
 
@@ -73,6 +74,43 @@ const Navbar = ({onSearch}) => {
     onSearch(newSearchTerm); // Pass the updated search term to the parent component
   };
 
+  const handleLogout = async () => {
+    // Implement the logout functionality here
+
+    // retrieve the access and refresh tokens from local storage
+    const access_token = localStorage.getItem("access_token");
+    const refresh_token = localStorage.getItem("refresh_token");
+
+    // make a POST request to the logout endpoint
+    const apiEndpoint = "http://127.0.0.1:5001/api/auth/logout";
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: JSON.stringify({ refresh_token: refresh_token }),
+    });
+
+    // check if the response is ok
+    if (response.ok) {
+      // remove the access and refresh tokens from local storage
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("id");
+
+      alert("Logout successful!");
+      console.log(localStorage);
+      // redirect to the login page
+      window.location.href = "/login";
+    } else {
+      // if the response is not ok, display an error message
+      alert("Error: Logout failed. Please try again.");
+    }
+
+    // print the local storage to the console
+  };
+
   return (
     // Wrap the Navbar component with ThemeProvider and pass the darkTheme
     <ThemeProvider theme={darkTheme}>
@@ -83,17 +121,27 @@ const Navbar = ({onSearch}) => {
           </Typography>
           <Pets sx={{ display: { xs: "block", sm: "none" } }} />
           <Search>
-          <InputBase //this is the search bar
-            placeholder="search..."
-            value={searchTerm}
-            onChange={handleLiveSearch} // Use handleLiveSearch for live search
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch(); // Trigger search on Enter key
-              }
-            }}
-          />
+            <InputBase //this is the search bar
+              placeholder="search..."
+              value={searchTerm}
+              onChange={handleLiveSearch} // Use handleLiveSearch for live search
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(); // Trigger search on Enter key
+                }
+              }}
+            />
           </Search>
+
+          <Button
+            variant="outlined"
+            color="inherit"
+            size="small"
+            onClick={handleLogout}  // Add onClick event listener
+          >
+            Logout
+          </Button>
+
           <Icons>
             <Badge badgeContent={2} color="error">
               <Notifications />

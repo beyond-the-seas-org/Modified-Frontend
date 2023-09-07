@@ -37,12 +37,16 @@ export default function LoginForm() {
             });
     
             const data = await response.json();
+            // console.log(data);
     
             if (response.ok) {
                 if (data.access_token) {
-                    localStorage.setItem(data.id, data.access_token);
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                    localStorage.setItem('id', data.id);
                     navigation.push(`/newsfeed/${data.id}`);
-                    alert("Login successful! Redirecting...")
+                    alert("Login successful! Redirecting...");
+                    console.log(localStorage);
                 } else {
                     alert("Login failed. Please try again.");
                 }
