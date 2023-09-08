@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Update from '../../../../components/profile/Update'
+import Update from '../../../components/profile/Update'
 const page = () => {
   return (
     <div>

@@ -14,23 +14,34 @@ import {
 } from '@mui/material';
 
 export default function UpdateProfile() {
-    const qlink = window.location.href;
-    const tokens = qlink.split("/");
-    let user_id = tokens[tokens.length - 2];
-    user_id = parseInt(user_id);
+    const [user_id, setUser_id] = useState(null);
 
     useEffect(() => {
-        const qlink = window.location.href;
-        const tokens = qlink.split("/");
-        let user_id = tokens[tokens.length - 2];
-        user_id = parseInt(user_id);
+        const user_id = localStorage.getItem('id');
+        setUser_id(user_id);
+
+        if (!user_id) {
+            window.location.href = '/login';
+            return;
+        }
     
         const fetchData = async () => {
             const apiEndpoint = `http://127.0.0.1:5001/api/profile/${user_id}`;
             try {
-                const response = await fetch(apiEndpoint);
+                const response = await fetch(apiEndpoint, 
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        }
+                    });
+
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+
                 const data = await response.json();
-    
+
                 if (response.status === 200) {
                     setFormData(data);
                 } else {
@@ -49,7 +60,6 @@ export default function UpdateProfile() {
         username: '',
         first_name: '',
         last_name: '',
-        password_hash: '',
         primary_email: '',
         secondary_email: '',
         gender: '',
@@ -88,14 +98,20 @@ export default function UpdateProfile() {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                 },
                 body: JSON.stringify(formData)
             });
 
+            if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+            }
+
             const data = await response.json();
             if (response.status === 200) {
                 alert(data.message);
-                window.location.href = `/profile/${user_id}`;
+                window.location.href = `/profile`;
             } else {
                 alert(data.message);
             }
