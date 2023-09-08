@@ -18,8 +18,18 @@ import {
 } from "@mui/material";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import React from "react";
+import { useRouter } from "next/navigation";
+
 const bgcolor = "#0A85ED"
 const Sidebar = ({ mode, setMode, user_id }) => {
+
+  const navigation = useRouter();
+
+  const handleNavigation = (href) => {
+    navigation.push(href);
+  };
+
+
   return (
     <Box
     flex={1.5}
@@ -34,12 +44,12 @@ const Sidebar = ({ mode, setMode, user_id }) => {
     <Box position="fixed" width={250} height="100vh" sx={{ overflowY: 'auto' }}>
       <List>
         {[
-          { label: "Homepage", icon: <Home />, href: `http://127.0.0.1:3000/newsfeed`},
+          { label: "Homepage", icon: <Home />, href: `/newsfeed`},
           { label: "Prof Shortlist", icon: <Article />, href: `http://127.0.0.1:3000/shortlisted_professors/${user_id}` },
           { label: "Fundings", icon: <Group />, href: `http://127.0.0.1:3000/fundings/${user_id}` },
           { label: "Explore Professors", icon: <PersonSearchIcon />, href: `http://127.0.0.1:3000/explore_professors/${user_id}` },
           { label: "Analytics", icon: <Settings />, href: `http://127.0.0.1:3000/analytics/${user_id}` },
-          { label: "Profile", icon: <AccountBox />, href: `http://127.0.0.1:3000/profile/${user_id}` }
+          { label: "Profile", icon: <AccountBox />, href: `/profile` }
         ].map((item, idx) => (
           <ListItem
             key={idx}
@@ -57,7 +67,7 @@ const Sidebar = ({ mode, setMode, user_id }) => {
           >
             <ListItemButton 
               component="a" 
-              href={item.href} 
+              onClick={() => handleNavigation(item.href)}
               sx={{ 
                 backgroundColor: mode === "light"
                   ? "linear-gradient(45deg, #ffffff, #f3f3f3)"
