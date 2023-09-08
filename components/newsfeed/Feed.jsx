@@ -20,8 +20,13 @@ const Feed = ({posts , mode, refreshPosts}) => {
   useEffect(() => {
     const user_id = localStorage.getItem("id");
     setUser_id(user_id);
+
+    if (!user_id) {
+      window.location.href = "/login";
+      return;
+    }
   }, []);
-  
+
   /* AddPost Component is added at the very beginning. Then all the posts will be displayed
   Map is used to loop through the posts.
   Each post is rendered using Post component.

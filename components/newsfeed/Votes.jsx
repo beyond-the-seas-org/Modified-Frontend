@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IconButton, Popover, Typography } from '@mui/material';
 import { ThumbUp, ThumbDown, ThumbUpOutlined, ThumbDownOutlined } from '@mui/icons-material';
 
@@ -7,10 +7,18 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
   const [reaction, setReaction] = useState(upvote_status ? 'upvote' : downvote_status ? 'downvote' : 'None');
   const [upCount, setUpvoteCount] = useState(upvoteCount);
   const [downCount, setDownvoteCount] = useState(downvoteCount);
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = tokens[tokens.length-1]
+  // user_id = parseInt(user_id);
+
+  const [user_id, setUser_id] = useState(null);
+  useEffect(() => {
+    const user_id = localStorage.getItem("id");
+    setUser_id(user_id);
+  }, []);
+
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,9 +47,16 @@ const Votes = ({ mode, upvoteCount, downvoteCount, post_id, upvote_status, downv
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')} `,
         },
         body: JSON.stringify(data),
       });
+
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = '/login';
+        return;
+      }
 
       if (response.ok) {
         // update done successfully.

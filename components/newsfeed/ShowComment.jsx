@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Card, CardContent, Typography, IconButton } from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
 import AddComment from './AddComment';
@@ -68,10 +68,16 @@ const [openDeleteCommentDialogs, setOpenDeleteCommentDialogs] = useState({});
   };
 
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = tokens[tokens.length-1]
+  // user_id = parseInt(user_id);
+
+  const [user_id, setUser_id] = useState(null);
+  useEffect(() => {
+    const user_id = localStorage.getItem("id");
+    setUser_id(user_id);
+  }, []);
 
   const handleClose = () => {
     onClose();

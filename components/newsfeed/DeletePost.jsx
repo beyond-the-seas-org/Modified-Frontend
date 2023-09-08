@@ -14,9 +14,16 @@ const DeletePost = ({ post_id, user_id , onOpen, onClose, refreshPosts}) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')} `,
         },
         body: JSON.stringify({ post_id }),
       });
+
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = '/login';
+        return;
+      }
 
       if (response.ok) {
         // Post deleted successfully

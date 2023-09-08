@@ -34,12 +34,12 @@ const Sidebar = ({ mode, setMode, user_id }) => {
     <Box position="fixed" width={250} height="100vh" sx={{ overflowY: 'auto' }}>
       <List>
         {[
-          { label: "Homepage", icon: <Home />, href: `http://localhost:3000/newsfeed/${user_id}`},
-          { label: "Prof Shortlist", icon: <Article />, href: `http://localhost:3000/shortlisted_professors/${user_id}` },
-          { label: "Fundings", icon: <Group />, href: `http://localhost:3000/fundings/${user_id}` },
-          { label: "Explore Professors", icon: <PersonSearchIcon />, href: `http://localhost:3000/explore_professors/${user_id}` },
-          { label: "Analytics", icon: <Settings />, href: `http://localhost:3000/analytics/${user_id}` },
-          { label: "Profile", icon: <AccountBox />, href: `http://localhost:3000/profile/${user_id}` }
+          { label: "Homepage", icon: <Home />, href: `http://127.0.0.1:3000/newsfeed`},
+          { label: "Prof Shortlist", icon: <Article />, href: `http://127.0.0.1:3000/shortlisted_professors/${user_id}` },
+          { label: "Fundings", icon: <Group />, href: `http://127.0.0.1:3000/fundings/${user_id}` },
+          { label: "Explore Professors", icon: <PersonSearchIcon />, href: `http://127.0.0.1:3000/explore_professors/${user_id}` },
+          { label: "Analytics", icon: <Settings />, href: `http://127.0.0.1:3000/analytics/${user_id}` },
+          { label: "Profile", icon: <AccountBox />, href: `http://127.0.0.1:3000/profile/${user_id}` }
         ].map((item, idx) => (
           <ListItem
             key={idx}
