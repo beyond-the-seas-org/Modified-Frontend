@@ -68,6 +68,7 @@ export default function LoginForm() {
                 }
             }
         } catch (error) {
+            console.log(error);
             alert("Error during the login process. Please try again.");
         }
     };
