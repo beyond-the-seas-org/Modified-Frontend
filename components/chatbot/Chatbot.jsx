@@ -16,17 +16,28 @@ const ChatUI = () => {
   const [input, setInput] = useState("");
   const [isMinimized, setIsMinimized] = useState(true);
   const [chats, setChats] = useState([]);
+  const [user_id, setUser_id] = useState(null);
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = parseInt(tokens[tokens.length - 1]);
-  console.log("user_id", user_id);
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = parseInt(tokens[tokens.length - 1]);
+  // console.log("user_id", user_id);
 
   useEffect(() => {
+
+    const user_id = localStorage.getItem('id');
+    setUser_id(user_id);
+
+    if (!user_id) {
+      window.location.href = '/login';
+      return;
+    }
+
+
     async function fetchChats() {
       try {
         const response = await fetch(
-          `http://localhost:5004/api/chatbot/get_all_chats/${user_id}`
+          `http://127.0.0.1:5004/api/chatbot/get_all_chats/${user_id}`
         );
         const data = await response.json();
         console.log(data);
@@ -50,7 +61,7 @@ const ChatUI = () => {
       ]);
 
       const response = await fetch(
-        "http://localhost:5004/api/chatbot/get_response",
+        "http://127.0.0.1:5004/api/chatbot/get_response",
         {
           method: "POST",
           headers: {
