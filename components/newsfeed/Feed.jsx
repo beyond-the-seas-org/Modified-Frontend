@@ -32,27 +32,38 @@ const Feed = ({posts , mode, refreshPosts}) => {
   Each post is rendered using Post component.
   When we are using map, we need to pass key as a value which is unique. In this case, post.post_id is unique
   All other necessary variables and functions are passed to the Post Component */
-  return (
-    <Box flex={3.5} p={{ xs: 0, md: 2 }}>
-      <AddPost refreshPosts={refreshPosts} />
-      {loading ? (
-        <Stack spacing={1}>
-          <Skeleton variant="text" height={100} />
-          <Skeleton variant="text" height={20} />
-          <Skeleton variant="text" height={20} />
-          <Skeleton variant="rectangular" height={300} />
-        </Stack>
-      ) : posts && posts.length > 0 ? (
-        <>
+  if (loading) {
+    return (
+        <Box flex={3.5} p={{ xs: 0, md: 2 }}>
+            <AddPost refreshPosts={refreshPosts} />
+            <Stack spacing={1}>
+                <Skeleton variant="text" height={100} />
+                <Skeleton variant="text" height={20} />
+                <Skeleton variant="text" height={20} />
+                <Skeleton variant="rectangular" height={300} />
+            </Stack>
+        </Box>
+    );
+}
+
+if (posts && posts.length > 0) {
+    return (
+        <Box flex={3.5} p={{ xs: 0, md: 2 }}>
+            <AddPost refreshPosts={refreshPosts} />
             {posts.map((post) => (
-                <Post key={post.id} post={post} refreshPosts={refreshPosts} mode={mode}/>
+                <Post key={post.id} post={post} refreshPosts={refreshPosts} mode={mode} />
             ))}
-        </>
-    ) : (
-        <EmptyPost mode={mode}  />
-    )}
+        </Box>
+    );
+}
+
+return (
+    <Box flex={3.5} p={{ xs: 0, md: 2 }} height={"100vh"}>
+        <AddPost refreshPosts={refreshPosts} />
+        <EmptyPost mode={mode} />
     </Box>
-  );
+);
+
 };
 
 export default Feed;
