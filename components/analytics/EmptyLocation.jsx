@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 //import StyledButton from "../styled-components/StyledButton"
@@ -7,14 +7,17 @@ import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, Thumb
 
 const EmptyLocation = ({ mode }) => {
 
+  const [user_id, setuser_id] = useState(null); /*The initial value of user_id is null*/
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  //convert user id to int
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  useEffect(() => {
+    const user_id = localStorage.getItem("id");
+    setuser_id(user_id);
 
+    if (!user_id) {
+      window.location.href = "/login";
+    }
+
+  }, []);
   
   return (
     <Card sx={{ 

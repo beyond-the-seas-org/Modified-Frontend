@@ -55,9 +55,14 @@ import {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')} `
           },
           body: JSON.stringify(postData),
         });
+
+        if (response.status === 401) {
+          window.location.href = "/login";
+        }
       const data = await response.json();
       console.log(data)
       show_preferable_locations(data);
@@ -74,7 +79,7 @@ import {
       refreshLocationlist();
 
     } catch (error) {
-      console.error("Error fetching  refreshed locations:", error);
+      console.error("Error fetching refreshed locations:", error);
     }
   };
 
