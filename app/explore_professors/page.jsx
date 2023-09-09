@@ -1,10 +1,11 @@
 'use client'
-import Sidebar from "../../../components/shortlisted_professors/Sidebar";
-import Feed from "../../../components/shortlisted_professors/Feed";
+import Sidebar from "../../components/explore_professors/Sidebar";
+import Feed from "../../components/explore_professors/Feed";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../../components/shortlisted_professors/Navbar";
+import Navbar from "../../components/explore_professors/Navbar";
 import { useState, useEffect } from "react";
-import ChatUI from "../../../components/chatbot/Chatbot";
+import ChatUI from "../../components/chatbot/Chatbot";
+import { useRouter } from 'next/navigation'
 
 
 function App() {
@@ -12,12 +13,16 @@ function App() {
   const [professors, setProfessors] = useState([]); /*The initial value of professors is an empty array*/
   const [filteredProfessors, setfilteredProfessors] = useState([]); /*The initial value of filteredProfessors is an empty array*/
 
-  /*Get the user id from the url. For example: http://localhost:3000/professors/2. This qlink will take this link*/
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  /*Get the user id from the url. For example: http://127.0.0.1:3000/professors/2. This qlink will take this link*/
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = tokens[tokens.length-1]
+  // user_id = parseInt(user_id);
+  // console.log("user_id", user_id);
+
+  const [user_id, setUserId] = useState(null);
+
+  const navigation = useRouter();
 
   /*Create a Theme instance to enable dark theme or light theme depending on the value of mode */
   const darkTheme = createTheme({
@@ -30,10 +35,31 @@ function App() {
   the server. This is client side rendering as we are using react Hooks(useState, useEffect).
   Therefore we need to mention use client at the top of this file as we are using next-js */
   useEffect(() => {
+
+    const user_id = localStorage.getItem('id');
+    const access_token = localStorage.getItem('access_token');
+    setUserId(user_id);
+
+    console.log ("user_id", user_id)
+    console.log ("access_token", access_token)
+
+    if (!user_id) {
+      navigation.push('/login');
+    }
+
     async function fetchProfessors() {
       try {
 
-        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`);
+        const response = await fetch(`http://127.0.0.1:5002/api/professors/${user_id}/get_all_professor_short_details`,{
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+        
+        if (response.status === 401) {
+          navigation.push('/login'); 
+        }
+  
         const data = await response.json();
         setProfessors(data); 
         setfilteredProfessors(data); // Initialize filteredProfessors with all Professors
@@ -49,7 +75,16 @@ function App() {
 
   const refreshProfessorlist = async () => {
     try {
-      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`);
+      const response = await fetch(`http://127.0.0.1:5002/api/professors/${user_id}/get_all_professor_short_details`,{
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      }
+    });
+      
+      if (response.status === 401) {
+        navigation.push('/login');
+      }
+
       const data = await response.json();
       setProfessors(data); 
       setfilteredProfessors(data); // Initialize filteredPosts with all posts

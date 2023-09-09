@@ -1,10 +1,10 @@
 'use client';
-import Sidebar from "../../../components/newsfeed/Sidebar";
-import Feed from "../../../components/newsfeed/Feed";
-import Rightbar from "../../../components/newsfeed/Rightbar";
+import Sidebar from "../../components/newsfeed/Sidebar";
+import Feed from "../../components/newsfeed/Feed";
+import Rightbar from "../../components/newsfeed/Rightbar";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../../components/newsfeed/Navbar";
-import ChatUI from "../../../components/chatbot/Chatbot";
+import Navbar from "../../components/newsfeed/Navbar";
+import ChatUI from "../../components/chatbot/Chatbot";
 
 import { useState, useEffect } from "react";
 
@@ -12,13 +12,14 @@ function App() {
   const [mode, setMode] = useState("light"); /*The initial theme of the UI: light. It can be dark or light depending on the initial value in useState */
   const [posts, setPosts] = useState([]); /*The initial value of posts is an empty array*/
   const [filteredPosts, setFilteredPosts] = useState([]); /*The initial value of filteredPosts is an empty array*/
+  const [user_id, setUser_id] = useState(null); /*The initial value of user_id is null*/
 
   /*Get the user id from the url. For example: http://localhost:3000/newsfeed/2. This qlink will take this link*/
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = tokens[tokens.length - 1]
+  // user_id = parseInt(user_id);
+  // console.log("user_id", user_id);
 
   /*Create a Theme instance to enable dark theme or light theme depending on the value of mode */
   const darkTheme = createTheme({
@@ -31,12 +32,38 @@ function App() {
   the server. This is client side rendering as we are using react Hooks(useState, useEffect).
   Therefore we need to mention use client at the top of this file as we are using next-js */
   useEffect(() => {
+    // first check if the user is logged in and the id is in local storage
+    const access_token = localStorage.getItem("access_token");
+    const refresh_token = localStorage.getItem("refresh_token");
+    const user_id = localStorage.getItem("id");
+    setUser_id(user_id);
+    console.log("id", user_id);
+
+    // console.log("user_id", user_id);
+
+    // if id not in local storage, redirect to the login page
+    if (!user_id) {
+      window.location.href = "/login";
+      return;
+    }
+
     async function fetchPosts() {
       try {
-        const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/get_posts`);
+
+        // add the authorization header to the request as the bearer token
+        const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/get_posts`
+          , { headers: { Authorization: `Bearer ${access_token}` } }
+        );
+        // check for 401 status code
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = "/login";
+          return;
+        }
+
         const data = await response.json();
         console.log(data) // Print posts to console of the browser
-        setPosts(data); 
+        setPosts(data);
         setFilteredPosts(data); // Initialize filteredPosts with all posts
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -49,8 +76,16 @@ function App() {
   This function will be called from AddPost.jsx, EditPost.jsx and DeletePost.jsx*/
 
   const refreshPosts = async () => {
+    const user_id = localStorage.getItem("id");
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`);
+      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/get_posts`
+        , { headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` } });
+      // check for 401 status code
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = "/login";
+        return;
+      }
       const data = await response.json();
       setPosts(data);
       setFilteredPosts(data);

@@ -1,20 +1,31 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import StyledButton from "../styled-components/StyledButton"
-//import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 
 const Professor = ({ professor, refreshProfessorlist, mode }) => {
 
+  const [user_id, setUser_id] = useState(null);
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  //convert user id to int
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  useEffect(() => {
+    const user_id = localStorage.getItem('id');
+    setUser_id(user_id);
+
+    if(!user_id){
+      window.location.href = '/login';
+
+    }
+
+  }, []);
+
+  const router = useRouter()
+
+  const handleDetails = async () => {
+    router.push(`professor/${professor.id}/details`)
+  }
 
 
   return (
@@ -91,7 +102,7 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
           label="SHOW DETAILS"
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
-          href= {`http://localhost:3000/professor/${professor.id}/details`}
+          onClick={handleDetails}
         />
       </CardActions>
 

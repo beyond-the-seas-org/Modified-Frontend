@@ -1,5 +1,5 @@
 'use'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 
 const AddComment = ({ post_id, user_id, refreshComments}) => {
@@ -18,9 +18,17 @@ const AddComment = ({ post_id, user_id, refreshComments}) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
           },
           body: JSON.stringify(commentData),
         });
+
+        // check for 401 status code
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = '/login';
+          return;
+        }
 
         if (response.ok) {
           // Comment added successfully

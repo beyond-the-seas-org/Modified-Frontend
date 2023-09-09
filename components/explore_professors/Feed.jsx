@@ -9,11 +9,23 @@ const Feed = ({professors , mode, refreshProfessorlist}) => {
   const [loading, setLoading] = useState(false);  // Set loading to false initially
 
   /*Used to take the user id from the url */
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = tokens[tokens.length-1]
+  // user_id = parseInt(user_id);
+  // console.log("user_id", user_id);
+
+  const [user_id, setUserId] = useState(null);
+
+  useEffect(() => {
+
+    const user_id = localStorage.getItem('id');
+    setUserId(user_id);
+
+    if (!user_id) {
+      navigation.push('/login');
+    }
+  }, []);
 
 
   return (

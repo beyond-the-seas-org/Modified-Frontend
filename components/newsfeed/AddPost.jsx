@@ -1,16 +1,25 @@
 'use client'
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect, use} from 'react';
 import { Box, Button, TextareaAutosize} from '@mui/material';
 import axios from 'axios';
 
 const AddPost = ({ refreshPosts }) => {
   const [postText, setPostText] = useState('');
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  const id = tokens[tokens.length-1]
+
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // const id = tokens[tokens.length-1]
 
   const [image, setImage] = useState(null);
   const [imageURL, setImageURL] = useState(null);
+  const [user_id, setUser_id] = useState(null);
+
+  useEffect(() => {
+    const user_id = localStorage.getItem("id");
+    const access_token = localStorage.getItem("access_token");
+    const refresh_token = localStorage.getItem("refresh_token");
+    setUser_id(user_id);
+  }, []);
 
 
   const handleFileChange = (event) => {
@@ -25,8 +34,17 @@ const AddPost = ({ refreshPosts }) => {
         const response = await axios.post(`http://localhost:5000/api/newsfeed/${postid}/add_image`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
             },
         });
+
+        // check for 401 status code
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = "/login";
+          return;
+        }
+
         setImageURL(response.data.url);
         console.log('Image URL:', response.data.url);
         console.log(response.ok)
@@ -51,7 +69,7 @@ const AddPost = ({ refreshPosts }) => {
       /* If the post is not a empty string, then the following data is sent to the newsfeed service with a POST rewuest. */
       const postData = {
         post_desc: postText,
-        user_id: id,
+        user_id: user_id,
         type: 'newsfeed',
       };
     
@@ -62,9 +80,17 @@ const AddPost = ({ refreshPosts }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
           },
           body: JSON.stringify(postData),
         });
+
+        // check for 401 status code
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = "/login";
+          return;
+        }
         
         setPostText('');
         if (response.ok) {
@@ -79,8 +105,6 @@ const AddPost = ({ refreshPosts }) => {
 
             refreshPosts();
           }
-          
-
         } else {
           // Handle error
           console.error('Failed to add post');

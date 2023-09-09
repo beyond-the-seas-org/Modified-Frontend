@@ -26,7 +26,17 @@ const FundingDetailsCard = ({ fundingDetails }) => {
             // Construct the URL based on professor_id (assuming it's the student_id) and funding_id
             const url = `http://127.0.0.1:5002/api/professors/1/1/get_student_profile_matching`;
 
-            const response = await fetch(url);
+            const response = await fetch(url, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')} `
+                        }
+                }
+            );
+
+            if (response.status === 401) {
+                window.location.href = "/login";
+            }
 
             // Check if the response is OK (status code 200-299)
             if (!response.ok) {

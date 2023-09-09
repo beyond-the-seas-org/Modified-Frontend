@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import Notification, { showNotification } from '../notification/Notification'; // Import showNotification
-import { on } from 'events';
 
 const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshcomments}) => {
   const [commentDesc, setcommentDesc] = useState(initialcommentDesc);
@@ -20,9 +18,16 @@ const EditComment = ({ comment_id, initialcommentDesc, onOpen, onClose, refreshc
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')} `,
           },
           body: JSON.stringify(commentData),
         });
+
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = '/login';
+          return;
+        }
 
         if (response.ok) {
           

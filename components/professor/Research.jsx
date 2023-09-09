@@ -53,7 +53,7 @@ const ResearchProfile = ({ publications, fields }) => {
 <CardContent>
   <Typography variant="h6" gutterBottom sx={{ color: '#e74c3c' }}>Publications:</Typography>
   <List>
-    {publications.map((publication, index) => (
+    {publications ? publications.map((publication, index) => (
       <ListItem key={index} sx={{ '&:hover': { backgroundColor: '#eef2f7' } }}>
         <Typography variant="body1">
           {publication.title} - 
@@ -67,7 +67,7 @@ const ResearchProfile = ({ publications, fields }) => {
           </a>
         </Typography>
       </ListItem>
-    ))}
+    )): ("No publications.")}
   </List>
 </CardContent>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextareaAutosize, Button, Dialog, DialogTitle, DialogContent, DialogActions, Box } from '@mui/material';
 import Notification, { showNotification } from '../notification/Notification'; // Import showNotification
 
@@ -11,8 +11,14 @@ onClose: a function in the parent component, Post.jsx, which sets the boolean va
 refreshPosts: a function which fetches the posts from the newsfeed service which is then rendered. Thus the effect
 of updating a post is shown in the browser.
 */
-const EditPost = ({ post_id, initialPostDesc, onOpen, onClose, refreshPosts}) => {
+const EditPost = ({ post_id, initialPostDesc, onOpen, onClose, refreshPosts }) => {
   const [postDesc, setPostDesc] = useState(initialPostDesc);
+  const [user_id, setUser_id] = useState(null);
+
+  useEffect(() => {
+    const user_id = localStorage.getItem("id");
+    setUser_id(user_id);
+  }, []);
 
   const handleEditPost = async () => {
     if (postDesc.trim() !== '') {
@@ -24,14 +30,21 @@ const EditPost = ({ post_id, initialPostDesc, onOpen, onClose, refreshPosts}) =>
       };
 
       try {
-        const response = await fetch(`http://localhost:5000/api/newsfeed/edit_post`, {
+        const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/edit_post`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
           },
           body: JSON.stringify(postData),
         });
 
+        // check for 401 status code
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = "/login";
+          return;
+        }
         if (response.ok) {
           alert('Post edited successfully')
           setPostDesc('');
@@ -53,30 +66,30 @@ const EditPost = ({ post_id, initialPostDesc, onOpen, onClose, refreshPosts}) =>
 
   return (
     /*This dialog box is shown when the open variable has value True and it is closed when onClose() function is called.*/
-    <Dialog open={onOpen} onClose={handleClose}>  
+    <Dialog open={onOpen} onClose={handleClose}>
       <DialogTitle>Edit Post</DialogTitle>
       <DialogContent>
-      <Box /*sx is used to provide custom style to a material ui component */
-        sx={{
-          width: '100%',
-          backgroundColor: 'lightgray', // Custom background color
-          borderRadius: '4px',
-          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-          padding: '8px', // Add padding for better visual
-        }}
-      >
-        <TextareaAutosize /*properties of the text box used for editing the comment. I couldn't custom edit the width of this box. you may try? */
-          minRows={4} 
-          value={postDesc}
-          onChange={(e) => setPostDesc(e.target.value)}
-          placeholder="Edit your post..."
-          style={{ width: '400 px', color: 'black', border: '2px solid black'}}
-        />
-      </Box>
+        <Box /*sx is used to provide custom style to a material ui component */
+          sx={{
+            width: '100%',
+            backgroundColor: 'lightgray', // Custom background color
+            borderRadius: '4px',
+            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+            padding: '8px', // Add padding for better visual
+          }}
+        >
+          <TextareaAutosize /*properties of the text box used for editing the comment. I couldn't custom edit the width of this box. you may try? */
+            minRows={4}
+            value={postDesc}
+            onChange={(e) => setPostDesc(e.target.value)}
+            placeholder="Edit your post..."
+            style={{ width: '400 px', color: 'black', border: '2px solid black' }}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} style={{backgroundColor:'#FF3333', color: 'black' , border: '2px solid black'}}> <b>Cancel</b></Button>
-        <Button  onClick={handleEditPost} style={{backgroundColor: '#33FF33', color: 'black', border: '2px solid black'}}>
+        <Button onClick={onClose} style={{ backgroundColor: '#FF3333', color: 'black', border: '2px solid black' }}> <b>Cancel</b></Button>
+        <Button onClick={handleEditPost} style={{ backgroundColor: '#33FF33', color: 'black', border: '2px solid black' }}>
           <b>Save Changes</b> {/*Name of the button is provided here*/}
         </Button>
         {/*Notification component is used to show the notification when the post is edited successfully. But sadly this feature does not work.*/}

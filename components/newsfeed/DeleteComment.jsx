@@ -6,13 +6,12 @@ import {
   } from '@mui/material';
   
   const DeleteComment = ({ comment_id, user_id , onOpen, onClose, refreshComments}) => {
-    const qlink = window.location.href;
-    const tokens = qlink.split("/");
-    let id = tokens[tokens.length-1]
-    //convert user id to int
-    const current_user_id = parseInt(id);
-    console.log("user_id", user_id);
-  
+    // const qlink = window.location.href;
+    // const tokens = qlink.split("/");
+    // let id = tokens[tokens.length-1]
+    // //convert user id to int
+    // const current_user_id = parseInt(id);
+    // console.log("user_id", user_id);  
   
     const handleConfirmDelete = async () => {
       // Send the delete request
@@ -21,9 +20,16 @@ import {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')} `,
           },
           body: JSON.stringify({ comment_id }),
         });
+
+        if (response.status === 401) {
+          // redirect to the login page
+          window.location.href = '/login';
+          return;
+        }
   
         if (response.ok) {
           // comment deleted successfully

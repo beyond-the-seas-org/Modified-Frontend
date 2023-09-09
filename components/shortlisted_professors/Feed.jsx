@@ -7,13 +7,18 @@ import EmptyProfessor from "../shortlisted_professors/EmptyProfessor";
 /* Here, professors, mode and refreshProfessorlist is received from parent component page.jsx */
 const Feed = ({professors , mode, refreshProfessorlist}) => {
   const [loading, setLoading] = useState(false);  // Set loading to false initially
+  const [user_id, setUser_id] = useState(null);
 
-  /*Used to take the user id from the url */
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  useEffect(() => {
+    const user_id = localStorage.getItem('id');
+    setUser_id(user_id);
+
+    if(!user_id){
+      window.location.href = '/login';
+    }
+
+  }, []);
+
 
 
   return (

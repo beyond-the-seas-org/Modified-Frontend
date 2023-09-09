@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, Avatar, Checkbox, Favorite, Button } from "@mui/material";
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import ShowComment from "./ShowComment"
@@ -11,12 +11,24 @@ import StyledButton from "../styled-components/StyledButton"
 const Post = ({ post, refreshPosts, mode }) => {
 
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  //convert user id to int
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
+  // const qlink = window.location.href;
+  // const tokens = qlink.split("/");
+  // let user_id = tokens[tokens.length-1]
+  // //convert user id to int
+  // user_id = parseInt(user_id);
+  // console.log("user_id", user_id);
+
+  const [user_id, setUser_id] = useState(null);
+
+  useEffect(() => {
+    const user_id = localStorage.getItem("id");
+    if (!user_id) {
+      window.location.href = "/login";
+      return;
+    }
+    setUser_id(user_id);
+  }, []);
+
 
   /*Constant variables can be declared once and cannot alter the values directly.
   To change the value of a const variable, we need a set method.
@@ -39,8 +51,14 @@ const Post = ({ post, refreshPosts, mode }) => {
   const handleShowComments = async () => {
     try {
       // Fetch comments from the API
-      const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`);
+      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`
+        , { headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` } });
       const data = await response.json();
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = "/login";
+        return;
+      }
       setComments(data);
 
       // Open the comment dialog
@@ -58,8 +76,15 @@ const Post = ({ post, refreshPosts, mode }) => {
   const refreshComments = async () => {
     try {
       // Fetch comments from the API
-      const response = await fetch(`http://localhost:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`);
+      const response = await fetch(`http://127.0.0.1:5000/api/newsfeed/${user_id}/${post.post_id}/get_comments`, 
+      { headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` } });
       const data = await response.json();
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = "/login";
+        return;
+      }
+
       setComments(data);
 
       // Reopen the comment dialog so the change can be seen.
@@ -172,13 +197,13 @@ const Post = ({ post, refreshPosts, mode }) => {
         {/*We need to show Edit Post button to those posts, which the currently logged in user has created.
         Therefore if this condition is true, only then Edit Post button is shown. 
         */}
-        {post.user_id === user_id && (
+        {post.user_id == user_id && (
         <StyledButton
           label="Edit Post"
           onClick={handleEditPost}
           backgroundColor="#66FF66"
           hoverBackgroundColor="ButtonHoverBackground"
-          disabled={user_id !== post.user_id}
+          disabled={user_id != post.user_id}
         >
           <b>Edit Post</b>
         </StyledButton> )}
@@ -189,13 +214,13 @@ const Post = ({ post, refreshPosts, mode }) => {
         <EditPost post_id={post.post_id} initialPostDesc={post.post_desc} onOpen={showEditPostDialog} onClose={handleEditPostDialogClose} refreshPosts={refreshPosts}/>
         
         {/*Same logic as Edit Post*/}
-        {post.user_id === user_id && (
+        {post.user_id == user_id && (
         <StyledButton
           label="Delete"
           onClick={handleDeletePost}
           backgroundColor="#FF6666"
           hoverBackgroundColor="ButtonHoverBackground"
-          disabled={user_id !== post.user_id}
+          disabled={user_id != post.user_id}
         />
         )}
         <DeletePost user_id={user_id} post_id={post.post_id} onOpen={showDeletePostDialog} onClose={handleDeletePostDialogClose} refreshPosts={refreshPosts}/>
