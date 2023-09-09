@@ -16,7 +16,7 @@ const ProfileHeader = (userData) => {
 
   const [user_id, setUser_id] = useState(null);
   const [image, setImage] = useState(null);
-  const [imageURL, setImageURL] = useState(null);
+  const [imageURL, setImageURL] = useState(userData.userData.profile_picture_link);
 
   navigation = useRouter();
 
