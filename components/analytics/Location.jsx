@@ -4,6 +4,7 @@ import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton,
 import { FavoriteBorder, MoreVert, Share, ChatBubbleOutline, Edit, Delete, ThumbUp, ThumbDown } from "@mui/icons-material";
 import StyledButton from "../styled-components/StyledButton"
 import { useRouter } from 'next/navigation'
+import {Link} from 'next/link';
 
 
 const Location = ({ location, refreshLocationlist, mode }) => {
@@ -35,10 +36,15 @@ const Location = ({ location, refreshLocationlist, mode }) => {
       borderStyle: 'solid',
       borderRadius: 4,
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${location.image_link})`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${location.image})`,
       backgroundSize: 'cover', 
       backgroundPosition: 'center',
-      color: mode === 'dark' ? 'white' : 'black'
+      color: mode === 'dark' ? 'white' : 'black',
+      transition: 'transform .2s',  // add this line for smooth transform transitions
+        '&:hover': {  // styles applied when card is hovered
+          transform: 'scale(1.05)'  // scale the card up a little
+        },
+      //href = {`http://localhost:3000/location/${location.id}/details`}
     }}
   >
     {/* CardHeader is used to show the location name, state name and country name. The card header is styled using sx property. */}
@@ -67,12 +73,20 @@ const Location = ({ location, refreshLocationlist, mode }) => {
             alignItems: 'center',
             height: '100%'
           }}>
-        <Typography variant="body2" color='white'>
+        {/* <Typography variant="body2" color='white'>
           <b>Area type :</b> {location.area_type}
+        </Typography> */}
+
+        <Typography variant="body2" color='white'>
+          <b>Living cost :</b> {location.avg_living_cost} (US Standard = 100)
         </Typography>
 
         <Typography variant="body2" color='white'>
-          <b>Average living cost :</b> {location.avg_living_cost} $
+          <b>Median income :</b> {location.avg_income}
+        </Typography>
+
+        <Typography variant="body2" color='white'>
+          <b>Avg Home Price :</b> {location.home_price} 
         </Typography>
 
         <Typography variant="body2" color='white'>
@@ -83,14 +97,10 @@ const Location = ({ location, refreshLocationlist, mode }) => {
           <b>Winter comfort index :</b> {location.winter_comfort_index}/10
         </Typography>
 
-        <Typography variant="body2" color='white'>
-          {/*tofixed() is used to express the float value upto 2 decimal point*/}
-          <b>Overall weather comfort index :</b> {location.weather_comfort_index.toFixed(2)}/10   {/* /10 is used to show out of 10 */}
-        </Typography>
 
-        <Typography variant="body2" color='white'>
+        {/* <Typography variant="body2" color='white'>
           <b>Public transportation :</b> {location.public_transportation}
-        </Typography>
+        </Typography> */}
 
         <Typography variant="body2" color='white'>
           <b>Average income :</b> {location.avg_income} $
@@ -120,6 +130,13 @@ const Location = ({ location, refreshLocationlist, mode }) => {
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
           onClick= {handleProfessorClick}
+        />
+
+        <StyledButton
+          label="SHOW LOCATION DETAILS"
+          backgroundColor="ButtonShadow"
+          hoverBackgroundColor="ButtonHoverBackground"
+          href= {`http://localhost:3000/location/${location.id}/details`}
         />
       </CardActions>
 
