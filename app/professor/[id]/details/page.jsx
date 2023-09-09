@@ -18,20 +18,43 @@ const ProfessorDetails = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [fundingOpportunities, setFundingOpportunities] = useState([]);
   const [matchScore, setMatchScore] = useState(5); // Example value
+  const [user_id, setUser_id] = useState(null);
+  const [prof_id, setProf_id] = useState(null);
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let prof_id = tokens[tokens.length - 2]
-  //convert user id to int
-  console.log("prof_id", prof_id);
 
-  prof_id = parseInt(prof_id);
   //console.log("prof_id", prof_id);
   useEffect(() => {
+    const qlink = window.location.href;
+    const tokens = qlink.split("/");
+    let prof_id = tokens[tokens.length - 2]
+    //convert user id to int
+    console.log("prof_id", prof_id);
+    prof_id = parseInt(prof_id);
+
+    setProf_id(prof_id);
+
+    //get user id
+    const user_id = localStorage.getItem("id");
+    setUser_id(user_id);
+
+    if (!user_id) {
+      window.location.href = "/login";
+    }
+
     async function showProfDetails() {
         try {
             // Fetch comments from the API
-            const response = await fetch(`http://127.0.0.1:5002/api/professors/${prof_id}/get_a_professor_details`);
+            const response = await fetch(`http://127.0.0.1:5002/api/professors/${prof_id}/get_a_professor_details`,
+            {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('access_token')} `
+                },
+            });
+
+            if (response.status === 401) {
+                window.location.href = "/login";
+            }
+            
             const data = await response.json();
             setProfessor(data);
             console.log (data)

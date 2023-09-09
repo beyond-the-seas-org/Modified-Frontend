@@ -1,23 +1,19 @@
 'use client'
-import Sidebar from "../../../components/shortlisted_professors/Sidebar";
-import Feed from "../../../components/shortlisted_professors/Feed";
+import Sidebar from "../../components/shortlisted_professors/Sidebar";
+import Feed from "../../components/shortlisted_professors/Feed";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "../../../components/shortlisted_professors/Navbar";
+import Navbar from "../../components/shortlisted_professors/Navbar";
 import { useState, useEffect } from "react";
-import ChatUI from "../../../components/chatbot/Chatbot";
+import ChatUI from "../../components/chatbot/Chatbot";
 
 
 function App() {
   const [mode, setMode] = useState("light"); /*The initial theme of the UI: light. It can be dark or light depending on the initial value in useState */
   const [professors, setProfessors] = useState([]); /*The initial value of professors is an empty array*/
   const [filteredProfessors, setfilteredProfessors] = useState([]); /*The initial value of filteredProfessors is an empty array*/
+  const [user_id, setUser_id] = useState(null);
 
   /*Get the user id from the url. For example: http://localhost:3000/professors/2. This qlink will take this link*/
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let user_id = tokens[tokens.length-1]
-  user_id = parseInt(user_id);
-  console.log("user_id", user_id);
 
   /*Create a Theme instance to enable dark theme or light theme depending on the value of mode */
   const darkTheme = createTheme({
@@ -30,10 +26,29 @@ function App() {
   the server. This is client side rendering as we are using react Hooks(useState, useEffect).
   Therefore we need to mention use client at the top of this file as we are using next-js */
   useEffect(() => {
+
+    const user_id = localStorage.getItem('id');
+    setUser_id(user_id);
+
+    if(!user_id){
+      window.location.href = '/login';
+    }
+
+
     async function fetchProfessors() {
       try {
 
-        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`);
+        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`,
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+
+        if (response.status === 401) {
+          window.location.href = '/login';
+        }
+
         const data = await response.json();
         setProfessors(data); 
         setfilteredProfessors(data); // Initialize filteredProfessors with all Professors
@@ -49,7 +64,17 @@ function App() {
 
   const refreshProfessorlist = async () => {
     try {
-      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`);
+      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_shortlisted_professors_short_details`,
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+          });
+
+      if (response.status === 401) {
+        window.location.href = '/login';
+      }
+      
       const data = await response.json();
       setProfessors(data); 
       setfilteredProfessors(data); // Initialize filteredPosts with all posts
