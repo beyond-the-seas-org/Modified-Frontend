@@ -22,9 +22,9 @@ const AddPost = ({ refreshPosts }) => {
   }, []);
 
 
-  const handleFileChange = (event) => {
-    setImage(event.target.files[0]);
-  };
+  // const handleFileChange = (event) => {
+  //   setImage(event.target.files[0]);
+  // };
 
   const handleImageUpload = async (postid) => {
     const formData = new FormData();
@@ -47,13 +47,14 @@ const AddPost = ({ refreshPosts }) => {
 
         setImageURL(response.data.url);
         console.log('Image URL:', response.data.url);
-        console.log(response.ok)
 
-        if(response.ok)
+        if(response.data.status === "ok")
         {
           alert('Post added successfully');
           //console.log("imageURL: ",imageURL);
           refreshPosts();
+          setImage(null);
+          document.getElementById('fileInput').value = null;
         }
     } catch (error) {
         console.error("Error uploading image:", error);
@@ -93,11 +94,14 @@ const AddPost = ({ refreshPosts }) => {
         }
         
         setPostText('');
+        //remove the image from the input field
         if (response.ok) {
           // Post added successfully
           const data = await response.json();
-          if (image != null)
+          if (image != null) {
             handleImageUpload(data.post_id);
+            
+          }
           else {
             alert('Post added successfully');
             //console.log("imageURL: ",imageURL);
@@ -130,7 +134,7 @@ const AddPost = ({ refreshPosts }) => {
       />
       {/* This input type = "file" is a File Picker used to add the feature of adding an image to the post */}
       <Box display="flex" justifyContent="flex-start">
-        <input type="file" onChange={handleFileChange} style={{ backgroundcolor: 'gray' }} />
+        <input id="fileInput" type="file" onChange={(e) => setImage(e.target.files[0])} style={{ backgroundcolor: 'gray' }} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <Button

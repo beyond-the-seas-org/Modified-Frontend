@@ -6,6 +6,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+
 
 const ProfileHeader = (userData) => {
   // const qlink = window.location.href;
@@ -13,6 +15,9 @@ const ProfileHeader = (userData) => {
   // let user_id = tokens[tokens.length - 1];
 
   const [user_id, setUser_id] = useState(null);
+  const [image, setImage] = useState(null);
+  const [imageURL, setImageURL] = useState(null);
+
   navigation = useRouter();
 
   useEffect(() => {
@@ -37,6 +42,73 @@ const ProfileHeader = (userData) => {
 
     navigation.push('/profile/update');
   };
+
+  const handleImageUpload = async () => {
+    const access_token = localStorage.getItem('access_token');
+    const user_id = localStorage.getItem('id');
+    const refresh_token = localStorage.getItem('refresh_token');
+  
+    if (!access_token || !user_id || !refresh_token) {
+      window.location.href = '/login';
+      return;
+    }
+  
+    // Create a file input element
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none'; // Hide the input
+  
+    // Add the file input to the document body
+    document.body.appendChild(fileInput);
+  
+    // Trigger a click event on the hidden file input
+    fileInput.click();
+  
+    // Add an event listener to the file input to handle the selected file
+    fileInput.addEventListener('change', async (event) => {
+      const selectedFile = event.target.files[0];
+  
+      if (selectedFile) {
+        // Create a FormData object to send the file to the API
+        const formData = new FormData();
+        formData.append('image_file', selectedFile);
+  
+        try {
+          const response = await axios.put(
+            `http://localhost:5001/api/profile/add_profile_picture/${user_id}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+              },
+            }
+          );
+  
+          // Check for 401 status code
+          if (response.status === 401) {
+            // Redirect to the login page
+            window.location.href = "/login";
+            return;
+          }
+  
+          setImageURL(response.data.url);
+          console.log('Image URL:', response.data.url);
+  
+          if (response.data.status === "ok") {
+            alert('Profile Picture updated successfully');
+            setImage(null);
+          }
+  
+          // Remove the file input from the document body
+          document.body.removeChild(fileInput);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        }
+      }
+    });
+  };
+  
   
   const handleLogout = async () => {
     // Implement the logout functionality here
@@ -105,7 +177,7 @@ const ProfileHeader = (userData) => {
       {/* Avatar, User Info, and Edit Profile Button */}
       <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', zIndex: 1, marginTop: '-50px' }}>
         <Avatar
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3udlwo_p6SA6CUz3IhnFaH73FoismGVxeVurGt-oh&s"
+          src= {imageURL ? imageURL : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3udlwo_p6SA6CUz3IhnFaH73FoismGVxeVurGt-oh&s"}
           sx={{
             width: 100,
             height: 100,
@@ -120,6 +192,8 @@ const ProfileHeader = (userData) => {
         <Box sx={{ display: 'flex', gap: '2' }}>
           <Typography variant="h4" sx={{ color: '#003366' }}>{userData.userData.username}</Typography>
         </Box>
+        <Box sx={{ display: 'flex', gap: 5, alignItems: 'center', flexDirection: 'row', px: 2 }}>
+
         <Button
           variant="outlined"
           onClick={handleUpdate}
@@ -135,6 +209,31 @@ const ProfileHeader = (userData) => {
         >
           Edit Profile
         </Button>
+
+        <Button           
+          variant="outlined"
+          onClick={handleImageUpload}
+          color="primary"
+          sx={{
+            color: '#003366',
+            borderColor: '#003366',
+            '&:hover': {
+              backgroundColor: '#003366',
+              color: 'white',
+            },
+          }}
+        >
+          Upload Picture
+        </Button>
+        <Box display="flex" justifyContent="flex-start" style={{ display: 'none' }}>
+        <input
+          id="fileInput"
+          type="file"
+          onChange={(e) => setImage(e.target.files[0])}
+          style={{ backgroundColor: 'gray' }}
+        />
+        </Box>
+      </Box>
         <Button
           variant="outlined"
           onClick={handleLogout}

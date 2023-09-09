@@ -157,6 +157,7 @@ const FundingDetailsCard = ({ fundingDetails }) => {
                             sx={{
                                 color: 'linear-gradient(45deg, #FE6B8B 30%, #3498db 90%)',
                             }}
+                            readOnly
                         />
                     </Box>
                 </DialogContent>
