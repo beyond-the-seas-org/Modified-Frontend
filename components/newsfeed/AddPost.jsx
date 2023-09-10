@@ -1,6 +1,6 @@
 'use client'
-import React, { useState , useEffect, use} from 'react';
-import { Box, Button, TextareaAutosize} from '@mui/material';
+import React, { useState, useEffect, use } from 'react';
+import { Box, Button, TextareaAutosize } from '@mui/material';
 import axios from 'axios';
 
 const AddPost = ({ refreshPosts }) => {
@@ -31,35 +31,34 @@ const AddPost = ({ refreshPosts }) => {
     formData.append('image_file', image);
 
     try {
-        const response = await axios.post(`http://localhost:5000/api/newsfeed/${postid}/add_image`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-            },
-        });
+      const response = await axios.post(`http://localhost:5000/api/newsfeed/${postid}/add_image`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
-        // check for 401 status code
-        if (response.status === 401) {
-          // redirect to the login page
-          window.location.href = "/login";
-          return;
-        }
+      // check for 401 status code
+      if (response.status === 401) {
+        // redirect to the login page
+        window.location.href = "/login";
+        return;
+      }
 
-        setImageURL(response.data.url);
-        console.log('Image URL:', response.data.url);
+      setImageURL(response.data.url);
+      console.log('Image URL:', response.data.url);
 
-        if(response.data.status === "ok")
-        {
-          alert('Post added successfully');
-          //console.log("imageURL: ",imageURL);
-          refreshPosts();
-          setImage(null);
-          document.getElementById('fileInput').value = null;
-        }
+      if (response.data.status === "ok") {
+        alert('Post added successfully');
+        //console.log("imageURL: ",imageURL);
+        refreshPosts();
+        setImage(null);
+        document.getElementById('fileInput').value = null;
+      }
     } catch (error) {
-        console.error("Error uploading image:", error);
+      console.error("Error uploading image:", error);
     }
-};
+  };
 
   /*When the Add Post button is clicked, this function is called and does necessary tasks to send the post to 
   the server and refreshing the posts to show the update */
@@ -73,8 +72,8 @@ const AddPost = ({ refreshPosts }) => {
         user_id: user_id,
         type: 'newsfeed',
       };
-    
-  
+
+
       try {
         let postid;
         const response = await fetch('http://localhost:5000/api/newsfeed/add_post', {
@@ -92,7 +91,7 @@ const AddPost = ({ refreshPosts }) => {
           window.location.href = "/login";
           return;
         }
-        
+
         setPostText('');
         //remove the image from the input field
         if (response.ok) {
@@ -100,7 +99,7 @@ const AddPost = ({ refreshPosts }) => {
           const data = await response.json();
           if (image != null) {
             handleImageUpload(data.post_id);
-            
+
           }
           else {
             alert('Post added successfully');
@@ -116,35 +115,56 @@ const AddPost = ({ refreshPosts }) => {
       } catch (error) {
         console.error('Error:', error);
       }
-    }else {
+    } else {
       /*If the post is empty string and the user clicks the Add Post button, then this alert is shown in the browser */
       alert('Please enter some text');
     }
   };
-  
+
 
   return (
-    <Box mt={2} p={2} bgcolor="#f0f2f5" borderRadius="8px">
+    <Box mt={3} p={3} boxShadow={3} bgcolor="white" borderRadius="8px">
 
       <TextareaAutosize
-        placeholder="What's on your mind"
+        placeholder="What's on your mind?"
         value={postText}
-        onChange={(e) => setPostText(e.target.value)} /*Whenever something is written to the Add Post box, that string is set here. onChange is a listener to this box*/
-        style={{ width: '100%', minHeight: '100px', resize: 'none', color: 'black' }}
+        onChange={(e) => setPostText(e.target.value)}
+        style={{
+          width: '100%',
+          minHeight: '100px',
+          resize: 'none',
+          padding: '12px',
+          borderRadius: '8px',
+          border: '1px solid #ccc',
+          fontSize: '16px',
+          fontFamily: 'Arial, sans-serif'
+        }}
       />
-      {/* This input type = "file" is a File Picker used to add the feature of adding an image to the post */}
-      <Box display="flex" justifyContent="flex-start">
-        <input id="fileInput" type="file" onChange={(e) => setImage(e.target.files[0])} style={{ backgroundcolor: 'gray' }} />
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
+
+      <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
+        <label htmlFor="fileInput" style={{ cursor: 'pointer' }}>
+          <Box display="flex" alignItems="center" p={1} bgcolor="#E0F2FE" border="1px solid #87CEFA" borderRadius="8px">
+            <b style={{ marginRight: '8px', color: '#4682B4' }}>Upload Image</b>
+            <input
+              id="fileInput"
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+              style={{ display: 'none' }}
+            />
+          </Box>
+          {/* show the picked filename */}
+          {image && <span style={{ marginLeft: '8px', color: '#4682B4' }}>{image.name}</span>}
+        </label>
+
+
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={handleAddPost}
-          style={{ backgroundColor: '#33FF99', color: 'black', border: '2px solid black' }}
+          style={{ backgroundColor: '#87CEFA', color: 'black' }}
           sx={{
             '&:hover': {
-              backgroundColor: '#33FF99', // Change background color on hover
-              color: 'black', // Change text color on hover
+              backgroundColor: '#76BDE1', // Change background color on hover to a slightly darker shade
+              boxShadow: 'none'
             },
           }}
         >
@@ -152,7 +172,7 @@ const AddPost = ({ refreshPosts }) => {
         </Button>
       </Box>
     </Box>
-);
+  );
 
 };
 

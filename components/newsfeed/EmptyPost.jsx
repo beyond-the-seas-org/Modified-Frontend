@@ -37,6 +37,7 @@ const EmptyPost = ({ mode }) => {
         title={
           <Typography variant="h6" component="div" align="center">
             {showNoPostsMessage ? 'No posts found' : 'Loading Posts, Please Wait!'}
+
           </Typography>
         }
       />

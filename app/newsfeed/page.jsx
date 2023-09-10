@@ -2,7 +2,7 @@
 import Sidebar from "../../components/newsfeed/Sidebar";
 import Feed from "../../components/newsfeed/Feed";
 import Rightbar from "../../components/newsfeed/Rightbar";
-import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
+import { Box, createTheme, Stack, Grid, ThemeProvider } from "@mui/material";
 import Navbar from "../../components/newsfeed/Navbar";
 import ChatUI from "../../components/chatbot/Chatbot";
 
@@ -117,20 +117,37 @@ function App() {
   For example, <Feed mode={mode}... here mode is the variable name used in Feed component and {mode} is the variable name used in this page.jsx*/
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"background.default"} color={"text.primary"}>
+      <Box bgcolor={"background.default"} color={"text.primary"} minHeight="100vh">
         <Navbar onSearch={handleSearch} />
-        <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
-          <Feed mode={mode} posts={filteredPosts} refreshPosts={refreshPosts} />
-          <Rightbar />
-          {/* Create a container for the ChatUI */}
-          <div style={{ position: "fixed", bottom: 10, right: 10 }}>
-            <ChatUI />
-          </div>
-        </Stack>
+        <Grid container spacing={2} wrap="wrap">
+          
+          {/* Sidebar */}
+          <Grid item xs={12} sm={4} md={3} order={{ xs: 1, sm: 1 }}>
+            <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
+          </Grid>
+  
+          {/* Feed */}
+          <Grid item xs={12} sm={8} md={6} order={{ xs: 2, sm: 2 }}>
+            <Feed mode={mode} posts={filteredPosts} refreshPosts={refreshPosts} />
+          </Grid>
+  
+          {/* Rightbar */}
+          <Grid item xs={12} md={3} order={{ xs: 3, sm: 3 }}>
+            <Rightbar />
+          </Grid>
+  
+        </Grid>
+  
+        {/* Chat UI */}
+        <Box position="fixed" bottom={10} right={10}>
+          <ChatUI />
+        </Box>
       </Box>
     </ThemeProvider>
   );
+  
+  
+  
 }
 
 export default App;
