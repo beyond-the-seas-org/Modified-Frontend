@@ -43,6 +43,10 @@ const ProfileHeader = (userData) => {
     navigation.push('/profile/update');
   };
 
+  const redirectToNewsfeed = () => {
+    navigation.push('/newsfeed');
+  };
+
   const handleImageUpload = async () => {
     const access_token = localStorage.getItem('access_token');
     const user_id = localStorage.getItem('id');
@@ -166,90 +170,114 @@ const ProfileHeader = (userData) => {
           backgroundPosition: 'center',
         }}
       >
-        {/* Edit Icon */}
+        {/* Edit Icon
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <IconButton>
             <Edit />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
 
-      {/* Avatar, User Info, and Edit Profile Button */}
-      <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', zIndex: 1, marginTop: '-50px' }}>
-        <Avatar
-          src= {imageURL ? imageURL : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3udlwo_p6SA6CUz3IhnFaH73FoismGVxeVurGt-oh&s"}
-          sx={{
-            width: 100,
-            height: 100,
-            border: '3px solid #fff',
-            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
-            '&:hover': {
-              transform: 'scale(1.1)',
-              transition: 'transform 0.3s'
-            }
-          }}
-        />
-        <Box sx={{ display: 'flex', gap: '2' }}>
-          <Typography variant="h4" sx={{ color: '#003366' }}>{userData.userData.username}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: 5, alignItems: 'center', flexDirection: 'row', px: 2 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1, marginTop: '-50px' }}>
+    {/* Avatar */}
+    <Avatar
+      src={imageURL ? imageURL : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3udlwo_p6SA6CUz3IhnFaH73FoismGVxeVurGt-oh&s"}
+      sx={{
+        width: 100,
+        height: 100,
+        border: '3px solid #fff',
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+        marginBottom: '10px',
+        '&:hover': {
+          transform: 'scale(1.1)',
+          transition: 'transform 0.3s'
+        }
+      }}
+    />
 
-        <Button
-          variant="outlined"
-          onClick={handleUpdate}
-          color="primary"
-          sx={{
-            color: '#003366',
-            borderColor: '#003366',
-            '&:hover': {
-              backgroundColor: '#003366',
-              color: 'white',
-            },
-          }}
-        >
-          Edit Profile
-        </Button>
+    {/* Username */}
+    <Typography variant="h4" sx={{ color: '#003366', marginBottom: '10px' }}>{userData.userData.username}</Typography>
 
-        <Button           
-          variant="outlined"
-          onClick={handleImageUpload}
-          color="primary"
-          sx={{
-            color: '#003366',
-            borderColor: '#003366',
-            '&:hover': {
-              backgroundColor: '#003366',
-              color: 'white',
-            },
-          }}
-        >
-          Upload Picture
-        </Button>
-        <Box display="flex" justifyContent="flex-start" style={{ display: 'none' }}>
+    {/* Edit Profile and Upload Picture Buttons */}
+    <Box sx={{ display: 'flex', gap: 2, flexDirection: 'row', marginBottom: '10px', alignItems: 'center' }}>
+      <Button
+        variant="outlined"
+        onClick={handleUpdate}
+        color="primary"
+        sx={{
+          color: '#003366',
+          borderColor: '#003366',
+          '&:hover': {
+            backgroundColor: '#003366',
+            color: 'white',
+          },
+        }}
+      >
+        Edit Profile
+      </Button>
+
+      <Button
+        variant="outlined"
+        onClick={handleImageUpload}
+        color="primary"
+        sx={{
+          color: '#003366',
+          borderColor: '#003366',
+          '&:hover': {
+            backgroundColor: '#003366',
+            color: 'white',
+          },
+        }}
+      >
+        Change Photo
+      </Button>
+
+      <Box sx={{ display: 'none' }}>
         <input
           id="fileInput"
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
           style={{ backgroundColor: 'gray' }}
         />
-        </Box>
       </Box>
-        <Button
-          variant="outlined"
-          onClick={handleLogout}
-          color="secondary"
-          sx={{
-            color: '#AA0000',  // Change colors as per your design requirements
-            borderColor: '#AA0000',
-            '&:hover': {
-              backgroundColor: '#AA0000',
-              color: 'white',
-            },
-          }}
-        >
-          Logout
-        </Button>
-      </Box>
+    </Box>
+
+    {/* Go Back to Newsfeed Button */}
+    <Button
+        variant="outlined"
+        onClick={redirectToNewsfeed}
+        color="primary"
+        sx={{
+          color: '#003366',
+          borderColor: '#003366',
+          marginTop: '10px',  // Providing some spacing from the above components
+          '&:hover': {
+            backgroundColor: '#003366',
+            color: 'white',
+          },
+        }}
+      >
+        Go to Homepage
+      </Button>
+
+      {/* Logout Button */}
+      <Button
+        variant="outlined"
+        onClick={handleLogout}
+        color="secondary"
+        sx={{
+          color: '#AA0000',
+          borderColor: '#AA0000',
+          marginTop: '10px',
+          '&:hover': {
+            backgroundColor: '#AA0000',
+            color: 'white',
+          },
+        }}
+      >
+        Logout
+      </Button>
+</Box>
     </Box>
   );
 };

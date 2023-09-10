@@ -40,8 +40,8 @@ const EmptyPost = ({ mode }) => {
 
         title={
           /*Shows the professor's name */
-          <Typography variant="h6" component="div">
-            No Post Found
+          <Typography variant="h6" component="div" align="center">
+            Loading Posts, Please Wait!
           </Typography>
         }
 
