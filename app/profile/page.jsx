@@ -7,12 +7,14 @@ import Skills from '../../components/profile/Skills';
 import ActivityFeed from '../../components/profile/ActivityFeed';
 import Links from '../../components/profile/Links';
 import TestScores from '../../components/profile/TestScores';
+import Research from '../../components/profile/Research';
 
 const UserProfilePage = () => {
     const [userData, setUserData] = useState();
     const [ownPosts, setOwnPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [publications, setPublications] = useState([]);
     const [user_id, setUser_id] = useState(null);
 
     useEffect(() => {
@@ -74,6 +76,30 @@ const UserProfilePage = () => {
                 setError(err.message);
                 setLoading(false);
             }
+
+            try{
+                const publication_data = await fetch(`http://127.0.0.1:5002/api/professors/${user_id}/get_student_publications`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                        }});
+                if (publication_data.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                if (!publication_data.ok) {
+                    throw new Error('Failed to fetch publication data.');
+                }
+
+                const publications = await publication_data.json();
+                setPublications(publications);
+                setLoading(false);
+                
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
         }
 
         fetchUserData();
@@ -81,6 +107,8 @@ const UserProfilePage = () => {
 
     if (loading) return;
     if (error) return;
+
+    console.log(publications)
 
     return (
         <div>
@@ -97,8 +125,9 @@ const UserProfilePage = () => {
                     <TestScores testScores={userData} />
                 </Box>
             </Box>
-
+            <Research publication={publications} />
             <ActivityFeed posts={ownPosts} />
+
         </div>
     );
 }
