@@ -11,10 +11,15 @@ import {
     Select,
     MenuItem,
     Grid,
+    Chip,
 } from '@mui/material';
 
 export default function UpdateProfile() {
     const [user_id, setUser_id] = useState(null);
+    const [selectedfields, setSelectedFields] = useState([]);
+    const [selectFieldsComboBoxValues, setSelectFieldsComboBoxValues] = useState([]);
+
+
 
     useEffect(() => {
         const user_id = localStorage.getItem('id');
@@ -50,6 +55,37 @@ export default function UpdateProfile() {
             } catch (error) {
                 alert("Error fetching profile data: " + error.message);
             }
+
+            const apiEndpoint_2 = `http://127.0.0.1:5002/api/professors/get_all_fields`;
+            try {
+                const response = await fetch(apiEndpoint_2, 
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        }
+                    });
+
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    //setFormData(data);
+                    const SelectFieldsComboBoxValues =  data.fields.map(field => {
+                        return { label: field };
+                    });
+                    setSelectFieldsComboBoxValues(SelectFieldsComboBoxValues);
+
+                    
+                } else {
+                    alert("Error fetching fields: " + data.message);
+                }
+            } catch (error) {
+                alert("Error fetching fields " + error.message);
+            }
         };
     
         fetchData();
@@ -79,6 +115,10 @@ export default function UpdateProfile() {
         toefl_score: '',
         ielts_score: ''
     });
+
+    const handleSeletctedFieldChange = (event) => {
+        setSelectedFields(event.target.value);
+      };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -120,6 +160,14 @@ export default function UpdateProfile() {
         }
     };
 
+    //SelectFieldsComboBoxValues should be filled by all_fields fetched from the backend
+
+    // const SelectFieldsComboBoxValues = [
+    //     { label: 'Artificial intilligence' },
+    //     { label: 'Machine learning' },
+    //     { label: 'Natural language processing' },
+    //   ];
+
     return (
         <Box sx={{ p: 3 }}>
             <Typography variant="h5" align = "center" gutterBottom>Update Profile</Typography>
@@ -142,6 +190,28 @@ export default function UpdateProfile() {
                         </Grid>
 
                         <Grid item xs={12} md={6}> {/* Right Side */}
+                            <FormControl variant="outlined" style={{ width: 250 }}>
+                                <InputLabel>Set your field of interests</InputLabel>
+                                <Select
+                                    multiple
+                                    value={selectedfields}
+                                    onChange={handleSeletctedFieldChange}
+                                    label="Options"
+                                    renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                        <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                    )}
+                                >
+                                    {selectFieldsComboBoxValues.map((option) => (
+                                    <MenuItem key={option.label} value={option.label}>
+                                        {option.label}
+                                    </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                             <TextField fullWidth label="M.S. University" name="ms_university" value={formData.ms_university} onChange={handleChange} />
                             <TextField fullWidth label="GitHub Link" name="github_link" value={formData.github_link} onChange={handleChange} />
                             <TextField fullWidth label="LinkedIn Link" name="linkedin_link" value={formData.linkedin_link} onChange={handleChange} />
