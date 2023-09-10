@@ -42,7 +42,7 @@ function App() {
         const response = await fetch(`http://127.0.0.1:5003/api/analytics/get_all_locations`,
         {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`
           }
         });
 
