@@ -17,7 +17,7 @@ const ActivityFeed = ({ posts }) => {
           <ActivityContainer>
             <Typography variant="h6">Activity Feed</Typography>
             <List>
-              {posts.map((post) => (
+              {posts && posts.map((post) => (
                 <React.Fragment key={post.post_id}>
                   <ListItem alignItems="flex-start">
                     <ListItemAvatar>
