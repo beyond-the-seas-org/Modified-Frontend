@@ -37,7 +37,7 @@ function App() {
     async function fetchProfessors() {
       try {
 
-        const response = await fetch(`http://localhost:5002/api/professors/get_all_professor_short_details`,
+        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_all_professor_short_details`,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -61,7 +61,7 @@ function App() {
 
   const refreshProfessorlist = async () => {
     try {
-      const response = await fetch(`http://localhost:5002/api/professors/get_all_professor_short_details`,
+      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_all_professor_short_details`,
       {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`

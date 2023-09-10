@@ -6,18 +6,32 @@ import { useState, useEffect } from "react";
 export default function LocationDetails() {
 
   const [location, setLocation] = useState({}); /*The initial value of locations is an empty array*/
-
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let location_id = tokens[tokens.length-2]
-  location_id = parseInt(location_id);
-  console.log("location_id", location_id);
+  const [user_id, setuser_id] = useState(null); /*The initial value of user_id is null*/
 
   useEffect(() => {
+
+    const user_id = localStorage.getItem("id");
+    setuser_id(user_id);
+
+    if (!user_id) {
+      window.location.href = "/login";
+    }
+
     async function fetchLocationDetails() {
       try {
 
-        const response = await fetch(`http://localhost:5003/api/analytics/${location_id}/get_location_info`);
+        const response = await fetch(`http://127.0.0.1:5003/api/analytics/${location_id}/get_location_info`,
+          {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+            }
+          }
+        );
+
+        if (response.status === 401) {
+          window.location.href = "/login";
+        }
+        
         const data = await response.json();
         setLocation(data); 
 

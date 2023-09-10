@@ -138,44 +138,7 @@ const Navbar = ({onSearch}) => {
                 <FormControlLabel value="country" control={<Radio />} label="Country" />
             </RadioGroup>
           </div>
-
-          {/* Add icons for dummy design*/}
-          <Icons>
-            <Badge badgeContent={2} color="error">
-              <Notifications />
-            </Badge>
-            <Avatar
-              sx={{ width: 30, height: 30 }}
-              src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              onClick={(e) => setOpen(true)}
-            />
-          </Icons>
-          <UserBox onClick={(e) => setOpen(true)}>
-            <Avatar
-              sx={{ width: 30, height: 30 }}
-              src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-            />
-            <Typography variant="span">John</Typography>
-          </UserBox>
         </StyledToolbar>
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
-          open={open}
-          onClose={(e) => setOpen(false)}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>Professors</MenuItem>
-          <MenuItem>Logout</MenuItem>
-        </Menu>
       </AppBar>
     </ThemeProvider>
 

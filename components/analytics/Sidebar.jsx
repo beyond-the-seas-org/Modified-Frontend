@@ -46,7 +46,7 @@ const Sidebar = ({ mode, setMode, user_id }) => {
         {[
           { label: "Homepage", icon: <Home />, href: `/newsfeed`},
           { label: "Prof Shortlist", icon: <Article />, href: `/shortlisted_professors` },
-          { label: "Fundings", icon: <Group />, href: `/fundings` },
+          // { label: "Fundings", icon: <Group />, href: `/fundings` },
           { label: "Explore Professors", icon: <PersonSearchIcon />, href: `/explore_professors` },
           { label: "Analytics", icon: <Settings />, href: `/analytics` },
           { label: "Profile", icon: <AccountBox />, href: `/profile` }

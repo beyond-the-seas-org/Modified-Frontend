@@ -23,7 +23,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
   }, []);
 
   const handleProfessorClick = async () => {
-    navigation.push(`/analytics/${user_id}/explore_professors/${location.id}`);
+    navigation.push(`/analytics/explore_professors/${location.id}`);
   }
   
 
@@ -136,7 +136,7 @@ const Location = ({ location, refreshLocationlist, mode }) => {
           label="SHOW LOCATION DETAILS"
           backgroundColor="ButtonShadow"
           hoverBackgroundColor="ButtonHoverBackground"
-          href= {`http://localhost:3000/location/${location.id}/details`}
+          href= {`http://127.0.0.1:3000/location/${location.id}/details`}
         />
       </CardActions>
 
