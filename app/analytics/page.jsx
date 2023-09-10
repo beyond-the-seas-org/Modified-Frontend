@@ -15,7 +15,7 @@ function App() {
   const [filteredLocations, setfilteredLocations] = useState([]); /*The initial value of filteredLocation is an empty array*/
   const [user_id, setuser_id] = useState(null); /*The initial value of user_id is null*/
 
-  /*Get the user id from the url. For example: http://localhost:3000/analytitcs/2. This qlink will take this link*/
+  /*Get the user id from the url. For example: http://127.0.0.1:3000/analytitcs/2. This qlink will take this link*/
 
   /*Create a Theme instance to enable dark theme or light theme depending on the value of mode */
   const darkTheme = createTheme({
@@ -39,10 +39,10 @@ function App() {
     async function fetchLocations() {
       try {
 
-        const response = await fetch(`http://localhost:5003/api/analytics/get_all_locations`,
+        const response = await fetch(`http://127.0.0.1:5003/api/analytics/get_all_locations`,
         {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`
           }
         });
 
@@ -66,7 +66,7 @@ function App() {
   const refreshLocationlist = async () => {
     try {
 
-        const response = await fetch(`http://localhost:5003/api/analytics/get_all_locations`,
+        const response = await fetch(`http://127.0.0.1:5003/api/analytics/get_all_locations`,
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('access_token')}`

@@ -51,7 +51,7 @@ import {
 
     try {
 
-      const response = await fetch('http://localhost:5003/api/analytics/get_locations_based_on_analysis', {
+      const response = await fetch('http://127.0.0.1:5003/api/analytics/get_locations_based_on_analysis', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
