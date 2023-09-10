@@ -73,7 +73,7 @@ const ResearchSegment = ({ publication }) => {
   );
 };
 
-const Research = ({ publication = [] }) => { 
+const Research = ({ publication = [], refreshPublications }) => { 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const openDialog = () => {
@@ -84,24 +84,25 @@ const Research = ({ publication = [] }) => {
     setDialogOpen(false);
   };
   
-  if (!publication || publication.length === 0) {
-    return (
-      <Box flex={1} p={2}>
-        <Typography variant="h5">
-          No research publications available at the moment.
-        </Typography>
-      </Box>
-    );
-  }
+  // if (!publication || publication.length === 0) {
+  //   return (
+  //     <Box flex={1} p={2}>
+  //       <Typography variant="h5">
+  //         No research publications available at the moment.
+  //       </Typography>
+  //     </Box>
+  //   );
+  // }
 
   return (
     <Box flex={1} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
       <Card elevation={5}>
         <AppBar position="static" color="primary" elevation={0}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="h5" fontWeight="bold">
-              Research Publications
-            </Typography>
+          <Typography variant="h5" fontWeight="bold">
+            {(!publication || publication.length === 0) ? "No research publications available at the moment." : "Research Publications"}
+          </Typography>
+
             <Button variant="outlined" color="primary" style={{ backgroundColor: 'white', color: "black" }} onClick={openDialog}>
               <b>Add Publication</b>
             </Button>
@@ -118,7 +119,7 @@ const Research = ({ publication = [] }) => {
       <Dialog open={dialogOpen} onClose={closeDialog} fullWidth maxWidth="md">
         <DialogTitle>Add Publication</DialogTitle>
         <DialogContent>
-          <AddPublication closeDialog={closeDialog} />
+          <AddPublication closeDialog={closeDialog} refreshPublications={refreshPublications} />
         </DialogContent>
       </Dialog>
     </Box>

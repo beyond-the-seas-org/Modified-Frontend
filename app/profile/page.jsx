@@ -17,6 +17,42 @@ const UserProfilePage = () => {
     const [publications, setPublications] = useState([]);
     const [user_id, setUser_id] = useState(null);
 
+    const refreshPublications = async () => {
+        const access_token = localStorage.getItem('access_token');
+        const user_id = localStorage.getItem('id');
+        const refresh_token = localStorage.getItem('refresh_token');
+        setUser_id(user_id);
+
+        if (!access_token || !user_id || !refresh_token) {
+            window.location.href = '/login';
+            return;
+        }
+
+        try{
+            const publication_data = await fetch(`http://127.0.0.1:5002/api/professors/${user_id}/get_student_publications`,
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                    }});
+            if (publication_data.status === 401) {
+                window.location.href = '/login';
+                return;
+            }
+
+            if (!publication_data.ok) {
+                throw new Error('Failed to fetch publication data.');
+            }
+
+            const publications = await publication_data.json();
+            setPublications(publications);
+            setLoading(false);
+            
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         const access_token = localStorage.getItem('access_token');
         const user_id = localStorage.getItem('id');
@@ -125,7 +161,7 @@ const UserProfilePage = () => {
                     <TestScores testScores={userData} />
                 </Box>
             </Box>
-            <Research publication={publications} />
+            <Research publication={publications} refreshPublications={refreshPublications} />
             <ActivityFeed posts={ownPosts} />
 
         </div>
