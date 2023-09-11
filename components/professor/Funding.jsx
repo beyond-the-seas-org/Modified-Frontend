@@ -119,7 +119,7 @@ const FundingDetailsCard = ({ fundingDetails }) => {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                             <Button
                                 variant="outlined"
-                                onClick={() => fetchMatchingProfiles(funding.professor_id, funding.amount)}
+                                onClick={() => fetchMatchingProfiles(funding.professor_id, funding.funding_id)}
                                 sx={{
                                     background: 'linear-gradient(45deg, #3498db 30%, #2c3e50 90%)',
                                     boxShadow: '0 3px 5px 2px rgba(52, 152, 219, .3)',
