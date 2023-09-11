@@ -30,7 +30,7 @@ const ResearchSegment = ({ publication }) => {
         <Typography variant="h5" fontWeight="bold" color="primary.main">
           {publication?.title || "Information Not Found"}
         </Typography>
-        
+
         <Box mt={2} display="flex" flexDirection="row" alignItems="center">
           <Typography variant="subtitle1" fontWeight="bold">Venue: </Typography>
           <Typography variant="subtitle1" ml={1}>
@@ -73,17 +73,17 @@ const ResearchSegment = ({ publication }) => {
   );
 };
 
-const Research = ({ publication = [], refreshPublications }) => { 
+const Research = ({ publication = [], refreshPublications }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const openDialog = () => {
     setDialogOpen(true);
   };
-  
+
   const closeDialog = () => {
     setDialogOpen(false);
   };
-  
+
   // if (!publication || publication.length === 0) {
   //   return (
   //     <Box flex={1} p={2}>
@@ -99,9 +99,9 @@ const Research = ({ publication = [], refreshPublications }) => {
       <Card elevation={5}>
         <AppBar position="static" color="primary" elevation={0}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h5" fontWeight="bold">
-            {(!publication || publication.length === 0) ? "No research publications available at the moment." : "Research Publications"}
-          </Typography>
+            <Typography variant="h5" fontWeight="bold">
+              {(!publication || publication.length === 0) ? "No research publications available at the moment." : "Research Publications"}
+            </Typography>
 
             <Button variant="outlined" color="primary" style={{ backgroundColor: 'white', color: "black" }} onClick={openDialog}>
               <b>Add Publication</b>
@@ -109,12 +109,17 @@ const Research = ({ publication = [], refreshPublications }) => {
           </Toolbar>
         </AppBar>
         <CardContent>
-          {publication.map((item, index) => (
-            <Box key={index} sx={{ mb: 2 }}>
-              <ResearchSegment publication={item} />
-            </Box>
-          ))}
+          {publication && publication.length > 0 ? (
+            publication.map((item, index) => (
+              <Box key={index} sx={{ mb: 2 }}>
+                <ResearchSegment publication={item} />
+              </Box>
+            ))
+          ) : (
+            <Typography>No publications available.</Typography>
+          )}
         </CardContent>
+
       </Card>
       <Dialog open={dialogOpen} onClose={closeDialog} fullWidth maxWidth="md">
         <DialogTitle>Add Publication</DialogTitle>

@@ -18,11 +18,6 @@ const ChatUI = () => {
   const [chats, setChats] = useState([]);
   const [user_id, setUser_id] = useState(null);
 
-  // const qlink = window.location.href;
-  // const tokens = qlink.split("/");
-  // let user_id = parseInt(tokens[tokens.length - 1]);
-  // console.log("user_id", user_id);
-
   useEffect(() => {
 
     const user_id = localStorage.getItem('id');
@@ -37,8 +32,16 @@ const ChatUI = () => {
     async function fetchChats() {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5004/api/chatbot/get_all_chats/${user_id}`
-        );
+          `http://127.0.0.1:5004/api/chatbot/get_all_chats/${user_id}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+        if (response.status === 401) {
+          window.location.href = "/login";
+        }
+
         const data = await response.json();
         console.log(data);
         setChats(data);
@@ -66,6 +69,7 @@ const ChatUI = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('access_token')}`
           },
           body: JSON.stringify({ user_message: userMessage, user_id: user_id }),
         }
