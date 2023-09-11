@@ -21,24 +21,33 @@ const Feed = ({professors , mode, refreshProfessorlist}) => {
 
 
 
-  return (
-    <Box flex={5} p={{ xs: 0, md: 2 }}>
-      {loading ? (
+  if (loading)
+  {
+    return (
+      <Box flex={5} p={{ xs: 0, md: 2 }}>
         <Stack spacing={1}>
           <Skeleton variant="text" height={100} />
           <Skeleton variant="text" height={20} />
           <Skeleton variant="text" height={20} />
           <Skeleton variant="rectangular" height={300} />
         </Stack>
-      ) : professors && professors.length > 0 ? (
-        <>
-            {professors.map((professor) => (
-                <Professor key={professor.id} professor={professor} refreshProfessorlist={refreshProfessorlist} mode={mode}/>
-            ))}
-        </>
-    ) : (
+      </Box>
+    );
+  }
+
+  if (professors && professors.length > 0) {
+    return (
+      <Box flex={5} p={{ xs: 0, md: 2 }}>
+        {professors.map((professor) => (
+          <Professor key={professor.id} professor={professor} refreshProfessorlist={refreshProfessorlist} mode={mode}/>
+        ))}
+      </Box>
+    );
+  }
+
+  return (
+    <Box flex={5} p={{ xs: 0, md: 2 }} height={"100vh"}>
         <EmptyProfessor mode={mode}  />
-    )}
     </Box>
   );
 };

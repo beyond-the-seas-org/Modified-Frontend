@@ -106,7 +106,7 @@ import {
 
         {/* Slider */}
         <Typography gutterBottom>
-          Preferrable living cost(in US dollar)
+          Preferable Living Cost (In US Dollar)
         </Typography>
         <Slider
           value={sliderValue}
@@ -125,10 +125,10 @@ import {
 
         {/* Multiple Select */}
         <Typography gutterBottom>
-          select your fields of interest
+          Select your Fields of Interest
         </Typography>
         <FormControl variant="outlined" style={{ width: 250 }}>
-          <InputLabel>fields</InputLabel>
+          <InputLabel>Fields</InputLabel>
           <Select
             multiple
             value={selectedOptions}
@@ -153,12 +153,12 @@ import {
         {/* Button with gradient */}
         <Box mt={3}>
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={handleShowPreferableLocationsClick}
             sx={{
               backgroundImage: 'linear-gradient(to right, blue, indigo)',
               '&:hover': {
-                backgroundImage: 'linear-gradient(to right, #1976d2, #0304f6)',
+                backgroundImage: 'linear-gradient(to right, #b3e0ff, #99d4ff)',
               }
             }}
           >
@@ -168,13 +168,12 @@ import {
 
         <Box mt={3}>
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={handleRefreshClick}
             sx={{
               backgroundImage: 'linear-gradient(to right, blue, indigo)',
               '&:hover': {
-                backgroundImage: 'linear-gradient(to right, #1976d2, #0304f6)',
-              }
+                backgroundImage: 'linear-gradient(to right, #b3e0ff, #99d4ff)',              }
             }}
           >
             REFRESH THIS PAGE
