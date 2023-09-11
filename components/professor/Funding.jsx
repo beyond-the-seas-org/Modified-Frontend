@@ -65,6 +65,14 @@ const FundingDetailsCard = ({ fundingDetails }) => {
         setOpenDialog(false);
     };
 
+    if (!fundingDetails || fundingDetails.length === 0) {
+        return (
+            <Typography variant="body2" color="textSecondary">
+                No funding details found.
+            </Typography>
+        );
+    }
+
     return (
         <>
             {fundingDetails.map((funding, index) => (

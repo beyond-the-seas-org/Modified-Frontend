@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import React from 'react';
 import { Avatar, Box, Typography, Card, CardContent, Divider, Link } from '@mui/material';
 
@@ -46,26 +46,29 @@ const ProfessorHeader = ({ professor }) => {
 
           {/* Contact Info and Address */}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#2c3e50' }}>Email: {professor.email}</Typography>
-    <Typography variant="body1" sx={{ mt: 1, color: '#2c3e50' }}>123 Main St, Pittsburg, USA</Typography>
-    {professor?.professor_website_link_details?.map((websiteDetail, index) => (
-        <Box key={index} sx={{ textAlign: 'right' }}>
-        <Typography variant="body1" sx={{ mt: 1, color: '#e74c3c', fontWeight: 'medium' }}>
-            {websiteDetail.website_type} Website:
-        </Typography>
-        <Link 
-            href={websiteDetail.website_link} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            sx={{ color: '#3498db', textDecoration: 'none', fontWeight: 'bold' }}
-        >
-            {websiteDetail.website_link}
-        </Link>
-    </Box>
-    
-    ))}
-</Box>
-
+            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#2c3e50' }}>Email: {professor.email}</Typography>
+            <Typography variant="body1" sx={{ mt: 1, color: '#2c3e50' }}>123 Main St, Pittsburg, USA</Typography>
+            
+            <Box sx={{ textAlign: 'right' }}>
+              <Typography variant="body1" sx={{ mt: 1, color: '#e74c3c', fontWeight: 'medium' }}>
+                Website:
+              </Typography>
+              {professor.professor_website_link_details && professor.professor_website_link_details.website_link ? (
+                <Link 
+                  href={professor.professor_website_link_details.website_link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  sx={{ color: '#3498db', textDecoration: 'none', fontWeight: 'bold' }}
+                >
+                  {professor.professor_website_link_details.website_link}
+                </Link>
+              ) : (
+                <Typography variant="body1" sx={{ mt: 1, color: '#e74c3c', fontWeight: 'medium' }}>
+                  Not available
+                </Typography>
+              )}
+            </Box>
+          </Box>
         </Box>
       </CardContent>
     </Card>

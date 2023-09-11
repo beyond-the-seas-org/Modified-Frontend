@@ -20,16 +20,14 @@ import { Link as MUILink } from '@mui/material';
 const OngoingProjectsCard = ({ projects }) => {
   const [matchingProfiles, setMatchingProfiles] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-
   const [sliderValue, setSliderValue] = useState(50);
-
 
   const fetchMatchingProfiles = async (student_id, funding_id) => {
     try {
-      // const response = await fetch(`http://127.0.0.1:5002/api/professors/${student_id}/${funding_id}/get_student_profile_matching`);
-      // const data = await response.json();
+      // Fetch matching profiles here...
 
-      const data = ["Hello World"]
+      // For demonstration purposes, using dummy data
+      const data = ["Hello World"];
 
       setMatchingProfiles(data);
       setOpenDialog(true);
@@ -42,6 +40,14 @@ const OngoingProjectsCard = ({ projects }) => {
   const handleClose = () => {
     setOpenDialog(false);
   };
+
+  if (!projects || projects.length === 0) {
+    return (
+      <Typography variant="body2" color="textSecondary">
+        No ongoing projects found.
+      </Typography>
+    );
+  }
 
   return (
     <>
@@ -115,53 +121,54 @@ const OngoingProjectsCard = ({ projects }) => {
       ))}
 
       {/* Popup Dialog */}
+      {/*... (The same dialog you provided) ...*/}
       <Dialog
-  open={openDialog}
-  onClose={handleClose}
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
-  fullWidth
-  maxWidth="md"
->
-  <DialogTitle id="alert-dialog-title">{"Matching Profiles"}</DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      {/* Display dummy data or actual data from the state */}
-      {
-        matchingProfiles ? matchingProfiles.map(profile => (
-          <Typography key={profile.id} variant="body1" sx={{ marginBottom: 1 }}>
-            {profile.name} - {profile.matchingPercentage}% Match
-          </Typography>
-        )) : (
-          <Typography variant="body2" color="textSecondary">
-            No matching profiles found.
-          </Typography>
-        )
-      }
-    </DialogContentText>
-    <Box sx={{ marginTop: 3 }}>
-      <Typography gutterBottom>Matching Threshold: {sliderValue}%</Typography>
-      <Slider
-        value={sliderValue}
-        onChange={(event, newValue) => setSliderValue(newValue)}
-        aria-labelledby="discrete-slider-small-steps"
-        step={1}
-        marks
-        min={0}
-        max={100}
-        valueLabelDisplay="auto"
-        sx={{
-          color: 'linear-gradient(45deg, #FE6B8B 30%, #3498db 90%)',
-        }}
-      />
-    </Box>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleClose} color="primary" autoFocus>
-      Close
-    </Button>
-  </DialogActions>
-</Dialog>
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle id="alert-dialog-title">{"Matching Profiles"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {/* Display dummy data or actual data from the state */}
+            {
+              matchingProfiles ? matchingProfiles.map(profile => (
+                <Typography key={profile.id} variant="body1" sx={{ marginBottom: 1 }}>
+                  {profile.name} - {profile.matchingPercentage}% Match
+                </Typography>
+              )) : (
+                <Typography variant="body2" color="textSecondary">
+                  No matching profiles found.
+                </Typography>
+              )
+            }
+          </DialogContentText>
+          <Box sx={{ marginTop: 3 }}>
+            <Typography gutterBottom>Matching Threshold: {sliderValue}%</Typography>
+            <Slider
+              value={sliderValue}
+              onChange={(event, newValue) => setSliderValue(newValue)}
+              aria-labelledby="discrete-slider-small-steps"
+              step={1}
+              marks
+              min={0}
+              max={100}
+              valueLabelDisplay="auto"
+              sx={{
+                color: 'linear-gradient(45deg, #FE6B8B 30%, #3498db 90%)',
+              }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

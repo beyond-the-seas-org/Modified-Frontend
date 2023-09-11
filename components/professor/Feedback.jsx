@@ -3,6 +3,27 @@ import React from 'react';
 import { Card, CardContent, Typography, Divider, Box } from '@mui/material';
 
 const FeedbacksComponent = ({ feedbacks }) => {
+    if (feedbacks === null || feedbacks.length === 0) {
+        return (
+            <Box sx={{ 
+                width: '80%', 
+                margin: '40px auto', 
+                padding: '30px',
+                borderRadius: '15px',
+                boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)', 
+                backgroundColor: 'rgba(235, 245, 255, 0.9)', // A very light blue, semi-transparent background
+                backdropFilter: 'blur(5px)' // This gives a frosted glass effect
+            }}>
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2c3e50', marginBottom: 3, textAlign: 'center' }}>
+                    Anonymous Feedbacks
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#34495e', textAlign: 'center' }}>
+                    No feedback found.
+                </Typography>
+            </Box>
+        );
+    }
+
     return (
         <Box sx={{ 
             width: '80%', 
