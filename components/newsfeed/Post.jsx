@@ -152,9 +152,8 @@ const Post = ({ post, refreshPosts, mode }) => {
           When we add the profile picture feature in user service, we can show user's picture here
           instead of showing the username. This is currently used for design purpose.
           */
-          <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-            {post.user_name}
-          </Avatar>
+          
+          <Avatar alt="Profile Picture" src={post.profile_picture_link} sx={{ width: 60, height: 60 }} />
         }
 
         title={
