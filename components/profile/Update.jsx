@@ -239,7 +239,7 @@ export default function UpdateProfile() {
                     </Grid>
 
                     <Box sx={{ mt: 3, textAlign: 'center' }}>
-                        <Button variant="contained" color="primary" type="submit" sx={{ width: '100%', py: 1.5, fontSize: '1.2rem' }}>
+                        <Button variant="outlined" color="primary" type="submit" sx={{ width: '100%', py: 1.5, fontSize: '1.2rem' }}>
                             Update
                         </Button>
                     </Box>
