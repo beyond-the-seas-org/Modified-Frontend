@@ -22,7 +22,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // Create a dark theme
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
   },
 });
 

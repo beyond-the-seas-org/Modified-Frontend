@@ -12,7 +12,8 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Slider
+    Slider,
+    Grid
 } from '@mui/material';
 import { Link as MUILink } from '@mui/material';
 
@@ -21,6 +22,7 @@ const FundingDetailsCard = ({ fundingDetails }) => {
     const [openDialog, setOpenDialog] = useState(false);
     const [sliderValue, setSliderValue] = useState(50);
     const [user_id, setUser_id] = useState(null);
+    const [keywords, setKeywords] = useState([]);
 
     useEffect(() => {
         const user_id = localStorage.getItem('id');
@@ -32,11 +34,11 @@ const FundingDetailsCard = ({ fundingDetails }) => {
             // Construct the URL based on professor_id (assuming it's the student_id) and funding_id
             const url = `http://127.0.0.1:5002/api/professors/${user_id}/${funding_id}/get_student_profile_matching`;
 
-            const response = await fetch(url, 
+            const response = await fetch(url,
                 {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('access_token')} `
-                        }
+                    }
                 }
             );
 
@@ -54,6 +56,7 @@ const FundingDetailsCard = ({ fundingDetails }) => {
 
             setMatchingProfiles(data);
             setSliderValue(data.similarity);
+            setKeywords(data.matched_keywords);
             setOpenDialog(true);
         } catch (error) {
             console.error("Error fetching matching profiles:", error);
@@ -173,7 +176,19 @@ const FundingDetailsCard = ({ fundingDetails }) => {
                             }}
                             readOnly
                         />
+
+                        {keywords && keywords.length > 0 && (
+                            <Grid container spacing={1} sx={{ marginTop: 2 }}>
+                                {keywords.map((keyword, index) => (
+                                    <Grid item key={index}>
+                                        <Chip label={keyword} variant="outlined" color="primary" />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        )}
+
                     </Box>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary" autoFocus>

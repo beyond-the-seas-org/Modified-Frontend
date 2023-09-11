@@ -251,7 +251,7 @@ const AddPublication = ({ closeDialog, refreshPublications }) => {
 
   {showSubmitButton && (
   <div style={{ marginTop: '16px' }}>
-    <Button variant="contained" color="primary" onClick={handleSubmit}>
+    <Button variant="outlined" color="primary" onClick={handleSubmit}>
       Submit
     </Button>
   </div>)
@@ -299,7 +299,7 @@ const AddPublication = ({ closeDialog, refreshPublications }) => {
 
       {displaySaveButton && (
         <div style={{ marginTop: '16px' }}>
-          <Button variant="contained" color="primary" onClick={saveData}>
+          <Button variant="outlined" color="primary" onClick={saveData}>
             Save
           </Button>
         </div>
