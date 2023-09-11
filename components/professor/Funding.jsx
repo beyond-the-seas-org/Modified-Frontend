@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Card,
     CardContent,
@@ -20,11 +20,17 @@ const FundingDetailsCard = ({ fundingDetails }) => {
     const [matchingProfiles, setMatchingProfiles] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [sliderValue, setSliderValue] = useState(50);
+    const [user_id, setUser_id] = useState(null);
+
+    useEffect(() => {
+        const user_id = localStorage.getItem('id');
+        setUser_id(user_id);
+    }, []);
 
     const fetchMatchingProfiles = async (professor_id, funding_id) => {
         try {
             // Construct the URL based on professor_id (assuming it's the student_id) and funding_id
-            const url = `http://127.0.0.1:5002/api/professors/1/1/get_student_profile_matching`;
+            const url = `http://127.0.0.1:5002/api/professors/${user_id}/${funding_id}/get_student_profile_matching`;
 
             const response = await fetch(url, 
                 {
