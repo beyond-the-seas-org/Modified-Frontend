@@ -3,7 +3,8 @@ import React from 'react';
 import { Card, CardContent, Typography, Divider, Box } from '@mui/material';
 
 const FeedbacksComponent = ({ feedbacks }) => {
-    if (feedbacks === null || feedbacks.length === 0) {
+    if (feedbacks === null || feedbacks === undefined || feedbacks.length === 0)
+    {
         return (
             <Box sx={{ 
                 width: '80%', 
