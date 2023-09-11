@@ -27,8 +27,8 @@ import {
   import React, { useState, useEffect } from "react";
 
   
-  const Rightbar = ({mode , show_preferable_locations, refreshLocationlist}) => {
-  const [sliderValue, setSliderValue] = useState(30);
+  const Rightbar = ({mode ,all_fields, show_preferable_locations, refreshLocationlist}) => {
+  const [sliderValue, setSliderValue] = useState(50);
 
   const [selectedOptions, setSelectedOptions] = useState([]);
   
@@ -84,11 +84,7 @@ import {
   };
 
   //this label values will be fixed after getting an API request for "all_fields" from frontend
-    const comboBoxValues = [
-      { label: 'Artificial intilligence' },
-      { label: 'Machine learning' },
-      { label: 'Natural language processing' },
-    ];
+    const comboBoxValues = all_fields;
 
 
     return (
@@ -106,7 +102,7 @@ import {
 
         {/* Slider */}
         <Typography gutterBottom>
-          Preferrable living cost(in US dollar)
+          Preferable living cost(in US dollar)
         </Typography>
         <Slider
           value={sliderValue}
@@ -116,7 +112,7 @@ import {
           step={1}
           marks
           min={0}
-          max={2500}
+          max={200}
           sx={{ color: mode === 'dark' ? "primary.main" : "secondary.main" }}
         />
 
@@ -152,34 +148,38 @@ import {
 
         {/* Button with gradient */}
         <Box mt={3}>
-          <Button
-            variant="contained"
-            onClick={handleShowPreferableLocationsClick}
-            sx={{
-              backgroundImage: 'linear-gradient(to right, blue, indigo)',
-              '&:hover': {
-                backgroundImage: 'linear-gradient(to right, #1976d2, #0304f6)',
-              }
-            }}
-          >
-            SHOW PREFERED LOCATIONS
-          </Button>
-        </Box>
+  <Button
+    variant="contained"
+    onClick={handleShowPreferableLocationsClick}
+    sx={{
+      backgroundImage: 'linear-gradient(to right, blue, white)',
+      color: 'black', // Adjusting text color for visibility
+      '&:hover': {
+        backgroundImage: 'linear-gradient(to right, #1976d2, #0304f6)',
+        color: 'white' // Ensure text remains visible on hover
+      }
+    }}
+  >
+    SHOW PREFERRED LOCATIONS
+  </Button>
+</Box>
 
-        <Box mt={3}>
-          <Button
-            variant="contained"
-            onClick={handleRefreshClick}
-            sx={{
-              backgroundImage: 'linear-gradient(to right, blue, indigo)',
-              '&:hover': {
-                backgroundImage: 'linear-gradient(to right, #1976d2, #0304f6)',
-              }
-            }}
-          >
-            REFRESH THIS PAGE
-          </Button>
-        </Box>
+<Box mt={3}>
+  <Button
+    variant="contained"
+    onClick={handleRefreshClick}
+    sx={{
+      backgroundImage: 'linear-gradient(to right, blue, white)',
+      color: 'black', // Adjusting text color for visibility
+      '&:hover': {
+        backgroundImage: 'linear-gradient(to right, #1976d2, #0304f6)',
+        color: 'white' // Ensure text remains visible on hover
+      }
+    }}
+  >
+    REFRESH THIS PAGE
+  </Button>
+</Box>
 
       </Box>
     </Box>

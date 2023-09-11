@@ -14,6 +14,7 @@ function App() {
   const [locations, setLocations] = useState([]); /*The initial value of locations is an empty array*/
   const [filteredLocations, setfilteredLocations] = useState([]); /*The initial value of filteredLocation is an empty array*/
   const [user_id, setuser_id] = useState(null); /*The initial value of user_id is null*/
+  const [allFeilds, setAllFeilds] = useState([]); 
 
   /*Get the user id from the url. For example: http://127.0.0.1:3000/analytitcs/2. This qlink will take this link*/
 
@@ -57,6 +58,40 @@ function App() {
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
+
+
+      //retrieving all fields of interest
+      const apiEndpoint = `http://127.0.0.1:5002/api/professors/get_all_fields`;
+            try {
+                const response = await fetch(apiEndpoint, 
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        }
+                    });
+
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    //setFormData(data);
+                    const fields =  data.fields.map(field => {
+                        return { label: field };
+                    });
+                    setAllFeilds(fields);
+
+                    
+                } else {
+                    alert("Error fetching fields: " + data.message);
+                }
+            } catch (error) {
+                alert("Error fetching fields " + error.message);
+            }
+
     }
     fetchLocations();
   }, []);
@@ -129,7 +164,7 @@ function App() {
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar setMode={setMode} mode={mode} user_id={user_id} />
           <Feed mode={mode} locations={filteredLocations} refreshLocationlist={refreshLocationlist} />
-          <Rightbar mode={mode} show_preferable_locations={show_preferable_locations} refreshLocationlist={refreshLocationlist} />
+          <Rightbar mode={mode} all_fields={allFeilds} show_preferable_locations={show_preferable_locations} refreshLocationlist={refreshLocationlist} />
 
           {/* Create a container for the ChatUI */}
           <div style={{ position: "fixed", bottom: 10, right: 10 }}>
