@@ -9,39 +9,28 @@ import { useRouter } from 'next/navigation'
 
 
 function App() {
-  const [mode, setMode] = useState("light"); /*The initial theme of the UI: light. It can be dark or light depending on the initial value in useState */
-  const [professors, setProfessors] = useState([]); /*The initial value of professors is an empty array*/
-  const [filteredProfessors, setfilteredProfessors] = useState([]); /*The initial value of filteredProfessors is an empty array*/
-
-  /*Get the user id from the url. For example: http://127.0.0.1:3000/professors/2. This qlink will take this link*/
-  // const qlink = window.location.href;
-  // const tokens = qlink.split("/");
-  // let user_id = tokens[tokens.length-1]
-  // user_id = parseInt(user_id);
-  // console.log("user_id", user_id);
-
+  const [mode, setMode] = useState("light");
+  const [professors, setProfessors] = useState([]);
+  const [filteredProfessors, setfilteredProfessors] = useState([]);
   const [user_id, setUserId] = useState(null);
+  const [page, setPage] = useState(1); // Track the current page
+  const pageSize = 5; // Number of professors to fetch at a time
 
   const navigation = useRouter();
 
-  /*Create a Theme instance to enable dark theme or light theme depending on the value of mode */
   const darkTheme = createTheme({
     palette: {
       mode: mode,
     },
   });
 
-  /*When this page.jsx is rendered, the useEffect function will trigger automatically and fetch the professors from
-  the server. This is client side rendering as we are using react Hooks(useState, useEffect).
-  Therefore we need to mention use client at the top of this file as we are using next-js */
   useEffect(() => {
-
     const user_id = localStorage.getItem('id');
     const access_token = localStorage.getItem('access_token');
     setUserId(user_id);
 
-    console.log ("user_id", user_id)
-    console.log ("access_token", access_token)
+    console.log("user_id", user_id);
+    console.log("access_token", access_token);
 
     if (!user_id) {
       navigation.push('/login');
@@ -49,27 +38,34 @@ function App() {
 
     async function fetchProfessors() {
       try {
+        const response = await fetch(`http://127.0.0.1:5002/api/professors/${user_id}/get_all_professor_short_details?page=${page}&pageSize=${pageSize}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        });
 
-        const response = await fetch(`http://127.0.0.1:5002/api/professors/${user_id}/get_all_professor_short_details`,{
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-        
         if (response.status === 401) {
-          navigation.push('/login'); 
+          navigation.push('/login');
+          return;
         }
-  
-        const data = await response.json();
-        setProfessors(data); 
-        setfilteredProfessors(data); // Initialize filteredProfessors with all Professors
 
+        const data = await response.json();
+        if (data.length > 0) {
+          setProfessors((prevProfessors) => [...prevProfessors, ...data]);
+          setfilteredProfessors((prevFilteredProfessors) => [...prevFilteredProfessors, ...data]);
+          setPage((prevPage) => prevPage + 1); // Increment the page for the next fetch
+          fetchProfessors(); // Fetch the next page
+        } else {
+          // No more professors to fetch
+          console.log('All professors loaded');
+        }
       } catch (error) {
         console.error("Error fetching professors:", error);
       }
     }
+
     fetchProfessors();
-  }, []);
+  }, [page]);
 
   
 
