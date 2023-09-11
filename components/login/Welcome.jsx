@@ -35,7 +35,7 @@ export default function Welcome() {
                 variant="h5"
                 sx={{
                     position: 'absolute',
-                    top: '18%',  // Adjust this as needed to position the subtitle
+                    top: '30%',  // Adjust this as needed to position the subtitle
                     color: 'white',
                     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
                 }}
