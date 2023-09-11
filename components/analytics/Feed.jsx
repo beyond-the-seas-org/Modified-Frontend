@@ -19,25 +19,34 @@ const Feed = ({ locations, mode, refreshLocationlist }) => {
 
     }, []);
 
-    return (
+    if (loading)
+    {
+      return (
         <Box flex={5} p={{ xs: 0, md: 2 }}>
-            {loading ? (
-                <Stack spacing={1}>
-                    <Skeleton variant="text" height={100} />
-                    <Skeleton variant="text" height={20} />
-                    <Skeleton variant="text" height={20} />
-                    <Skeleton variant="rectangular" height={300} />
-                </Stack>
-            ) : locations && locations.length > 0 ? (
-                <>
-                    {locations ? locations.map((location) => (
-                        <Location key={location.id} location={location} refreshLocationlist={refreshLocationlist} mode={mode} />
-                    )): "location not found"}
-                </>
-            ) : (
-                <EmptyLocation mode={mode} />
-            )}
+          <Stack spacing={1}>
+            <Skeleton variant="text" height={100} />
+            <Skeleton variant="text" height={20} />
+            <Skeleton variant="text" height={20} />
+            <Skeleton variant="rectangular" height={300} />
+          </Stack>
         </Box>
+      );
+    }
+  
+    if (locations && locations.length > 0) {
+      return (
+        <Box flex={5} p={{ xs: 0, md: 2 }}>
+          {locations.map((location) => (
+            <Location key={location.id} location={location} refreshLocationlist={refreshLocationlist} mode={mode}/>
+          ))}
+        </Box>
+      );
+    }
+  
+    return (
+      <Box flex={5} p={{ xs: 0, md: 2 }} height={"100vh"}>
+          <EmptyLocation mode={mode}  />
+      </Box>
     );
 };
 
