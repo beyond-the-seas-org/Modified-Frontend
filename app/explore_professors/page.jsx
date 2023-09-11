@@ -14,8 +14,9 @@ function App() {
   const [filteredProfessors, setfilteredProfessors] = useState([]);
   const [user_id, setUserId] = useState(null);
   const [page, setPage] = useState(1); // Track the current page
-  const pageSize = 5; // Number of professors to fetch at a time
-
+  const [pageSize, setPageSize] = useState(5); // Number of professors to fetch at a time
+  const [isLoadingMore, setIsLoadingMore] = useState(true); // Track loading state for "Load More" button
+  const [totalProfessors, setTotalProfessors] = useState([]); // Track all professors fetched so far
   const navigation = useRouter();
 
   const darkTheme = createTheme({
@@ -51,10 +52,9 @@ function App() {
 
         const data = await response.json();
         if (data.length > 0) {
-          setProfessors((prevProfessors) => [...prevProfessors, ...data]);
+          setTotalProfessors((prevTotalProfessors) => [...prevTotalProfessors, ...data]);
           setfilteredProfessors((prevFilteredProfessors) => [...prevFilteredProfessors, ...data]);
-          setPage((prevPage) => prevPage + 1); // Increment the page for the next fetch
-          fetchProfessors(); // Fetch the next page
+          setIsLoadingMore(false);
         } else {
           // No more professors to fetch
           console.log('All professors loaded');
@@ -65,9 +65,23 @@ function App() {
     }
 
     fetchProfessors();
-  }, [page]);
+  }, [page, pageSize]);
 
-  
+  const handleLoadMoreClick = async () => {
+    if (isLoadingMore) {
+      // Prevent multiple clicks while loading
+      return;
+    }
+
+    setIsLoadingMore(true);
+    setPageSize(5); // Increase the page size to load 10 professors
+
+    try {
+      setPage((prevPage) => prevPage + 1); // Increment the page for the next fetch
+    } finally {
+      // setIsLoadingMore(false);
+    }
+  };
 
   const refreshProfessorlist = async () => {
     try {
@@ -131,7 +145,21 @@ function App() {
             <ChatUI />
           </div>
         </Stack>
-
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <button
+            onClick={handleLoadMoreClick}
+            disabled={isLoadingMore}
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              padding: '10px 20px',
+              border: 'none',
+              cursor: isLoadingMore ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {isLoadingMore ? 'Loading More...' : 'Load More'}
+          </button>
+        </div>
       </Box>
     </ThemeProvider>
   );
