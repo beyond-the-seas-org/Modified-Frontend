@@ -27,8 +27,8 @@ import {
   import React, { useState, useEffect } from "react";
 
   
-  const Rightbar = ({mode , show_preferable_locations, refreshLocationlist}) => {
-  const [sliderValue, setSliderValue] = useState(30);
+  const Rightbar = ({mode ,all_fields, show_preferable_locations, refreshLocationlist}) => {
+  const [sliderValue, setSliderValue] = useState(50);
 
   const [selectedOptions, setSelectedOptions] = useState([]);
   
@@ -84,11 +84,7 @@ import {
   };
 
   //this label values will be fixed after getting an API request for "all_fields" from frontend
-    const comboBoxValues = [
-      { label: 'Artificial intilligence' },
-      { label: 'Machine learning' },
-      { label: 'Natural language processing' },
-    ];
+    const comboBoxValues = all_fields;
 
 
     return (
@@ -116,7 +112,7 @@ import {
           step={1}
           marks
           min={0}
-          max={2500}
+          max={200}
           sx={{ color: mode === 'dark' ? "primary.main" : "secondary.main" }}
         />
 

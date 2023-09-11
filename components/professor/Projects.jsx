@@ -44,7 +44,6 @@ const OngoingProjectsCard = ({ projects }) => {
   if (!projects || projects.length === 0) {
     return (
       <Typography variant="body2" color="textSecondary">
-        No ongoing projects found.
       </Typography>
     );
   }

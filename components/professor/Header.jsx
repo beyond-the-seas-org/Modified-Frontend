@@ -46,9 +46,8 @@ const ProfessorHeader = ({ professor }) => {
 
           {/* Contact Info and Address */}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#2c3e50' }}>Email: {professor.email}</Typography>
-            <Typography variant="body1" sx={{ mt: 1, color: '#2c3e50' }}>123 Main St, Pittsburg, USA</Typography>
-            
+            <Typography variant="body1" sx={{ mt: 1, color: '#2c3e50' }}>Location: {professor.location}</Typography>
+          
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="body1" sx={{ mt: 1, color: '#e74c3c', fontWeight: 'medium' }}>
                 Website:

@@ -131,10 +131,6 @@ const Professor = ({ professor, refreshProfessorlist, mode }) => {
         </Typography>
 
         <Typography variant="body2" color={mode === 'dark' ? 'white' : 'black'}>
-          <b>Email :</b> {professor.email}
-        </Typography>
-
-        <Typography variant="body2" color={mode === 'dark' ? 'white' : 'black'}>
           <b>Location :</b> {professor.location}
         </Typography>
 
