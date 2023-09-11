@@ -27,6 +27,12 @@ function App() {
   Therefore we need to mention use client at the top of this file as we are using next-js */
   useEffect(() => {
 
+    const qlink = window.location.href;
+    const tokens = qlink.split("/");
+    let location_id = tokens[tokens.length-1]
+    location_id = parseInt(location_id);
+    console.log("location_id", location_id);
+
     const user_id = localStorage.getItem("id");
     setuser_id(user_id);
 
@@ -37,7 +43,7 @@ function App() {
     async function fetchProfessors() {
       try {
 
-        const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_all_professor_short_details`,
+        const response = await fetch(`http://localhost:5003/api/analytics/${user_id}/${location_id}/get_professors_short_details`,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -61,7 +67,7 @@ function App() {
 
   const refreshProfessorlist = async () => {
     try {
-      const response = await fetch(`http://localhost:5002/api/professors/${user_id}/get_all_professor_short_details`,
+      const response = await fetch(`http://localhost:5003/api/analytics/${user_id}/${location_id}/get_professors_short_details`,
       {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`

@@ -8,13 +8,15 @@ export default function LocationDetails() {
   const [location, setLocation] = useState({}); /*The initial value of locations is an empty array*/
   const [user_id, setuser_id] = useState(null); /*The initial value of user_id is null*/
 
-  const qlink = window.location.href;
-  const tokens = qlink.split("/");
-  let location_id = tokens[tokens.length-2]
-  location_id = parseInt(location_id);
-  console.log("location_id", location_id);
+  
 
   useEffect(() => {
+
+    const qlink = window.location.href;
+    const tokens = qlink.split("/");
+    let location_id = tokens[tokens.length-2]
+    location_id = parseInt(location_id);
+    console.log("location_id", location_id);
 
     const user_id = localStorage.getItem("id");
     setuser_id(user_id);
